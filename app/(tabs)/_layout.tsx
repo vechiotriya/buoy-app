@@ -3,7 +3,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
 import { Pressable } from 'react-native';
 import { useColorScheme } from '@/src/components/useColorScheme';
-import CustomIcon from '@/src/components/CustomIcon';
+import { CustomIcon } from '@/src/components/CustomIcon';
 import { useTheme } from '@/src/hooks/ThemeContextProvider';
 
 export default function TabLayout() {

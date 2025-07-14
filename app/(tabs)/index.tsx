@@ -3,6 +3,8 @@ import GradientBackground from '@/src/components/GradientBackground';
 import ProfileSection from '@/src/features/home/components/ProfileSection';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DashboardCard from '@/src/features/home/components/DashboardCard';
+import MenuTab from '@/src/features/home/components/MenuTab';
+import { dashboardTabs } from '@/constants/constant';
 
 export default function Home() {
   return (
@@ -11,6 +13,11 @@ export default function Home() {
       <SafeAreaView>
       <ProfileSection/>
       <DashboardCard/>
+      <View style={{ marginHorizontal: '6%',flexDirection: 'row', justifyContent: 'space-around', marginTop: 20 }}>
+        {dashboardTabs.map((tab, index) => (
+          <MenuTab key={index} name={tab.name} icon={tab.icon} type={tab.type} />
+        ))}
+      </View>
       </SafeAreaView>
     </View>
   );

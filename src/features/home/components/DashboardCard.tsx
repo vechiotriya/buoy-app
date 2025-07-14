@@ -6,8 +6,7 @@ import CustomText from '@/src/components/CustomText'
 import nomenclature from '@/constants/nomenclature'
 import font from '@/constants/font'
 import { mascotImage } from '@/constants/constant'
-import CustomIcon from '@/src/components/CustomIcon'
-
+import { CustomIcon } from '@/src/components/CustomIcon'
 
 const DashboardCard = () => {
     const { themePalette } = useTheme()

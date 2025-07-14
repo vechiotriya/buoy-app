@@ -4,8 +4,8 @@ import { StyleProp, TextStyle, ViewStyle } from "react-native";
 const iconMap = {
     MaterialCommunityIcons, Octicons, SimpleLineIcons, AntDesign, Entypo, Feather, FontAwesome, Ionicons, MaterialIcons, Fontisto
 }
-type IconType = keyof typeof iconMap;
-export default function CustomIcon({ ...props }: {
+export type IconType = keyof typeof iconMap;
+export function CustomIcon({ ...props }: {
     type: IconType
     name: React.ComponentProps<(typeof iconMap)[IconType]>['name'];
     color: string;
