@@ -1,12 +1,17 @@
-import { StyleSheet } from 'react-native';
-
-import { Text, View } from '@/src/components/Themed';
+import { StyleSheet, View } from 'react-native';
+import GradientBackground from '@/src/components/GradientBackground';
+import ProfileSection from '@/src/features/home/components/ProfileSection';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import DashboardCard from '@/src/features/home/components/DashboardCard';
 
 export default function Home() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <GradientBackground/>
+      <SafeAreaView>
+      <ProfileSection/>
+      <DashboardCard/>
+      </SafeAreaView>
     </View>
   );
 }
@@ -14,8 +19,6 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   title: {
     fontSize: 20,

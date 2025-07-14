@@ -1,0 +1,36 @@
+import { View, Text, StyleSheet, Image } from 'react-native'
+import React from 'react'
+import CustomText from '@/src/components/CustomText'
+import nomenclature from '@/constants/nomenclature'
+import { AppTheme } from '@/constants/Colors'
+import { useTheme } from '@/src/hooks/ThemeContextProvider'
+import font from '@/constants/font'
+
+const ProfileSection = () => {
+    const {themePalette}=useTheme()
+    const styles=useStyles(themePalette)
+  return (
+    <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+        <View style={styles.profileContainer}>
+            <CustomText variant='bold' size={font.size_24}>Hello, Ritul</CustomText>
+            <CustomText size={font.size_14}>{nomenclature.begin_text}</CustomText>
+        </View>
+        <Image source={{uri:'https://content.latest-hairstyles.com/wp-content/uploads/long-wavy-pixie-cut-with-curls.jpg',width:70,height:70}} style={styles.profileImage}></Image>
+    </View>
+  )
+}
+
+const useStyles = (theme:AppTheme)=> StyleSheet.create({
+    profileContainer:{
+        marginLeft:24,
+        marginVertical:24
+    },
+    profileImage:{
+        borderRadius:40,
+        marginRight:24,
+        marginVertical:20,
+        borderWidth:4,
+        borderColor:theme.tint
+    }
+})
+export default ProfileSection

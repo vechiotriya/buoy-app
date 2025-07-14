@@ -1,12 +1,12 @@
+import GradientBackground from '@/src/components/GradientBackground';
 import { StyleSheet } from 'react-native';
 
-import { Text, View } from '@/src/components/Themed';
+import { Text, View } from 'react-native';
 
 export default function Budget() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Budget</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <GradientBackground />
     </View>
   );
 }
