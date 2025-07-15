@@ -16,3 +16,12 @@ export const dashboardTabs= [
         type: 'FontAwesome',
     }
 ]
+export const spendAnalysisOptions = ['This Week', 'Last Week'];
+export type TransactionType={
+    id: number;
+    title: string;
+    amount: number;
+    category: string;
+    iconName: string;
+    type: 'Income' | 'Expense';
+}

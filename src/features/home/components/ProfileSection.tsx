@@ -10,8 +10,8 @@ const ProfileSection = () => {
     const {themePalette}=useTheme()
     const styles=useStyles(themePalette)
   return (
-    <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-        <View style={styles.profileContainer}>
+    <View style={styles.profileContainer}>
+        <View style={{}}>
             <CustomText variant='bold' size={font.size_24}>Hello, Ritul</CustomText>
             <CustomText size={font.size_14}>{nomenclature.begin_text}</CustomText>
         </View>
@@ -23,12 +23,13 @@ const ProfileSection = () => {
 const useStyles = (theme:AppTheme)=> StyleSheet.create({
     profileContainer:{
         marginLeft:24,
-        marginVertical:24
+        paddingTop:15,
+        flexDirection:'row',
+        justifyContent:'space-between',
     },
     profileImage:{
         borderRadius:40,
         marginRight:24,
-        marginVertical:20,
         borderWidth:4,
         borderColor:theme.tint
     }

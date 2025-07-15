@@ -4,4 +4,7 @@ export default{
     rupee_sign:'₹',
     income:'Income',
     expenses:'Expenses',
+    recent_transactions:'Recent Transactions',
+    spend_analysis:'Spend Analysis',
+    see_all:'See All',
 }
