@@ -69,6 +69,7 @@ export const RecentTransactions = ({title,seeAll}:TransactionListProps) => {
                 </TouchableOpacity>}
             </View>
             <FlatList
+                
                 data={transactions}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <Transaction item={item} />}

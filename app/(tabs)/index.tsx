@@ -7,23 +7,25 @@ import MenuTab from '@/src/features/home/components/MenuTab';
 import { dashboardTabs } from '@/constants/constant';
 import SpendAnalysis from '@/src/components/SpendAnalysis';
 import { RecentTransactions } from '@/src/components/RecentTransactions';
+import AddFloatingButton from '@/src/features/home/components/AddFloatingButton';
 
 export default function Home() {
   return (
     <View style={styles.container}>
       <GradientBackground/>
       <SafeAreaView>
-      <ScrollView contentContainerStyle={{ rowGap: 24}}>
-      <ProfileSection/>
-      <DashboardCard/>
-      <View style={{ marginHorizontal: '6%',flexDirection: 'row', justifyContent: 'space-around'}}>
-        {dashboardTabs.map((tab, index) => (
-          <MenuTab key={index} name={tab.name} icon={tab.icon} type={tab.type} />
-        ))}
-      </View>
-      <SpendAnalysis/>
-      <RecentTransactions seeAll/>
-      </ScrollView>
+        <ScrollView contentContainerStyle={{ rowGap: 24}} invertStickyHeaders={true} stickyHeaderIndices={[0]}>
+          <ProfileSection/>
+          <DashboardCard/>
+          <View style={{ marginHorizontal: '6%',flexDirection: 'row', justifyContent: 'space-around'}}>
+            {dashboardTabs.map((tab, index) => (
+              <MenuTab key={index} name={tab.name} icon={tab.icon} type={tab.type} />
+            ))}
+          </View>
+          <SpendAnalysis/>
+          <RecentTransactions seeAll/>
+        </ScrollView>
+        <AddFloatingButton/>
       </SafeAreaView>
     </View>
   );
