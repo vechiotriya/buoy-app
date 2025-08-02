@@ -44,6 +44,8 @@ const useStyles =(theme:AppTheme)=>StyleSheet.create({
     tabButton: {
         borderRadius: 8,
         paddingHorizontal:'17%',
-        paddingVertical:13
+        justifyContent:'center',
+        alignItems:'center',
+        minHeight:55
     },
 })

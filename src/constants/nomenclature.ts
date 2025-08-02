@@ -10,8 +10,10 @@ export default{
     see_all:'See All',
     weekly:'Weekly',
     yearly:'Yearly',
+    username:'Username',
     email:'Email',
     password:'Password',
     forgot_password:'Forgot Password?',
-    login:'Login'
+    login:'Login',
+    sign_up:'Sign up'
 }

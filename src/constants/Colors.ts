@@ -28,7 +28,7 @@ export const darkTheme = {
   secondary:'#98DBEA',
   text: '#fff',
   secondaryText: '#1E85B7',
-  background: '#000',
+  background: '#FFFFFF',
   primaryCard:'#FFFFFF',
   positive: '#11B375',
   negative: '#FF6464',
