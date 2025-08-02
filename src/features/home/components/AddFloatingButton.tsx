@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-nativ
 import React from 'react'
 import { CustomIcon } from '@/src/components/CustomIcon'
 import { useTheme } from '@/src/hooks/ThemeContextProvider'
-import { AppTheme } from '@/constants/Colors'
+import { AppTheme } from '@/src/constants/Colors'
 
 const AddFloatingButton = () => {
     const { themePalette } = useTheme()
@@ -25,7 +25,6 @@ const useStyles =(theme:AppTheme)=> StyleSheet.create({
         justifyContent: 'center', 
         alignItems: 'center', 
         position: 'absolute', 
-        // top: '70%', 
         bottom:'5%',
         right: '5%', 
         zIndex:20,

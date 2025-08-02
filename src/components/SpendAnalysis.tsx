@@ -4,8 +4,8 @@ import CustomText from './CustomText'
 import { Picker } from '@react-native-picker/picker';
 import { BlurView } from 'expo-blur';
 import { useTheme } from '../hooks/ThemeContextProvider';
-import nomenclature from '@/constants/nomenclature';
-import { spendAnalysisOptions } from '@/constants/constant';
+import nomenclature from '../constants/nomenclature';
+import { spendAnalysisOptions } from '../constants/constant';
 const SpendAnalysis = () => {
   const { themePalette} = useTheme()
   return (

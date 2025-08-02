@@ -4,17 +4,17 @@ import ProfileSection from '@/src/features/home/components/ProfileSection';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DashboardCard from '@/src/features/home/components/DashboardCard';
 import MenuTab from '@/src/features/home/components/MenuTab';
-import { dashboardTabs } from '@/constants/constant';
 import SpendAnalysis from '@/src/components/SpendAnalysis';
 import { RecentTransactions } from '@/src/components/RecentTransactions';
 import AddFloatingButton from '@/src/features/home/components/AddFloatingButton';
+import { dashboardTabs } from '@/src/constants/constant';
 
 export default function Home() {
   return (
     <View style={styles.container}>
       <GradientBackground/>
       <SafeAreaView>
-        <ScrollView contentContainerStyle={{ rowGap: 24}} invertStickyHeaders={true} stickyHeaderIndices={[0]}>
+        <ScrollView contentContainerStyle={{ rowGap: 24}}>
           <ProfileSection/>
           <DashboardCard/>
           <View style={{ marginHorizontal: '6%',flexDirection: 'row', justifyContent: 'space-around'}}>

@@ -3,10 +3,11 @@ import React from 'react'
 import { useTheme } from '@/src/hooks/ThemeContextProvider'
 import { useStyle } from '../styles/DashboardCardStyles'
 import CustomText from '@/src/components/CustomText'
-import nomenclature from '@/constants/nomenclature'
-import font from '@/constants/font'
-import { mascotImage } from '@/constants/constant'
+
 import { CustomIcon } from '@/src/components/CustomIcon'
+import { mascotImage } from '@/src/constants/constant'
+import nomenclature from '@/src/constants/nomenclature'
+import font from '@/src/constants/font'
 
 const DashboardCard = () => {
     const { themePalette } = useTheme()

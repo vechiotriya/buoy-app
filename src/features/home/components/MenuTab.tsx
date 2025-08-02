@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { AppTheme } from '@/constants/Colors'
 import { useTheme } from '@/src/hooks/ThemeContextProvider'
 import CustomText from '@/src/components/CustomText'
 import { CustomIcon, IconType } from '@/src/components/CustomIcon'
+import { useRouter } from 'expo-router'
+import { AppTheme } from '@/src/constants/Colors'
 
 type MenuTabProps = {
     name: string,
@@ -12,16 +13,20 @@ type MenuTabProps = {
 }
 export default ({ name, icon, type }:MenuTabProps) => {
     const { themePalette } = useTheme()
+    const navigation=useRouter()
     const styles = useStyles(themePalette)
     return (
-        <TouchableOpacity style={styles.container} onPress={() => console.log(name)}>
+        <TouchableOpacity style={styles.container} onPress={() =>{ 
+            navigation.navigate('/(auth)/sign')
+            console.log(name)
+        }}>
             <CustomIcon
                 name={icon}
                 type={type}
                 size={21}
-                color={themePalette.text} 
+                color={themePalette.text}
                 iconStyle={{ marginBottom: 6 }}
-                />
+            />
             <CustomText>{name}</CustomText>
         </TouchableOpacity>
     )

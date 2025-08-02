@@ -15,7 +15,7 @@ export const lightTheme = {
   shadowColor: '#000000',
   borderColor: '#FFFFFF',
   tint: tintColorLight,
-  tabIconDefault: '#ccc',
+  tabIconDefault: '#6B7280',
   tabIconSelected: tintColorLight,
 }
 
@@ -33,7 +33,7 @@ export const darkTheme = {
   shadowColor: '#000000',
   borderColor: '#FFFFFF',
   tint: tintColorDark,
-  tabIconDefault: '#ccc',
+  tabIconDefault: '#6B7280',
   tabIconSelected: tintColorDark,
 }
 

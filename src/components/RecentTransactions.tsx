@@ -1,13 +1,13 @@
 import { FlatList, StyleSheet, View } from 'react-native'
 import React from 'react'
 import CustomText from './CustomText'
-import font from '@/constants/font'
-import nomenclature from '@/constants/nomenclature'
 import { TouchableOpacity } from 'react-native'
 import { CustomIcon } from './CustomIcon'
-import { TransactionType } from '@/constants/constant'
 import { BlurView } from 'expo-blur'
 import { useTheme } from '../hooks/ThemeContextProvider'
+import { TransactionType } from '../constants/constant'
+import font from '../constants/font'
+import nomenclature from '../constants/nomenclature'
 
 interface TransactionListProps {
     title?: string;

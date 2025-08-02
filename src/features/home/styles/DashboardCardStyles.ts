@@ -1,4 +1,4 @@
-import { AppTheme } from "@/constants/Colors";
+import { AppTheme } from "@/src/constants/Colors";
 import { StyleSheet } from "react-native";
 
 export const useStyle = (theme: AppTheme) => StyleSheet.create({

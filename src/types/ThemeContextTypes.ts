@@ -1,4 +1,4 @@
-import { AppTheme } from "@/constants/Colors"
+import { AppTheme } from "../constants/Colors"
 
 export type Mode='light'|'dark'
 export interface ThemeContextType{

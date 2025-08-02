@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState, } from 'react';
 // import { getLocalStorage, setLocalStorage, } from '../utils/localStorage/localStorage';
 import { useColorScheme } from 'react-native';
-import { AppTheme, darkTheme, lightTheme } from '@/constants/Colors';
 import { Mode, ThemeContextType } from '../types/ThemeContextTypes';
+import { AppTheme, darkTheme, lightTheme } from '../constants/Colors';
 const ThemeContext = createContext<ThemeContextType | null>(null);
 const defaultMode = 'light';
 const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

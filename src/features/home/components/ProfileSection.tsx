@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View,StyleSheet, Image } from 'react-native'
 import React from 'react'
 import CustomText from '@/src/components/CustomText'
-import nomenclature from '@/constants/nomenclature'
-import { AppTheme } from '@/constants/Colors'
 import { useTheme } from '@/src/hooks/ThemeContextProvider'
-import font from '@/constants/font'
+import font from '@/src/constants/font'
+import nomenclature from '@/src/constants/nomenclature'
+import { AppTheme } from '@/src/constants/Colors'
 
 const ProfileSection = () => {
     const {themePalette}=useTheme()
