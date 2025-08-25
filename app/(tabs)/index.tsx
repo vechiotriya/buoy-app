@@ -8,25 +8,34 @@ import SpendAnalysis from '@/src/components/SpendAnalysis';
 import { RecentTransactions } from '@/src/components/RecentTransactions';
 import AddFloatingButton from '@/src/features/home/components/AddFloatingButton';
 import { dashboardTabs } from '@/src/constants/constant';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { useEffect, useRef } from 'react';
+import CustomText from '@/src/components/CustomText';
+import AddTransactionSheet from '@/src/features/home/components/AddTransactionSheet';
 
 export default function Home() {
+  const bottomSheetRef = useRef<BottomSheet>(null);
   return (
     <View style={styles.container}>
-      <GradientBackground/>
+      <GradientBackground />
       <SafeAreaView>
-        <ScrollView contentContainerStyle={{ rowGap: 24}}>
-          <ProfileSection/>
-          <DashboardCard/>
-          <View style={{ marginHorizontal: '6%',flexDirection: 'row', justifyContent: 'space-around'}}>
+        <ScrollView contentContainerStyle={{ rowGap: 24 }}>
+          <ProfileSection />
+          <DashboardCard />
+          <View style={{ marginHorizontal: '6%', flexDirection: 'row', justifyContent: 'space-around' }}>
             {dashboardTabs.map((tab, index) => (
               <MenuTab key={index} name={tab.name} icon={tab.icon} type={tab.type} />
             ))}
           </View>
-          <SpendAnalysis/>
-          <RecentTransactions seeAll/>
+          <SpendAnalysis />
+          <RecentTransactions seeAll />
         </ScrollView>
-        <AddFloatingButton/>
+        <AddFloatingButton />
       </SafeAreaView>
+      <BottomSheet ref={bottomSheetRef} style={{ flex: 1, backgroundColor: 'white' }}>
+            <AddTransactionSheet type='expense' closeSheet={()=>{
+              bottomSheetRef.current?.close()}}/>
+      </BottomSheet>
     </View>
   );
 }

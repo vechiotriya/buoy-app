@@ -1,3 +1,5 @@
+import KeypadButton from "../features/home/components/KeypadButton";
+
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
 
@@ -13,7 +15,9 @@ export const lightTheme = {
   positive: '#11B375',
   negative: '#FF6464',
   inputText:'#6B7280',
+  inputText2:'#919BAE',
   errorText:'#5F0303',
+  keypadButton:'#F1F1F1',
   shadowColor: '#000000',
   borderColor: '#FFFFFF',
   tint: tintColorLight,
@@ -33,7 +37,9 @@ export const darkTheme = {
   positive: '#11B375',
   negative: '#FF6464',
   inputText:'#6B7280',
+  inputText2:'#919BAE',
   errorText:'',
+  keypadButton:'#F1F1F1',
   shadowColor: '#000000',
   borderColor: '#FFFFFF',
   tint: tintColorDark,
@@ -53,7 +59,9 @@ export interface AppTheme {
   positive: string,
   negative: string,
   inputText:string,
+  inputText2:string,
   errorText:string,
+  keypadButton:string,
   shadowColor: string,
   borderColor: string,
   tint: string,
