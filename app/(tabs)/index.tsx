@@ -32,10 +32,10 @@ export default function Home() {
         </ScrollView>
         <AddFloatingButton />
       </SafeAreaView>
-      <BottomSheet ref={bottomSheetRef} style={{ flex: 1, backgroundColor: 'white' }}>
+      {/* <BottomSheet ref={bottomSheetRef} style={{ flex: 1, backgroundColor: 'white' }}>
             <AddTransactionSheet type='expense' closeSheet={()=>{
               bottomSheetRef.current?.close()}}/>
-      </BottomSheet>
+      </BottomSheet> */}
     </View>
   );
 }
