@@ -1,5 +1,6 @@
 import SignIn from "../features/auth/SignIn";
 import SignUp from "../features/auth/SignUp";
+import YearlyStats from "../features/statistics/YearlyStats";
 import { NavigationTabs } from "../types/TabNavigatorTypes";
 
 export const mascotImage = require('@/assets/images/mascot.png');
@@ -30,6 +31,16 @@ export const loginNavigationTabs: NavigationTabs = [
     {
         tabHeading: 'Sign Up',
         component: SignUp
+    },
+]
+export const statsNavigationTabs: NavigationTabs = [
+    {
+        tabHeading: 'Weekly',
+        component: SignIn
+    },
+    {
+        tabHeading: 'Yearly',
+        component: YearlyStats
     },
 ]
 

@@ -15,5 +15,8 @@ export default{
     password:'Password',
     forgot_password:'Forgot Password?',
     login:'Login',
-    sign_up:'Sign up'
+    sign_up:'Sign up',
+    total_spending:'Total Spending',
+    from_last_month:'from last month',
+    expense_overview:'Expense Overview'
 }

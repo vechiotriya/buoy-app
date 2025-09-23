@@ -4,7 +4,6 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-
 import { ThemeProvider } from '@/src/hooks/ThemeContextProvider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -23,8 +22,8 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    'poppins-regular': require('../assets/fonts/Poppins-Regular.ttf'),
-    'poppins-bold': require('../assets/fonts/Poppins-Bold.ttf'),
+    'poppins-regular': require('../../assets/fonts/Poppins-Regular.ttf'),
+    'poppins-bold': require('../../assets/fonts/Poppins-Bold.ttf'),
     ...FontAwesome.font,
   });
 
@@ -48,14 +47,14 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <GestureHandlerRootView style={{flex:1}}>
-      <ThemeProvider>
+<ThemeProvider>
+  <GestureHandlerRootView style={{flex:1}}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
-      </ThemeProvider>
-      </GestureHandlerRootView>
+        </GestureHandlerRootView>
+ </ThemeProvider>
       );
 }

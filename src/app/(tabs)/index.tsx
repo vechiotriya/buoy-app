@@ -8,16 +8,18 @@ import SpendAnalysis from '@/src/components/SpendAnalysis';
 import { RecentTransactions } from '@/src/components/RecentTransactions';
 import AddFloatingButton from '@/src/features/home/components/AddFloatingButton';
 import { dashboardTabs } from '@/src/constants/constant';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
-import { useEffect, useRef } from 'react';
-import CustomText from '@/src/components/CustomText';
+import BottomSheet from '@gorhom/bottom-sheet';
+import { useRef } from 'react';
+import { useTheme } from '@/src/hooks/ThemeContextProvider';
 import AddTransactionSheet from '@/src/features/home/components/AddTransactionSheet';
 
 export default function Home() {
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const { themePalette } = useTheme()
+
   return (
     <View style={styles.container}>
-      <GradientBackground />
+      <GradientBackground appTheme={themePalette} />
       <SafeAreaView>
         <ScrollView contentContainerStyle={{ rowGap: 24 }}>
           <ProfileSection />

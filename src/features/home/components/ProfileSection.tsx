@@ -1,5 +1,5 @@
-import { View,StyleSheet, Image } from 'react-native'
 import React from 'react'
+import { View,StyleSheet, Image } from 'react-native'
 import CustomText from '@/src/components/CustomText'
 import { useTheme } from '@/src/hooks/ThemeContextProvider'
 import font from '@/src/constants/font'

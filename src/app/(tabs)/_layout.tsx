@@ -1,13 +1,10 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
 import { Pressable } from 'react-native';
-import { useColorScheme } from '@/src/components/useColorScheme';
 import { CustomIcon } from '@/src/components/CustomIcon';
 import { useTheme } from '@/src/hooks/ThemeContextProvider';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
   const {themePalette}=useTheme()
   return (
     <Tabs
@@ -17,8 +14,8 @@ export default function TabLayout() {
         // to prevent a hydration error in React Navigation v6.
         headerShown: false,
         // tabBarShowLabel:false,
-        tabBarStyle:{height:'10%',paddingVertical:24},
-        tabBarIconStyle:{height:37}
+        tabBarStyle:{height:80,paddingVertical:24},
+
       }}
       >
       <Tabs.Screen
@@ -30,11 +27,12 @@ export default function TabLayout() {
             <Link href="/modal" asChild>
               <Pressable>
                 {({ pressed }) => (
-                  <FontAwesome
+                  <CustomIcon
+                    type='FontAwesome'
                     name="info-circle"
                     size={25}
                     color={themePalette.primary}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                    // style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
               </Pressable>

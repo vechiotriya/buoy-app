@@ -1,13 +1,16 @@
 import React from 'react'
-import { useTheme } from '../hooks/ThemeContextProvider'
 import { LinearGradient } from 'expo-linear-gradient'
+import { AppTheme } from '../constants/Colors'
 
-const GradientBackground = () => {
-    const { themePalette } = useTheme()
+interface GradientBackgroundProps {
+  appTheme: AppTheme; 
+}
+const GradientBackground:React.FC<GradientBackgroundProps> = ({appTheme}) => {
+    
     return (
         <LinearGradient
             // Background Linear Gradient
-            colors={[themePalette.backgroundGradient1, themePalette.backgroundGradient2,]}
+            colors={[appTheme.backgroundGradient1, appTheme.backgroundGradient2,]}
             locations={[0.4, 0.79]}
             dither={false}
             style={{
