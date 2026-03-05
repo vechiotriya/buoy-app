@@ -14,6 +14,7 @@ const SignUp = () => {
 
   return (
     <View style={styles.container}>
+      <PrimaryInput label={nomenclature.fullname} value={''} error='' />
       <PrimaryInput label={nomenclature.username} value={''} error='' />
       <PrimaryInput label={nomenclature.email} value={''} error='' />
       <PrimaryInput label={nomenclature.password} value={''} error='' secure />

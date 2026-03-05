@@ -11,6 +11,7 @@ export default{
     weekly:'Weekly',
     yearly:'Yearly',
     username:'Username',
+    fullname:'Full Name',
     email:'Email',
     password:'Password',
     forgot_password:'Forgot Password?',

@@ -42,7 +42,7 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-    const isLoggedIn = true; // your auth state
+    const isLoggedIn = false; // your auth state
 
   return (
     <ThemeProvider>
