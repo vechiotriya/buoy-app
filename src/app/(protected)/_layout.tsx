@@ -1,17 +1,33 @@
-import React from 'react';
-import { Stack, Tabs } from 'expo-router';
-import { CustomIcon } from '@/src/components/CustomIcon';
-import { useTheme } from '@/src/hooks/ThemeContextProvider';
-import CustomTabNavigator from '@/src/components/FloatingTabMenu';
+import React from "react";
+import { Stack } from "expo-router";
+import NavigationHeader from "@/src/components/NavigationHeader";
+import { View } from "react-native";
+import { useTheme } from "@/src/hooks/ThemeContextProvider";
+import GradientBackground from "@/src/components/GradientBackground";
+import FloatingTabMenu from "@/src/components/FloatingTabMenu";
 
 export default function TabLayout() {
+  const { themePalette } = useTheme();
   return (
-    <Stack screenOptions={{headerShown:false}}>
-      <Stack.Screen name="index"/>
-      <Stack.Screen name="statistics"/>
-      <Stack.Screen name="budget"/>
-      <Stack.Screen name="settings"/>
-      <Stack.Screen name="transactions"/>
-    </Stack>
+    <View style={{ flex: 1 }}>
+      <GradientBackground appTheme={themePalette} />
+      <Stack
+        screenOptions={{
+          headerShown: true,
+          contentStyle: { backgroundColor: "transparent" },
+          header: (props) => (
+            props.route.name === "index" ? null :
+            <NavigationHeader {...props} title={props.route.name} />
+          ),
+        }}
+      >
+        <Stack.Screen name="index" />
+        <Stack.Screen name="statistics" />
+        <Stack.Screen name="budget" />
+        <Stack.Screen name="settings" />
+        <Stack.Screen name="transactions" />
+      </Stack>
+      <FloatingTabMenu />
+    </View>
   );
 }
