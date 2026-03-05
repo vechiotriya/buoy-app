@@ -37,7 +37,7 @@ export default function Home() {
       </SafeAreaView>
                 <FloatingTabMenu />
       <BottomSheet ref={bottomSheetRef} style={{ flex: 1, backgroundColor: 'white' }}>
-            <AddTransactionSheet type='expense' closeSheet={()=>{
+            <AddTransactionSheet type='income' closeSheet={()=>{
               bottomSheetRef.current?.close()}}/>
       </BottomSheet>
     </View>

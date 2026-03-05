@@ -86,7 +86,7 @@ const AddTransactionSheet = ({
           color={themePalette.inputText}
           size={font.size_14}
         >{`Date: ${date.toDateString().split(" ").slice(1).join(" ")}`}</CustomText>
-        <View
+     {type==="expense" &&   <View
           style={{
             backgroundColor: themePalette.secondary,
             width: 170,
@@ -130,7 +130,7 @@ const AddTransactionSheet = ({
               />
             ))}
           </Picker>
-        </View>
+        </View>}
       </View>
       <View
         style={{
