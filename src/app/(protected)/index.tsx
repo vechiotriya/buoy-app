@@ -9,9 +9,11 @@ import { RecentTransactions } from '@/src/components/RecentTransactions';
 import AddFloatingButton from '@/src/features/home/components/AddFloatingButton';
 import { dashboardTabs } from '@/src/constants/constant';
 import BottomSheet from '@gorhom/bottom-sheet';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTheme } from '@/src/hooks/ThemeContextProvider';
 import AddTransactionSheet from '@/src/features/home/components/AddTransactionSheet';
+import { usePathname } from 'expo-router';
+import FloatingTabMenu from '@/src/components/FloatingTabMenu';
 
 export default function Home() {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -26,18 +28,18 @@ export default function Home() {
           <DashboardCard />
           <View style={{ marginHorizontal: '6%', flexDirection: 'row', justifyContent: 'space-around' }}>
             {dashboardTabs.map((tab, index) => (
-              <MenuTab key={index} name={tab.name} icon={tab.icon} type={tab.type} />
+              <MenuTab key={index} name={tab.name} icon={tab.icon} type={tab.type} path={tab.path} />
             ))}
           </View>
           <SpendAnalysis />
           <RecentTransactions seeAll />
         </ScrollView>
-        <AddFloatingButton />
       </SafeAreaView>
-      {/* <BottomSheet ref={bottomSheetRef} style={{ flex: 1, backgroundColor: 'white' }}>
+                <FloatingTabMenu />
+      <BottomSheet ref={bottomSheetRef} style={{ flex: 1, backgroundColor: 'white' }}>
             <AddTransactionSheet type='expense' closeSheet={()=>{
               bottomSheetRef.current?.close()}}/>
-      </BottomSheet> */}
+      </BottomSheet>
     </View>
   );
 }

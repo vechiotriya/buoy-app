@@ -3,9 +3,9 @@ import { StyleSheet } from "react-native";
 
 export const useStyle = (theme: AppTheme) => StyleSheet.create({
     cardContainer: {
-        paddingTop: 29,
-        paddingBottom: 25,
-        maxHeight: 214,
+        paddingTop: 17,
+        paddingBottom: 10,
+        maxHeight: 204,
         width: 'auto',
         marginHorizontal: '6%',
         backgroundColor: theme.primaryCard,

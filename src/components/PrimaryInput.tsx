@@ -6,19 +6,23 @@ import { AppTheme } from '../constants/Colors'
 import { useTheme } from '../hooks/ThemeContextProvider'
 
 interface PrimaryInputProps {
-  label: string,
+  label?: string,
   value: string,
   error?: string,
   secure?:boolean,
   style?: TextInputProps
+  placeholder?: string
+  onChangeText?: (text: string) => void
+  onSubmitEditing?: () => void
+  returnKeyType?: 'done' | 'go' | 'next' | 'search' | 'send'
 }
-const PrimaryInput = ({ label, value, error, secure, style }: PrimaryInputProps) => {
+const PrimaryInput = ({ label, value, error, secure, style, placeholder, onChangeText, onSubmitEditing, returnKeyType }: PrimaryInputProps) => {
   const { themePalette } = useTheme()
   const styles = useStyles(themePalette)
   return (
     <View style={styles.container}>
-      <CustomText size={font.size_14} style={{ marginBottom: 6 }}>{label}</CustomText>
-      <TextInput value={value} style={[styles.inputText, style]} placeholder={'Enter your ' + label.toLowerCase()} secureTextEntry={secure}></TextInput>
+      {label && <CustomText size={font.size_14} style={{ marginBottom: 6 }}>{label}</CustomText>}
+      <TextInput value={value} style={[styles.inputText, style]} returnKeyType={returnKeyType} placeholder={label ? 'Enter your ' + label.toLowerCase() : placeholder} secureTextEntry={secure} onChangeText={onChangeText} onSubmitEditing={onSubmitEditing}></TextInput>
       {error && <CustomText size={font.size_12} color={themePalette.errorText} variant='bold' style={{ marginTop: 3 }}>{error}</CustomText>}
     </View>
   )

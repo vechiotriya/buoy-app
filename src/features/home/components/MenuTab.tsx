@@ -3,22 +3,18 @@ import React from 'react'
 import { useTheme } from '@/src/hooks/ThemeContextProvider'
 import CustomText from '@/src/components/CustomText'
 import { CustomIcon, IconType } from '@/src/components/CustomIcon'
-import { useRouter } from 'expo-router'
+import { RelativePathString, useRouter } from 'expo-router'
 import { AppTheme } from '@/src/constants/Colors'
+import { DashboardTabTypes } from '../types/types'
 
-type MenuTabProps = {
-    name: string,
-    icon: string,
-    type: IconType,
-}
-export default ({ name, icon, type }:MenuTabProps) => {
+
+export default ({ name, icon, type, path }:DashboardTabTypes) => {
     const { themePalette } = useTheme()
     const navigation=useRouter()
     const styles = useStyles(themePalette)
     return (
         <TouchableOpacity style={styles.container} onPress={() =>{ 
-            navigation.navigate('/(auth)/sign')
-            console.log(name)
+            navigation.navigate(path)
         }}>
             <CustomIcon
                 name={icon}

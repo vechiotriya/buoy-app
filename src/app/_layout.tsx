@@ -12,10 +12,6 @@ export {
   ErrorBoundary,
 } from 'expo-router';
 
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -46,15 +42,20 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+    const isLoggedIn = true; // your auth state
+
   return (
-<ThemeProvider>
-  <GestureHandlerRootView style={{flex:1}}>
+    <ThemeProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        <Stack.Protected guard={isLoggedIn}>
+          <Stack.Screen name="(protected)" options={{ headerShown: false }} />
+        </Stack.Protected>
+        <Stack.Protected guard={!isLoggedIn}>
+          <Stack.Screen name="sign" options={{ headerShown: false }} />
+        </Stack.Protected>
         </Stack>
-        </GestureHandlerRootView>
- </ThemeProvider>
+      </GestureHandlerRootView>
+    </ThemeProvider>
       );
 }

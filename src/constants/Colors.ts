@@ -44,7 +44,7 @@ export const lightTheme: AppTheme = {
   shadowColor: '#000000',
   borderColor: '#FFFFFF',
   tint: tintColorLight,
-  tabIconDefault: '#6B7280',
+  tabIconDefault: '#949494',
   tabIconSelected: tintColorLight,
   donutChartColors: [
     '#1E85B7',
@@ -79,7 +79,7 @@ export const darkTheme: AppTheme = {
   shadowColor: '#000000',
   borderColor: '#333333',
   tint: tintColorDark,
-  tabIconDefault: '#9CA3AF',
+  tabIconDefault: '#949494',
   tabIconSelected: tintColorDark,
   donutChartColors: [
     '#1E85B7',

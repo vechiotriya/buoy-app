@@ -8,7 +8,7 @@ import font from '@/src/constants/font'
 
 interface KeypadButtonProps{
     label:string,
-    icon?:'backspace',
+    icon?:'backspace'|'calendar-month'|'trash-can'|'check',
     backgroundColor:string,
     onPress:Function,
     style?:ViewStyle

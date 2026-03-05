@@ -1,9 +1,9 @@
-import { FontAwesome, AntDesign, Entypo, Feather, Ionicons, MaterialIcons, Octicons, MaterialCommunityIcons, SimpleLineIcons, Fontisto } from "@expo/vector-icons";
+import { FontAwesome, AntDesign, Entypo, Feather, Ionicons, MaterialIcons, Octicons, MaterialCommunityIcons, SimpleLineIcons, Fontisto, FontAwesome6 } from "@expo/vector-icons";
 import { StyleProp, TextStyle, ViewStyle } from "react-native";
 import { useTheme } from "../hooks/ThemeContextProvider";
 
 const iconMap = {
-    MaterialCommunityIcons, Octicons, SimpleLineIcons, AntDesign, Entypo, Feather, FontAwesome, Ionicons, MaterialIcons, Fontisto
+    MaterialCommunityIcons, Octicons, SimpleLineIcons, AntDesign, Entypo, Feather, FontAwesome,FontAwesome6, Ionicons, MaterialIcons, Fontisto
 }
 export type IconType = keyof typeof iconMap;
 export function CustomIcon({ ...props }: {

@@ -18,5 +18,6 @@ export default{
     sign_up:'Sign up',
     total_spending:'Total Spending',
     from_last_month:'from last month',
-    expense_overview:'Expense Overview'
+    expense_overview:'Expense Overview',
+    add_category:'Add Category',
 }

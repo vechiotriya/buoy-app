@@ -35,7 +35,7 @@ const SpendAnalysis = () => {
           <Picker
             selectedValue={'java'}
             mode="dropdown"
-            style={{ fontFamily: 'poppins-bold',color: themePalette.text }}
+            style={{ fontFamily: 'poppins-bold',color: themePalette.text,backgroundColor:'#9AC3D7' }}
             dropdownIconColor={themePalette.text}
             onValueChange={
               (itemValue, itemIndex) => {
