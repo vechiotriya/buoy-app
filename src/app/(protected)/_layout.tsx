@@ -25,6 +25,7 @@ export default function TabLayout() {
         <Stack.Screen name="statistics" />
         <Stack.Screen name="budget" />
         <Stack.Screen name="settings" />
+        <Stack.Screen name="profile"/>
         <Stack.Screen name="transactions" />
       </Stack>
       <FloatingTabMenu />
