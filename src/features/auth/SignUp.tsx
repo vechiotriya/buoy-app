@@ -14,12 +14,12 @@ const SignUp = () => {
 
   return (
     <View style={styles.container}>
-      <PrimaryInput label={nomenclature.fullname} value={''} error='' />
-      <PrimaryInput label={nomenclature.username} value={''} error='' />
-      <PrimaryInput label={nomenclature.email} value={''} error='' />
-      <PrimaryInput label={nomenclature.password} value={''} error='' secure />
+      <PrimaryInput label={nomenclature.FULLNAME} value={''} error='' />
+      <PrimaryInput label={nomenclature.USERNAME} value={''} error='' />
+      <PrimaryInput label={nomenclature.EMAIL} value={''} error='' />
+      <PrimaryInput label={nomenclature.PASSWORD} value={''} error='' secure />
       <TouchableOpacity style={buttonStyle}>
-        <CustomText >{nomenclature.sign_up}</CustomText>
+        <CustomText >{nomenclature.SIGN_UP}</CustomText>
       </TouchableOpacity>
     </View>
   )

@@ -13,6 +13,7 @@ import CustomText from "@/src/components/CustomText";
 import font from "@/src/constants/font";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { primaryButtonStyle } from "@/src/constants/styles";
+import nomenclature from "@/src/constants/nomenclature";
 
 const Profile = () => {
   const { themePalette } = useTheme();
@@ -51,7 +52,7 @@ const Profile = () => {
       </TouchableOpacity>
       <BlurView intensity={30} tint="light" style={styles.menu}>
         <View style={styles.row}>
-          <CustomText size={font.size_14}>Full name</CustomText>
+          <CustomText size={font.size_14}>{nomenclature.FULLNAME}</CustomText>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <CustomText size={font.size_14}>Alex Martin</CustomText>
             <TouchableOpacity>
@@ -67,7 +68,7 @@ const Profile = () => {
         </View>
         <View style={styles.divider} />
         <View style={styles.row}>
-          <CustomText size={font.size_14}>Email</CustomText>
+          <CustomText size={font.size_14}>{nomenclature.EMAIL}</CustomText>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <CustomText size={font.size_14}>amartin@gmail.com</CustomText>
             <TouchableOpacity>
@@ -83,7 +84,7 @@ const Profile = () => {
         </View>
         <View style={styles.divider} />
         <View style={styles.row}>
-          <CustomText size={font.size_14}>Username</CustomText>
+          <CustomText size={font.size_14}>{nomenclature.USERNAME}</CustomText>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <CustomText size={font.size_14}>@martin95</CustomText>
             <TouchableOpacity>

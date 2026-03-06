@@ -40,11 +40,11 @@ const YearlyStats = () => {
             paddingTop: '2%',
         }}>
                 <View style={style.overviewCard}>
-                    <CustomText size={font.size_14} color={themePalette.secondaryTextLight}>{nomenclature.total_spending}</CustomText>
+                    <CustomText size={font.size_14} color={themePalette.secondaryTextLight}>{nomenclature.TOTAL_SPENDING}</CustomText>
                     <CustomText variant='bold' size={font.size_24} color={themePalette.secondaryTextLight}>{'₹2,486.00'}</CustomText>
                     <View style={{ flexDirection: 'row' }}>
                         <CustomIcon name='arrowup' type='AntDesign' size={17} color={themePalette.secondaryTextLight} />
-                        <CustomText size={font.size_14} color={themePalette.secondaryTextLight}>{'16% ' + nomenclature.from_last_month}</CustomText>
+                        <CustomText size={font.size_14} color={themePalette.secondaryTextLight}>{'16% ' + nomenclature.FROM_LAST_MONTH}</CustomText>
                     </View>
                 </View>
                 <BlurView intensity={20} tint="light" style={{
@@ -52,7 +52,7 @@ const YearlyStats = () => {
                     overflow: 'hidden'
                 }}>
                     <CustomText size={18} variant='bold' style={{ marginHorizontal: '6%', marginTop: 19 }}>
-                        {nomenclature.expense_overview}
+                        {nomenclature.EXPENSE_OVERVIEW}
                     </CustomText>
                     <View style={{ height: 330, justifyContent: 'center', alignItems: 'center' }}>
                         <BarChart

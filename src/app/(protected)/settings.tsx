@@ -59,7 +59,7 @@ export default function Settings() {
               color="#fff"
               iconStyle={{ marginBottom: 1 }}
             />
-            <CustomText style={styles.text}>Pause notifications</CustomText>
+            <CustomText style={styles.text}>{nomenclature.PAUSE_NOTIFICATIONS}</CustomText>
           </View>
 
           <Switch />
@@ -76,7 +76,7 @@ export default function Settings() {
               color="#fff"
               iconStyle={{ marginBottom: 1 }}
             />
-            <CustomText style={styles.text}>Reset password</CustomText>
+            <CustomText style={styles.text}>{nomenclature.RESET_PASSWORD}</CustomText>
           </View>
         </View>
       </BlurView>
@@ -92,7 +92,7 @@ export default function Settings() {
               color="#fff"
               iconStyle={{ marginBottom: 1 }}
             />
-            <CustomText style={styles.text}>Dark mode</CustomText>
+            <CustomText style={styles.text}>{nomenclature.DARK_MODE}</CustomText>
           </View>
 
           <Switch />
@@ -109,7 +109,7 @@ export default function Settings() {
               color="#fff"
               iconStyle={{ marginBottom: 1 }}
             />
-            <CustomText style={styles.text}>Language</CustomText>
+            <CustomText style={styles.text}>{nomenclature.LANGUAGE}</CustomText>
           </View>
 
           <View style={styles.rowRight}>
@@ -135,7 +135,7 @@ export default function Settings() {
               color="#fff"
               iconStyle={{ marginBottom: 1 }}
             />
-            <CustomText style={styles.text}>Currency</CustomText>
+            <CustomText style={styles.text}>{nomenclature.CURRENCY}</CustomText>
           </View>
 
           <View style={styles.rowRight}>
@@ -162,7 +162,7 @@ export default function Settings() {
               color="#fff"
               iconStyle={{ marginBottom: 1 }}
             />
-            <CustomText style={styles.text}>Version</CustomText>
+            <CustomText style={styles.text}>{nomenclature.VERSION}</CustomText>
           </View>
 
           <CustomText style={styles.value}>1.0.0</CustomText>
@@ -179,7 +179,7 @@ export default function Settings() {
               color="#fff"
               iconStyle={{ marginBottom: 1 }}
             />
-            <CustomText style={styles.text}>About</CustomText>
+            <CustomText style={styles.text}>{nomenclature.ABOUT}</CustomText>
           </View>
 
           <CustomIcon
@@ -203,7 +203,7 @@ export default function Settings() {
           color="#fff"
           iconStyle={{ marginBottom: 2 }}
         />
-        <CustomText style={styles.logoutText}>{nomenclature.logout}</CustomText>
+        <CustomText style={styles.logoutText}>{nomenclature.LOGOUT}</CustomText>
       </TouchableOpacity>
     </View>
   );

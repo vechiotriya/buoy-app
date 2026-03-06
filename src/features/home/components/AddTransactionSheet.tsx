@@ -216,7 +216,7 @@ const AddTransactionSheet = ({
               setShowAddModal(false);
             }}
           >
-            <CustomText>{nomenclature.add_category}</CustomText>
+            <CustomText>{nomenclature.ADD_CATEGORY}</CustomText>
           </TouchableOpacity>
         </BlurView>
       </Modal>

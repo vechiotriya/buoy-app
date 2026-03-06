@@ -37,7 +37,7 @@ const TransactionItem = ({ item }: { item: TransactionType }) => {
                 </View>
                 <View style={{ justifyContent: 'center' }}>
                     <CustomText variant='bold' style={{ textAlign: 'right' }}>
-                        {(type == 'Income' ? '+' : '-') + " " + nomenclature.rupee_sign + ' ' + amount}
+                        {(type == 'Income' ? '+' : '-') + " " + nomenclature.RUPEE_SIGN + ' ' + amount}
                     </CustomText>
                 </View>
             </View>
@@ -60,11 +60,11 @@ export const RecentTransactions = ({title,seeAll}:TransactionListProps) => {
         <View style={{ marginHorizontal: '6%', rowGap: 24 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <CustomText size={font.size_18} variant='bold' >
-                    {title || nomenclature.recent_transactions}
+                    {title || nomenclature.RECENT_TRANSACTIONS}
                 </CustomText>
             {seeAll && <TouchableOpacity onPress={() => console.log('See All Pressed')}>
                     <CustomText size={font.size_14} variant='regular'>
-                        {nomenclature.see_all}
+                        {nomenclature.SEE_ALL}
                     </CustomText>
                 </TouchableOpacity>}
             </View>

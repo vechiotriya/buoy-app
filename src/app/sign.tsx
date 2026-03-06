@@ -14,7 +14,7 @@ const sign = () => {
   return (
     <SafeAreaView style={{flex:1}}>
     <GradientBackground appTheme={themePalette} />
-    <CustomText variant='bold' size={font.size_24} style={loginTitleText}>{nomenclature.login_text}</CustomText>
+    <CustomText variant='bold' size={font.size_24} style={loginTitleText}>{nomenclature.LOGIN_TEXT}</CustomText>
     <TopTabNavigator menuHeaders={loginNavigationTabs}/>
     </SafeAreaView>
   )

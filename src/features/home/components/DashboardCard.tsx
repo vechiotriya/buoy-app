@@ -16,10 +16,10 @@ const DashboardCard = () => {
             <View style={styles.infoRowContainer}>
                 <View>
                     <CustomText variant='regular' size={font.size_18} color={themePalette.secondaryText}>
-                        {nomenclature.current_balance}
+                        {nomenclature.CURRENT_BALANCE}
                     </CustomText>
                     <CustomText variant='bold' size={font.size_24} color={themePalette.secondaryText} style={{ paddingLeft: '2%', marginTop: 5 }}>
-                        {nomenclature.rupee_sign + ' ' + 10000}
+                        {nomenclature.RUPEE_SIGN + ' ' + 10000}
                     </CustomText>
                 </View>
                 <Image source={mascotImage} style={{ width: 94, height: 90 }}></Image>
@@ -28,19 +28,19 @@ const DashboardCard = () => {
                 <View style={{ justifyContent: 'center' }}>
                     <CustomIcon type='AntDesign' name='arrow-down' size={16} color={themePalette.positive} iconStyle={{ alignSelf: 'center' }} />
                     <CustomText variant='regular' size={font.size_14} color={themePalette.secondaryText} style={{ alignSelf: 'center' }}>
-                        {nomenclature.income}
+                        {nomenclature.INCOME}
                     </CustomText>
                     <CustomText variant='bold' color={themePalette.secondaryText} style={{ alignSelf: 'center' }}>
-                        {nomenclature.rupee_sign + ' ' + 5000}
+                        {nomenclature.RUPEE_SIGN + ' ' + 5000}
                     </CustomText>
                 </View>
                 <View style={{ justifyContent: 'center' }}>
                     <CustomIcon type='AntDesign' name='arrow-up' size={16} color={themePalette.negative} iconStyle={{ alignSelf: 'center' }} />
                     <CustomText variant='regular' size={font.size_14} color={themePalette.secondaryText} style={{ alignSelf: 'center' }}>
-                        {nomenclature.expenses}
+                        {nomenclature.EXPENSES}
                     </CustomText>
                     <CustomText variant='bold' color={themePalette.secondaryText} style={{ alignSelf: 'center' }}>
-                        {nomenclature.rupee_sign + ' ' + 5000}
+                        {nomenclature.RUPEE_SIGN + ' ' + 5000}
                     </CustomText>
                 </View>
             </View>

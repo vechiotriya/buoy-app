@@ -13,7 +13,7 @@ type NavigationHeaderProps = {
 const NavigationHeader = ({title, navigation}: NavigationHeaderProps) => {
   return (
     <View style={{marginTop: '12%', flexDirection: 'row', alignItems: 'center', marginHorizontal: '6%',columnGap: '25%'}}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={()=>{navigation.goBack()}}>
       <View style={{backgroundColor: '#FFFDFD', padding: 8, borderRadius: 30,width:45,height:45,justifyContent:'center',alignItems:'center'}}>
      <CustomIcon
       name='chevron-back'

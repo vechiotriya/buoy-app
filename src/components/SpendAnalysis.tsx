@@ -22,7 +22,7 @@ const SpendAnalysis = () => {
     <View style={{ rowGap: 15 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <CustomText size={18} variant='bold' style={{ marginHorizontal: '6%' }}>
-          {nomenclature.spend_analysis}
+          {nomenclature.SPEND_ANALYSIS}
         </CustomText>
         <BlurView intensity={90} tint="light" style={{
           marginRight: '6%', 

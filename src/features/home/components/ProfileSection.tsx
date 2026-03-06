@@ -13,7 +13,7 @@ const ProfileSection = () => {
     <View style={styles.profileContainer}>
         <View style={{}}>
             <CustomText variant='bold' size={font.size_24}>Hello, Ritul</CustomText>
-            <CustomText size={font.size_14}>{nomenclature.begin_text}</CustomText>
+            <CustomText size={font.size_14}>{nomenclature.BEGIN_TEXT}</CustomText>
         </View>
         <Image source={{uri:'https://content.latest-hairstyles.com/wp-content/uploads/long-wavy-pixie-cut-with-curls.jpg',width:70,height:70}} style={styles.profileImage}></Image>
     </View>
