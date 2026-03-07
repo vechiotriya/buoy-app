@@ -5,6 +5,7 @@ import { useTheme } from '@/src/hooks/ThemeContextProvider'
 import font from '@/src/constants/font'
 import nomenclature from '@/src/constants/nomenclature'
 import { AppTheme } from '@/src/constants/Colors'
+import { scale } from '@/src/utils/scale'
 
 const ProfileSection = () => {
     const {themePalette}=useTheme()
@@ -22,15 +23,15 @@ const ProfileSection = () => {
 
 const useStyles = (theme:AppTheme)=> StyleSheet.create({
     profileContainer:{
-        marginLeft:24,
-        paddingTop:15,
+        marginLeft:scale(24),
+        paddingTop:scale(15),
         flexDirection:'row',
         justifyContent:'space-between',
     },
     profileImage:{
-        borderRadius:40,
-        marginRight:24,
-        borderWidth:4,
+        borderRadius:scale(40),
+        marginRight:scale(24),
+        borderWidth:scale(4),
         borderColor:theme.tint
     }
 })

@@ -4,6 +4,7 @@ import CustomText from './CustomText'
 import font from '../constants/font'
 import { AppTheme } from '../constants/Colors'
 import { useTheme } from '../hooks/ThemeContextProvider'
+import { scale } from '../utils/scale'
 
 interface PrimaryInputProps {
   label?: string,
@@ -21,9 +22,9 @@ const PrimaryInput = ({ label, value, error, secure, style, placeholder, onChang
   const styles = useStyles(themePalette)
   return (
     <View style={styles.container}>
-      {label && <CustomText size={font.size_14} style={{ marginBottom: 6 }}>{label}</CustomText>}
+      {label && <CustomText size={font.size_14} style={{ marginBottom: scale(6) }}>{label}</CustomText>}
       <TextInput value={value} style={[styles.inputText, style]} returnKeyType={returnKeyType} placeholder={label ? 'Enter your ' + label.toLowerCase() : placeholder} secureTextEntry={secure} onChangeText={onChangeText} onSubmitEditing={onSubmitEditing}></TextInput>
-      {error && <CustomText size={font.size_12} color={themePalette.errorText} variant='bold' style={{ marginTop: 3 }}>{error}</CustomText>}
+      {error && <CustomText size={font.size_12} color={themePalette.errorText} variant='bold' style={{ marginTop: scale(3) }}>{error}</CustomText>}
     </View>
   )
 }
@@ -34,16 +35,16 @@ const useStyles = (theme: AppTheme) => StyleSheet.create({
   inputText: {
     backgroundColor: theme.background,
     fontFamily: 'poppins-regular',
-    fontSize: 16,
+    fontSize: font.size_14,
     color: theme.inputText,
-    paddingLeft: 16,
-    paddingVertical: 5,
-    borderRadius: 12,
-    minHeight: 45,
-    width: '90%'
+    paddingLeft: scale(16),
+    paddingVertical: scale(5),
+    borderRadius: scale(12),
+    minHeight: scale(45),
+    width: scale(360)
   },
   container: { 
     justifyContent: 'center',
-    marginBottom:'6%'
+    marginBottom: scale(24)
   }
 })

@@ -14,6 +14,7 @@ import font from "@/src/constants/font";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import nomenclature from "@/src/constants/nomenclature";
+import { scale } from "@/src/utils/scale";
 
 const Profile = () => {
   const { themePalette } = useTheme();
@@ -24,8 +25,8 @@ const Profile = () => {
         <Image
           source={{
             uri: "https://content.latest-hairstyles.com/wp-content/uploads/long-wavy-pixie-cut-with-curls.jpg",
-            width: 130,
-            height: 130,
+            width: scale(130),
+            height: scale(130),
           }}
           style={styles.profileImage}
         />
@@ -59,9 +60,9 @@ const Profile = () => {
               <CustomIcon
                 name="pencil"
                 type="Entypo"
-                size={20}
+                size={scale(20)}
                 color="#fff"
-                iconStyle={{ marginLeft: 8, marginBottom: 6 }}
+                iconStyle={{ marginLeft: scale(8), marginBottom: scale(6) }}
               />
             </TouchableOpacity>
           </View>
@@ -75,9 +76,9 @@ const Profile = () => {
               <CustomIcon
                 name="pencil"
                 type="Entypo"
-                size={20}
+                size={scale(20)}
                 color="#fff"
-                iconStyle={{ marginLeft: 8, marginBottom: 6 }}
+                iconStyle={{ marginLeft: scale(8), marginBottom: scale(6) }}
               />
             </TouchableOpacity>
           </View>
@@ -91,16 +92,16 @@ const Profile = () => {
               <CustomIcon
                 name="pencil"
                 type="Entypo"
-                size={20}
+                size={scale(20)}
                 color="#fff"
-                iconStyle={{ marginLeft: 8, marginBottom: 6 }}
+                iconStyle={{ marginLeft: scale(8), marginBottom: scale(6) }}
               />
             </TouchableOpacity>
           </View>
         </View>
       </BlurView>
       <TouchableOpacity
-        style={[buttonStyle, {marginTop:'20%',width:'90%' }]}
+        style={[buttonStyle, {marginTop: scale(100),width: scale(360) }]}
       >
         <CustomText>Save Changes</CustomText>
       </TouchableOpacity>
@@ -114,12 +115,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    paddingTop: "15%",
+    paddingTop: scale(35),
   },
   profileImage: {
-    borderRadius: 75,
-    width: 150,
-    height: 150,
+    borderRadius: scale(75),
+    width: scale(150),
+    height: scale(150),
     borderWidth: 4,
     borderColor: "#fff",
   },
@@ -127,10 +128,10 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   menu: {
-    borderRadius: 25,
-    padding: 16,
-    width: "90%",
-    marginTop: 46,
+    borderRadius: scale(25),
+    padding: scale(16),
+    width: scale(360),
+    marginTop: scale(46),
     overflow: "hidden",
   },
   row: {
@@ -139,8 +140,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   divider: {
-    height: 1,
+    height: scale(1),
     backgroundColor: "rgba(255,255,255,0.3)",
-    marginVertical: 12,
+    marginVertical: scale(12),
   },
 });

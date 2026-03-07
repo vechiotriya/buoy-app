@@ -6,6 +6,7 @@ import PrimaryInput from '@/src/components/PrimaryInput'
 import nomenclature from '@/src/constants/nomenclature'
 import CustomText from '@/src/components/CustomText'
 import { primaryButtonStyle } from '@/src/constants/styles'
+import SocialFooter from './SocialFooter'
 
 const SignUp = () => {
   const { themePalette } = useTheme()
@@ -21,6 +22,7 @@ const SignUp = () => {
       <TouchableOpacity style={buttonStyle}>
         <CustomText >{nomenclature.SIGN_UP}</CustomText>
       </TouchableOpacity>
+      <SocialFooter />
     </View>
   )
 }

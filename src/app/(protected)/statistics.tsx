@@ -10,8 +10,6 @@ export default function Statistics() {
   const { themePalette } = useTheme()
   return (
     <SafeAreaView style={styles.container}>
-      <GradientBackground appTheme={themePalette}/>
-      <View style={{ marginTop: '5%' }}></View>
       <TopTabNavigator menuHeaders={statsNavigationTabs} />
     </SafeAreaView>
   );

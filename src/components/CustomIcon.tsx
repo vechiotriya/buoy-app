@@ -1,5 +1,5 @@
 import { FontAwesome, AntDesign, Entypo, Feather, Ionicons, MaterialIcons, Octicons, MaterialCommunityIcons, SimpleLineIcons, Fontisto, FontAwesome6 } from "@expo/vector-icons";
-import { StyleProp, TextStyle, ViewStyle } from "react-native";
+import { StyleProp, TextStyle } from "react-native";
 import { useTheme } from "../hooks/ThemeContextProvider";
 
 const iconMap = {

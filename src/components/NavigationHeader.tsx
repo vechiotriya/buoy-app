@@ -4,6 +4,7 @@ import { CustomIcon } from './CustomIcon'
 import CustomText from './CustomText'
 import font from '../constants/font'
 import { NavigationProp } from '@react-navigation/native'
+import { scale } from '../utils/scale'
 
 type NavigationHeaderProps = {
   navigation: NavigationProp<any>;
@@ -12,13 +13,13 @@ type NavigationHeaderProps = {
 
 const NavigationHeader = ({title, navigation}: NavigationHeaderProps) => {
   return (
-    <View style={{marginTop: '12%', flexDirection: 'row', alignItems: 'center', marginHorizontal: '6%',columnGap: '25%'}}>
+    <View style={{marginTop: scale(50), flexDirection: 'row', alignItems: 'center', marginHorizontal: scale(24),columnGap: scale(90)}}>
       <TouchableOpacity onPress={()=>{navigation.goBack()}}>
-      <View style={{backgroundColor: '#FFFDFD', padding: 8, borderRadius: 30,width:45,height:45,justifyContent:'center',alignItems:'center'}}>
+      <View style={{backgroundColor: '#FFFDFD', padding: scale(8), borderRadius: scale(30),width:scale(40),height:scale(40),justifyContent:'center',alignItems:'center'}}>
      <CustomIcon
       name='chevron-back'
       type='Ionicons'
-      size={24}
+      size={scale(20)}
       color='#7F7F7F'
       />
       </View>

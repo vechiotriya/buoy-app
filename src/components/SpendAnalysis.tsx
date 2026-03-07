@@ -7,6 +7,7 @@ import { useTheme } from '../hooks/ThemeContextProvider';
 import nomenclature from '../constants/nomenclature';
 import { spendAnalysisOptions } from '../constants/constant';
 import { BarChart } from 'react-native-gifted-charts';
+import { scale } from '../utils/scale';
 const SpendAnalysis = () => {
   const { themePalette} = useTheme()
       const barData = [
@@ -19,17 +20,17 @@ const SpendAnalysis = () => {
         {value: 300, label: 'Sun'},
     ];
   return (
-    <View style={{ rowGap: 15 }}>
+    <View style={{ rowGap: scale(15) }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <CustomText size={18} variant='bold' style={{ marginHorizontal: '6%' }}>
+        <CustomText size={18} variant='bold' style={{ marginHorizontal: scale(24) }}>
           {nomenclature.SPEND_ANALYSIS}
         </CustomText>
         <BlurView intensity={90} tint="light" style={{
-          marginRight: '6%', 
-          borderRadius: 10,
+          marginRight: scale(24),
+          borderRadius: scale(10),
           overflow: 'hidden',
-          height: 40,
-          width: 170,
+          height: scale(40),
+          width: scale(170),
           justifyContent: 'center',
         }}>
           <Picker
@@ -54,12 +55,12 @@ const SpendAnalysis = () => {
         marginHorizontal: '6%', marginTop: 10, borderRadius: 16, borderWidth:0.2, borderColor: themePalette.borderColor,
         overflow: 'hidden'
       }}>
-        <View style={{ height: 330, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ height: scale(290), justifyContent: 'center', alignItems: 'center' }}>
           <BarChart
-                barWidth={32}
-                height={240}
+                barWidth={scale(32)}
+                height={scale(220)}
                 noOfSections={3}
-                barBorderRadius={8}
+                barBorderRadius={scale(8)}
                 frontColor="#1E85B7"
                 data={barData}
                 hideYAxisText={true}

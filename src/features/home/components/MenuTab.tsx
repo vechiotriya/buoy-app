@@ -6,6 +6,7 @@ import { CustomIcon, IconType } from '@/src/components/CustomIcon'
 import { RelativePathString, useRouter } from 'expo-router'
 import { AppTheme } from '@/src/constants/Colors'
 import { DashboardTabTypes } from '../types/types'
+import { scale } from '@/src/utils/scale'
 
 
 export default ({ name, icon, type, path }:DashboardTabTypes) => {
@@ -19,9 +20,9 @@ export default ({ name, icon, type, path }:DashboardTabTypes) => {
             <CustomIcon
                 name={icon}
                 type={type}
-                size={21}
+                size={scale(21)}
                 color={themePalette.text}
-                iconStyle={{ marginBottom: 6 }}
+                iconStyle={{ marginBottom: scale(6) }}
             />
             <CustomText>{name}</CustomText>
         </TouchableOpacity>
@@ -30,12 +31,12 @@ export default ({ name, icon, type, path }:DashboardTabTypes) => {
 
 const useStyles = (theme: AppTheme) => StyleSheet.create({
     container: {
-        height: 90,
-        width: 103,
+        height: scale(87),
+        width: scale(98),
         backgroundColor: theme.primary,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 16,
+        borderRadius: scale(16),
     }
 }
 )

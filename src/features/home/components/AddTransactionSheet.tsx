@@ -21,6 +21,7 @@ import PrimaryInput from "@/src/components/PrimaryInput";
 import { BlurView } from "expo-blur";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import nomenclature from "@/src/constants/nomenclature";
+import { scale } from "@/src/utils/scale";
 
 interface AddTransactionSheetProps {
   type: "expense" | "income";
@@ -79,7 +80,7 @@ const AddTransactionSheet = ({
     if (operation == "check") return submit();
   };
   return (
-    <BottomSheetView style={{ paddingHorizontal: 16, paddingBottom: "5%" }}>
+    <BottomSheetView style={{ paddingHorizontal: scale(16), paddingBottom: scale(124) }}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <CustomText
           variant="bold"
@@ -89,19 +90,19 @@ const AddTransactionSheet = ({
      {type==="expense" &&   <View
           style={{
             backgroundColor: themePalette.secondary,
-            width: 170,
-            height: 36,
+            width: scale(170),
+            height: scale(36),
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "row",
-            borderRadius: 23,
-            paddingLeft: 12,
+            borderRadius: scale(23),
+            paddingLeft: scale(12),
           }}
         >
           <CustomIcon
             name={"shapes"}
             color={themePalette.text}
-            size={16}
+            size={scale(16)}
             type="FontAwesome6"
           />
           <Picker
@@ -231,16 +232,16 @@ const AddTransactionSheet = ({
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
-          columnGap: 5,
+          columnGap: scale(4),
         }}
       >
-        <View style={{ rowGap: 4 }}>
+        <View style={{ rowGap: scale(4) }}>
           {keypadLayout.map((row) => {
             return (
               <View
                 style={{
                   flexDirection: "row",
-                  columnGap: 4,
+                  columnGap: scale(4),
                   justifyContent: "center",
                 }}
               >
@@ -287,9 +288,8 @@ const AddTransactionSheet = ({
         </View>
         <View
           style={{
-            flexDirection: "column",
-            rowGap: 4,
-            justifyContent: "center",
+            rowGap: scale(4),
+            height:scale(363),
           }}
         >
           {sideButtons.map((button) => {
@@ -298,7 +298,7 @@ const AddTransactionSheet = ({
                 backgroundColor={button.color}
                 label={button.icon}
                 icon={button.icon}
-                style={button.icon == "check" ? { height: 168 } : {}}
+                style={button.icon == "check" ? { height: scale(170) } : {}}
                 onPress={() => {
                   keypadAction(button.icon);
                 }}
@@ -312,5 +312,3 @@ const AddTransactionSheet = ({
 };
 
 export default AddTransactionSheet;
-
-const styles = StyleSheet.create({});

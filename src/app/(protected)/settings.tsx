@@ -4,6 +4,7 @@ import font from "@/src/constants/font";
 import nomenclature from "@/src/constants/nomenclature";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
+import { scale } from "@/src/utils/scale";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
 import { Image, Switch, TouchableOpacity } from "react-native";
@@ -27,14 +28,14 @@ export default function Settings() {
             <Image
               source={{
                 uri: "https://content.latest-hairstyles.com/wp-content/uploads/long-wavy-pixie-cut-with-curls.jpg",
-                width: 70,
-                height: 70,
+                width: scale(70),
+                height: scale(70),
               }}
               style={styles.avatar}
             ></Image>
 
             <View>
-              <CustomText variant="bold" style={styles.name}>
+              <CustomText variant="bold">
                 Alex Martin
               </CustomText>
               <CustomText style={styles.username}>@martin95</CustomText>
@@ -43,7 +44,7 @@ export default function Settings() {
           <CustomIcon
             type="Ionicons"
             name="chevron-forward"
-            size={20}
+            size={scale(20)}
             color="#fff"
           />
         </TouchableOpacity>
@@ -55,11 +56,11 @@ export default function Settings() {
             <CustomIcon
               type="Ionicons"
               name="notifications-off-outline"
-              size={18}
+              size={scale(18)}
               color="#fff"
-              iconStyle={{ marginBottom: 1 }}
+              iconStyle={{ marginBottom: scale(1) }}
             />
-            <CustomText style={styles.text}>{nomenclature.PAUSE_NOTIFICATIONS}</CustomText>
+            <CustomText>{nomenclature.PAUSE_NOTIFICATIONS}</CustomText>
           </View>
 
           <Switch />
@@ -72,11 +73,11 @@ export default function Settings() {
             <CustomIcon
               type="Ionicons"
               name="refresh-outline"
-              size={18}
+              size={scale(18)}
               color="#fff"
-              iconStyle={{ marginBottom: 1 }}
+              iconStyle={{ marginBottom: scale(1) }}
             />
-            <CustomText style={styles.text}>{nomenclature.RESET_PASSWORD}</CustomText>
+            <CustomText>{nomenclature.RESET_PASSWORD}</CustomText>
           </View>
         </View>
       </BlurView>
@@ -88,11 +89,11 @@ export default function Settings() {
             <CustomIcon
               type="Ionicons"
               name="moon-outline"
-              size={18}
+              size={scale(18)}
               color="#fff"
-              iconStyle={{ marginBottom: 1 }}
+              iconStyle={{ marginBottom: scale(1) }}
             />
-            <CustomText style={styles.text}>{nomenclature.DARK_MODE}</CustomText>
+            <CustomText>{nomenclature.DARK_MODE}</CustomText>
           </View>
 
           <Switch />
@@ -105,11 +106,11 @@ export default function Settings() {
             <CustomIcon
               type="Ionicons"
               name="language-outline"
-              size={18}
+              size={scale(18)}
               color="#fff"
-              iconStyle={{ marginBottom: 1 }}
+              iconStyle={{ marginBottom: scale(1) }}
             />
-            <CustomText style={styles.text}>{nomenclature.LANGUAGE}</CustomText>
+            <CustomText>{nomenclature.LANGUAGE}</CustomText>
           </View>
 
           <View style={styles.rowRight}>
@@ -117,9 +118,9 @@ export default function Settings() {
             <CustomIcon
               type="Ionicons"
               name="chevron-forward"
-              size={18}
+              size={scale(18)}
               color="#fff"
-              iconStyle={{ marginBottom: 1 }}
+              iconStyle={{ marginBottom: scale(1) }}
             />
           </View>
         </View>
@@ -131,11 +132,11 @@ export default function Settings() {
             <CustomIcon
               type="Ionicons"
               name="logo-bitcoin"
-              size={18}
+              size={scale(18)}
               color="#fff"
-              iconStyle={{ marginBottom: 1 }}
+              iconStyle={{ marginBottom: scale(1) }}
             />
-            <CustomText style={styles.text}>{nomenclature.CURRENCY}</CustomText>
+            <CustomText>{nomenclature.CURRENCY}</CustomText>
           </View>
 
           <View style={styles.rowRight}>
@@ -143,9 +144,9 @@ export default function Settings() {
             <CustomIcon
               type="Ionicons"
               name="chevron-forward"
-              size={18}
+              size={scale(18)}
               color="#fff"
-              iconStyle={{ marginBottom: 1 }}
+              iconStyle={{ marginBottom: scale(1) }}
             />
           </View>
         </View>
@@ -158,11 +159,11 @@ export default function Settings() {
             <CustomIcon
               type="Ionicons"
               name="layers-outline"
-              size={18}
+              size={scale(18)}
               color="#fff"
-              iconStyle={{ marginBottom: 1 }}
+              iconStyle={{ marginBottom: scale(1) }}
             />
-            <CustomText style={styles.text}>{nomenclature.VERSION}</CustomText>
+            <CustomText>{nomenclature.VERSION}</CustomText>
           </View>
 
           <CustomText style={styles.value}>1.0.0</CustomText>
@@ -175,33 +176,33 @@ export default function Settings() {
             <CustomIcon
               type="Ionicons"
               name="information-circle-outline"
-              size={18}
+              size={scale(18)}
               color="#fff"
-              iconStyle={{ marginBottom: 1 }}
+              iconStyle={{ marginBottom: scale(1) }}
             />
-            <CustomText style={styles.text}>{nomenclature.ABOUT}</CustomText>
+            <CustomText>{nomenclature.ABOUT}</CustomText>
           </View>
 
           <CustomIcon
             type="Ionicons"
             name="chevron-forward"
-            size={18}
+            size={scale(18)}
             color="#fff"
-            iconStyle={{ marginBottom: 1 }}
+            iconStyle={{ marginBottom: scale(1) }}
           />
         </View>
       </BlurView>
 
       {/* Logout */}
       <TouchableOpacity
-        style={[buttonStyle, { flexDirection: "row", gap: 8, width: "90%" }]}
+        style={[buttonStyle, { flexDirection: "row", gap: scale(8), width: scale(360) }]}
       >
         <CustomIcon
           type="Ionicons"
           name="log-out-outline"
-          size={20}
+          size={scale(20)}
           color="#fff"
-          iconStyle={{ marginBottom: 2 }}
+          iconStyle={{ marginBottom: scale(2) }}
         />
         <CustomText style={styles.logoutText}>{nomenclature.LOGOUT}</CustomText>
       </TouchableOpacity>
@@ -213,25 +214,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: "5%",
+    marginTop: scale(20),
   },
   title: {
-    fontSize: 20,
+    fontSize: scale(20),
     fontWeight: "bold",
   },
   menu: {
     borderRadius: 25,
-    padding: 16,
-    width: "90%",
-    marginBottom: 16,
+    padding: scale(16),
+    width: scale(360),
+    marginBottom: scale(16),
     overflow: "hidden",
   },
   card: {
-    padding: 16,
-    marginBottom: 16,
-    height: "10%",
-    width: "90%",
-    borderRadius: 25,
+    padding: scale(16),
+    marginBottom: scale(16),
+    height: scale(85),
+    width: scale(360),
+    borderRadius: scale(25),
     overflow: "hidden",
   },
   row: {
@@ -242,18 +243,18 @@ const styles = StyleSheet.create({
   rowLeft: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: scale(10),
   },
   rowRight: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: scale(6),
   },
 
   divider: {
-    height: 1,
+    height: scale(1),
     backgroundColor: "rgba(255,255,255,0.3)",
-    marginVertical: 12,
+    marginVertical: scale(12),
   },
 
   text: {
@@ -268,20 +269,17 @@ const styles = StyleSheet.create({
   profile: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
+    gap: scale(12),
   },
 
   avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: scale(50),
+    height: scale(50),
+    borderRadius: scale(25),
     backgroundColor: "#ddd",
   },
 
-  name: {
-    color: "#fff",
-    fontSize: font.size_14,
-  },
+
 
   username: {
     color: "#e0e0e0",
@@ -289,7 +287,5 @@ const styles = StyleSheet.create({
   },
   logoutText: {
     color: "#fff",
-    fontWeight: "600",
-    fontSize: 16,
   },
 });

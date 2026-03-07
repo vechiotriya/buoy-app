@@ -4,6 +4,7 @@ import { useTheme } from '../hooks/ThemeContextProvider'
 import CustomText from './CustomText'
 import { AppTheme } from '../constants/Colors'
 import { NavigationTabs } from '../types/TabNavigatorTypes'
+import { scale } from '../utils/scale'
 
 const TopTabNavigator = ({menuHeaders}:{menuHeaders: NavigationTabs}) => {
     const { themePalette } = useTheme();
@@ -37,13 +38,13 @@ const useStyles =(theme:AppTheme)=>StyleSheet.create({
         alignItems: 'center',
         backgroundColor:theme.background,
         justifyContent:'space-between',
-        padding: 4,
-        marginHorizontal:'4%',
-        borderRadius:16
+        padding: scale(4),
+        marginHorizontal:scale(15),
+        borderRadius:scale(16)
     },
     tabButton: {
         borderRadius: 8,
-        paddingHorizontal:'17%',
+        paddingHorizontal:scale(60),
         justifyContent:'center',
         alignItems:'center',
         minHeight:55

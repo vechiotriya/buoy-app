@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TextStyle, TextProps } from 'react-native';
 import React from 'react';
 import { useTheme } from '../hooks/ThemeContextProvider';
+import { normalize } from '../utils/scale';
 
 interface CustomTextProps {
     style?: TextStyle;
@@ -14,7 +15,7 @@ const CustomText: React.FC<CustomTextProps> = ({
     style,
     variant = 'regular',
     color,
-    size = 16,
+    size = normalize(16),
     children
 }) => {
     const { themePalette } = useTheme();

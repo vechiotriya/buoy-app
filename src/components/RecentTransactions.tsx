@@ -8,6 +8,7 @@ import { useTheme } from '../hooks/ThemeContextProvider'
 import { TransactionType } from '../constants/constant'
 import font from '../constants/font'
 import nomenclature from '../constants/nomenclature'
+import { scale } from '../utils/scale'
 
 interface TransactionListProps {
     title?: string;
@@ -18,17 +19,17 @@ const TransactionItem = ({ item }: { item: TransactionType }) => {
     const { title, category, iconName, type, amount } = item;
     return (
         <BlurView intensity={30} tint="light" style={{
-            height: 76,
-            marginBottom: 16,
-            padding: 16,
-            borderRadius: 16,
+            height: scale(76),
+            marginBottom: scale(16),
+            padding: scale(16),
+            borderRadius: scale(16),
             overflow: 'hidden',
             justifyContent: 'center',
         }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', columnGap: '4%' }}>
-                    <View style={{ width: 41, backgroundColor: themePalette.secondary, height: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 8 }}>
-                        <CustomIcon name={iconName} type='MaterialCommunityIcons' size={24} />
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', columnGap: scale(16) }}>
+                    <View style={{ width: scale(41), backgroundColor: themePalette.secondary, height: scale(44), justifyContent: 'center', alignItems: 'center', borderRadius: scale(8) }}>
+                        <CustomIcon name={iconName} type='MaterialCommunityIcons' size={scale(24)} />
                     </View>
                     <View>
                         <CustomText variant='bold'>{title}</CustomText>
@@ -57,7 +58,7 @@ export const RecentTransactions = ({title,seeAll}:TransactionListProps) => {
         { id: 4, title: 'Transaction 4', amount: '400', category: 'Entertainment', iconName: 'movie', type: 'Expense' },
     ];
     return (
-        <View style={{ marginHorizontal: '6%', rowGap: 24 }}>
+        <View style={{ marginHorizontal: scale(24), rowGap: scale(24) }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <CustomText size={font.size_18} variant='bold' >
                     {title || nomenclature.RECENT_TRANSACTIONS}

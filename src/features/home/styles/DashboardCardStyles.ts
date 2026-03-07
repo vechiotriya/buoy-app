@@ -1,20 +1,21 @@
 import { AppTheme } from "@/src/constants/Colors";
+import { scale } from "@/src/utils/scale";
 import { StyleSheet } from "react-native";
 
 export const useStyle = (theme: AppTheme) => StyleSheet.create({
     cardContainer: {
-        paddingTop: 17,
-        paddingBottom: 10,
-        maxHeight: 204,
+        paddingTop: scale(17),
+        paddingBottom: scale(10),
+        maxHeight: scale(204),
         width: 'auto',
-        marginHorizontal: '6%',
+        marginHorizontal: scale(24),
         backgroundColor: theme.primaryCard,
-        borderRadius: 16,
+        borderRadius: scale(16),
     },
         infoRowContainer: {
             flexDirection: 'row',
             justifyContent: 'space-between',
-            paddingHorizontal: '5%',
+            paddingHorizontal: scale(20),
             alignItems: 'flex-start',
         },
     })

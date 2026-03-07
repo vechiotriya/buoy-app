@@ -10,6 +10,7 @@ import { BlurView } from 'expo-blur'
 import { BarChart, PieChart } from 'react-native-gifted-charts'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { pickColor } from '@/src/hooks/common'
+import { scale } from '@/src/utils/scale'
 
 const YearlyStats = () => {
     const { themePalette } = useTheme()
@@ -36,52 +37,52 @@ const YearlyStats = () => {
     return (
         <SafeAreaView>
             <ScrollView style={{
-            paddingHorizontal: '5%',
-            paddingTop: '2%',
+            paddingHorizontal: scale(2),
+            paddingTop: scale(2),
         }}>
                 <View style={style.overviewCard}>
                     <CustomText size={font.size_14} color={themePalette.secondaryTextLight}>{nomenclature.TOTAL_SPENDING}</CustomText>
                     <CustomText variant='bold' size={font.size_24} color={themePalette.secondaryTextLight}>{'₹2,486.00'}</CustomText>
                     <View style={{ flexDirection: 'row' }}>
-                        <CustomIcon name='arrowup' type='AntDesign' size={17} color={themePalette.secondaryTextLight} />
+                        <CustomIcon name='arrow-up' type='AntDesign' size={scale(17)} color={themePalette.secondaryTextLight} />
                         <CustomText size={font.size_14} color={themePalette.secondaryTextLight}>{'16% ' + nomenclature.FROM_LAST_MONTH}</CustomText>
                     </View>
                 </View>
                 <BlurView intensity={20} tint="light" style={{
-                    marginHorizontal: '4%', marginTop: 10, borderRadius: 16, borderWidth: 0.2, borderColor: themePalette.borderColor,
+                    marginHorizontal: scale(20), marginTop: scale(10), borderRadius: scale(16), borderWidth: 0.2, borderColor: themePalette.borderColor,
                     overflow: 'hidden'
                 }}>
-                    <CustomText size={18} variant='bold' style={{ marginHorizontal: '6%', marginTop: 19 }}>
+                    <CustomText size={font.size_18} variant='bold' style={{ marginHorizontal: scale(20), marginTop: scale(19) }}>
                         {nomenclature.EXPENSE_OVERVIEW}
                     </CustomText>
-                    <View style={{ height: 330, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ height: scale(330), justifyContent: 'center', alignItems: 'center' }}>
                         <BarChart
-                            barWidth={32}
-                            height={240}
+                            barWidth={scale(32)}
+                            height={scale(240)}
                             noOfSections={3}
-                            barBorderRadius={8}
+                            barBorderRadius={scale(8)}
                             frontColor="#1E85B7"
                             data={barData}
                             hideYAxisText={true}
                             hideAxesAndRules={true}
                             barBorderBottomLeftRadius={0}
                             barBorderBottomRightRadius={0}
-                            xAxisLabelTextStyle={{ color: '#FFFF', fontFamily: 'poppins-regular', fontSize: 14 }}
+                            xAxisLabelTextStyle={{ color: '#FFFF', fontFamily: 'poppins-regular', fontSize: font.size_14 }}
                             yAxisThickness={0}
                             xAxisThickness={0}
                         />
                     </View>
                 </BlurView>
                 <BlurView intensity={20} tint="light" style={{
-                    marginHorizontal: '4%', marginVertical: 20, borderRadius: 16, borderWidth: 0.2, borderColor: themePalette.borderColor,
-                    overflow: 'hidden',alignItems:'center',justifyContent:'center',paddingVertical:20
+                    margin:scale(20), borderRadius: scale(16), borderWidth: 0.2, borderColor: themePalette.borderColor,
+                    overflow: 'hidden',alignItems:'center',justifyContent:'center',paddingVertical:scale(20)
                 }}>
                     <PieChart
-                        radius={100}
+                        radius={scale(100)}
                         focusOnPress
-                        textSize={10}
+                        textSize={font.size_12}
                         donut
-                        innerRadius={80}
+                        innerRadius={scale(80)}
                         innerCircleColor={themePalette.backgroundGradient2}
                         centerLabelComponent={() => {
                 return <CustomText color='black'>70%</CustomText>;

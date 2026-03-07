@@ -2,6 +2,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { CustomIcon } from "./CustomIcon";
 import { useTheme } from "../hooks/ThemeContextProvider";
 import { useRouter } from "expo-router";
+import { scale } from "../utils/scale";
 
 const tabs = [
   { name: "statistics", icon: "graph", type: "SimpleLineIcons" },
@@ -27,7 +28,7 @@ const FloatingTabMenu = () => {
             <CustomIcon
               type={route.type}
               name={route.icon}
-              size={24}
+              size={scale(24)}
               color={route.name === "add"?themePalette.primary:themePalette.tabIconDefault}
             />
           </TouchableOpacity>
@@ -42,29 +43,29 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingHorizontal: 25,
-    paddingVertical: 8,
+    paddingHorizontal: scale(25),
+    paddingVertical: scale(8),
     backgroundColor: "rgba(171, 219, 244, 0.7)",
     borderColor: "rgba(255, 255, 255, 0.25)",
     borderWidth: 1,
     shadowColor: "#021120",
-    shadowOffset: { width: 5, height: 4 },
+    shadowOffset: { width: scale(5), height: scale(4) },
     shadowOpacity: 1,
-    shadowRadius: 4,
+    shadowRadius: scale(4),
     elevation: 6,
-    borderRadius: 68,
-    width:219,
+    borderRadius: scale(68),
+    width:scale(219),
     position: "absolute",
-    bottom: 45,
-    left: 90,
-    right: 20,
+    bottom: scale(45),
+    left: scale(90),
+    right: scale(20),
   },
   tabButton: {
     justifyContent: "center",
     alignItems: "center",
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: scale(44),
+    height: scale(44),
+    borderRadius: scale(22),
     backgroundColor: "rgba(255, 255, 255, 0.97)",
   },
 });

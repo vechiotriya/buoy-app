@@ -6,13 +6,12 @@ import font from '@/src/constants/font'
 import nomenclature from '@/src/constants/nomenclature'
 import { loginTitleText } from '@/src/constants/styles'
 import { useTheme } from '@/src/hooks/ThemeContextProvider'
-import { StyleSheet} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const sign = () => {
   const { themePalette}= useTheme()
   return (
-    <SafeAreaView style={{flex:1}}>
+    <SafeAreaView style={{flex:1,backgroundColor:"pink"}} >
     <GradientBackground appTheme={themePalette} />
     <CustomText variant='bold' size={font.size_24} style={loginTitleText}>{nomenclature.LOGIN_TEXT}</CustomText>
     <TopTabNavigator menuHeaders={loginNavigationTabs}/>
@@ -21,8 +20,4 @@ const sign = () => {
 }
 
 export default sign
-export const options = {
-  headerShown: false,
-};
 
-const styles = StyleSheet.create({})

@@ -34,4 +34,5 @@ export default {
   DATE: "Date",
   NOTE: "Note",
   ADD: "Add",
+  OR_CONTINUE_WITH: "Or continue with",
 };
