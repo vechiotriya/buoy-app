@@ -35,7 +35,6 @@ export default TopTabNavigator
 const useStyles =(theme:AppTheme)=>StyleSheet.create({
     container: {
         flexDirection: 'row',
-        alignItems: 'center',
         backgroundColor:theme.background,
         justifyContent:'space-between',
         padding: scale(4),
@@ -43,10 +42,10 @@ const useStyles =(theme:AppTheme)=>StyleSheet.create({
         borderRadius:scale(16)
     },
     tabButton: {
-        borderRadius: 8,
+        borderRadius: scale(16),
         paddingHorizontal:scale(60),
         justifyContent:'center',
         alignItems:'center',
-        minHeight:55
+        minHeight:scale(55)
     },
 })

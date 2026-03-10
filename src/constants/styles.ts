@@ -1,16 +1,17 @@
 import { TextStyle } from "react-native";
 import { AppTheme } from "./Colors";
+import { scale } from "../utils/scale";
 
 export const primaryButtonStyle: Function = (theme: AppTheme) => ({
-    borderRadius: 8,
-    paddingHorizontal: '17%',
+    borderRadius: scale(8),
+    paddingHorizontal: scale(17),
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: 55,
+    minHeight: scale(55),
     backgroundColor: theme.primary,
-    width: '96%',
-    marginTop: '5%'
+    width: scale(358),
+    marginTop: scale(20)
 });
 export const loginTitleText:TextStyle = (
-    { textAlign: 'left', width: '55%', marginVertical: '11%', marginLeft: '7%', letterSpacing: 4 }
+    { textAlign: 'left', width: '55%', marginTop: scale(60),marginBottom:scale(40), marginLeft: '7%', letterSpacing: 4 }
 );

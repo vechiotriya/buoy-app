@@ -42,11 +42,11 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-    const isLoggedIn = false; // your auth state
+    const isLoggedIn = true; // your auth state
 
   return (
     <ThemeProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView>
         <Stack>
         <Stack.Protected guard={isLoggedIn}>
           <Stack.Screen name="(protected)" options={{ headerShown: false }} />

@@ -5,8 +5,10 @@ import { StyleSheet} from 'react-native'
 
 const useStyles = (theme:AppTheme) => StyleSheet.create({
     container:{
-        paddingLeft:scale(20),
-        paddingTop:scale(20)
+        paddingTop:scale(20),
+        flex:1,
+        flexDirection:'column',
+        alignItems:'center',
     },
     forgotText:{
     alignItems:'flex-end',
@@ -16,7 +18,7 @@ const useStyles = (theme:AppTheme) => StyleSheet.create({
         flexDirection:'row',
         columnGap:scale(12),
         justifyContent:'center',
-        marginTop:scale(50)
+        marginTop:scale(30)
     }
 })
 
