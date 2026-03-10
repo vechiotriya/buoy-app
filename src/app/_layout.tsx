@@ -47,7 +47,11 @@ function RootLayoutNav() {
   return (
     <ThemeProvider>
       <GestureHandlerRootView>
-        <Stack>
+        <Stack
+        screenOptions={{
+          animation: "slide_from_bottom",
+        }}
+        >
         <Stack.Protected guard={isLoggedIn}>
           <Stack.Screen name="(protected)" options={{ headerShown: false }} />
         </Stack.Protected>

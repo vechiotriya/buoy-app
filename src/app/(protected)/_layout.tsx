@@ -15,17 +15,18 @@ export default function TabLayout() {
         screenOptions={{
           headerShown: true,
           contentStyle: { backgroundColor: "transparent" },
-          header: (props) => (
-            props.route.name === "index" ? null :
-            <NavigationHeader {...props} title={props.route.name} />
-          ),
+          animation: "slide_from_right",
+          header: (props) =>
+            props.route.name === "index" ? null : (
+              <NavigationHeader {...props} title={props.route.name} />
+            ),
         }}
       >
         <Stack.Screen name="index" />
         <Stack.Screen name="statistics" />
         <Stack.Screen name="budget" />
         <Stack.Screen name="settings" />
-        <Stack.Screen name="profile"/>
+        <Stack.Screen name="profile" />
         <Stack.Screen name="transactions" />
       </Stack>
       <FloatingTabMenu />
