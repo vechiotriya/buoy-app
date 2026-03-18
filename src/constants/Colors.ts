@@ -23,7 +23,9 @@ export interface AppTheme {
   tint: string;
   tabIconDefault: string;
   tabIconSelected: string;
+  speedometerColor: string;
   donutChartColors: string[];
+  categoryColors: string[];
 }
 
 export const lightTheme: AppTheme = {
@@ -48,6 +50,7 @@ export const lightTheme: AppTheme = {
   tint: tintColorLight,
   tabIconDefault: "#949494",
   tabIconSelected: tintColorLight,
+  speedometerColor: "#177AD5",
   donutChartColors: [
     "#1E85B7",
     "#98DBEA",
@@ -60,6 +63,9 @@ export const lightTheme: AppTheme = {
     "#FF9B4C",
     "#FFC46B",
   ],
+  categoryColors:['#E57373', '#64B5F6', '#81C784', '#FFD54F',
+  '#BA68C8', '#4DB6AC', '#FF8A65', '#90A4AE',
+  '#F06292', '#4FC3F7', '#AED581', '#FFB74D',]
 };
 
 export const darkTheme: AppTheme = {
@@ -75,7 +81,7 @@ export const darkTheme: AppTheme = {
   positive: "#11B375",
   negative: "#FF6464",
   inputText: "#E5E7EB",
-  inputText2: "#9CA3AF",
+  inputText2: "#6B7280",
   errorText: "#FF6B6B",
   keypadButton: "#2C2C2C",
   shadowColor: "#000000",
@@ -84,6 +90,7 @@ export const darkTheme: AppTheme = {
   tint: tintColorDark,
   tabIconDefault: "#949494",
   tabIconSelected: tintColorDark,
+  speedometerColor: "#177AD5",
   donutChartColors: [
     "#1E85B7",
     "#98DBEA",
@@ -96,4 +103,8 @@ export const darkTheme: AppTheme = {
     "#FF9B4C",
     "#FFC46B",
   ],
+  categoryColors:['#E57373', '#64B5F6', '#81C784', '#FFD54F',
+  '#BA68C8', '#4DB6AC', '#FF8A65', '#90A4AE',
+  '#F06292', '#4FC3F7', '#AED581', '#FFB74D',]
 };
+

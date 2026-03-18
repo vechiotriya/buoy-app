@@ -13,7 +13,7 @@ const TopTabNavigator = ({menuHeaders}:{menuHeaders: NavigationTabs}) => {
     const SelectedComponent = menuHeaders.find((elem) => elem.tabHeading === currentTab)?.component;
 
     return (
-        <View>
+        <View style={{flex:1}}>
             <View style={styles.container}>
                 {menuHeaders.map((elem) => (
                     <TouchableOpacity
@@ -37,15 +37,16 @@ const useStyles =(theme:AppTheme)=>StyleSheet.create({
         flexDirection: 'row',
         backgroundColor:theme.background,
         justifyContent:'space-between',
-        padding: scale(4),
+        padding: scale(5),
         marginHorizontal:scale(15),
-        borderRadius:scale(16)
+        marginTop:scale(2),
+        borderRadius:scale(16),
     },
     tabButton: {
         borderRadius: scale(16),
         paddingHorizontal:scale(60),
         justifyContent:'center',
         alignItems:'center',
-        minHeight:scale(55)
+        minHeight:scale(55),
     },
 })

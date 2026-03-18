@@ -1,6 +1,7 @@
 import { normalize } from "../utils/scale";
 
 export default {
+    size_10: normalize(10),
     size_12: normalize(12),
     size_14: normalize(14),
     size_18: normalize(18),

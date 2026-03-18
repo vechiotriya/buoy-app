@@ -9,6 +9,7 @@ import { TransactionType } from '../constants/constant'
 import font from '../constants/font'
 import nomenclature from '../constants/nomenclature'
 import { scale } from '../utils/scale'
+import { useRouter } from 'expo-router'
 
 interface TransactionListProps {
     title?: string;
@@ -57,13 +58,15 @@ export const RecentTransactions = ({title,seeAll}:TransactionListProps) => {
         { id: 34, title: 'Transaction 3', amount: '300', category: 'Shopping', iconName: 'shopping', type: 'Expense' },
         { id: 4, title: 'Transaction 4', amount: '400', category: 'Entertainment', iconName: 'movie', type: 'Expense' },
     ];
+    const route=useRouter();
     return (
-        <View style={{ marginHorizontal: scale(24), rowGap: scale(24) }}>
+        <View style={{ marginHorizontal: scale(24), rowGap: scale(24),paddingBottom: scale(24) }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <CustomText size={font.size_18} variant='bold' >
                     {title || nomenclature.RECENT_TRANSACTIONS}
                 </CustomText>
-            {seeAll && <TouchableOpacity onPress={() => console.log('See All Pressed')}>
+            {seeAll && <TouchableOpacity onPress={() => route.push('/(protected)/transactions')
+            }>
                     <CustomText size={font.size_14} variant='regular'>
                         {nomenclature.SEE_ALL}
                     </CustomText>

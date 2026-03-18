@@ -8,6 +8,7 @@ import {
 } from "../features/home/types/types";
 import YearlyStats from "../features/statistics/YearlyStats";
 import { NavigationTabs } from "../types/TabNavigatorTypes";
+import WeeklyStats from "../features/statistics/WeeklyStats";
 
 export const mascotImage = require("@/assets/images/mascot.png");
 export const dashboardTabs: Array<DashboardTabTypes> = [
@@ -45,7 +46,7 @@ export const loginNavigationTabs: NavigationTabs = [
 export const statsNavigationTabs: NavigationTabs = [
   {
     tabHeading: "Weekly",
-    component: SignIn,
+    component: WeeklyStats,
   },
   {
     tabHeading: "Yearly",
