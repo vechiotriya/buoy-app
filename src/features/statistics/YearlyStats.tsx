@@ -8,9 +8,9 @@ import font from '@/src/constants/font'
 import { CustomIcon } from '@/src/components/CustomIcon'
 import { BlurView } from 'expo-blur'
 import { BarChart, PieChart } from 'react-native-gifted-charts'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { pickColor } from '@/src/hooks/common'
 import { scale } from '@/src/utils/scale'
+import { RecentTransactions } from '@/src/components/RecentTransactions'
 
 const YearlyStats = () => {
     const { themePalette } = useTheme()
@@ -35,17 +35,16 @@ const YearlyStats = () => {
         { value: 20, color: pickColor(themePalette), text: '26%' },
     ];
     return (
-        <SafeAreaView>
             <ScrollView style={{
             paddingHorizontal: scale(2),
-            paddingTop: scale(2),
+            paddingTop: scale(24),
         }}>
                 <View style={style.overviewCard}>
                     <CustomText size={font.size_14} color={themePalette.secondaryTextLight}>{nomenclature.TOTAL_SPENDING}</CustomText>
                     <CustomText variant='bold' size={font.size_24} color={themePalette.secondaryTextLight}>{'₹2,486.00'}</CustomText>
                     <View style={{ flexDirection: 'row' }}>
-                        <CustomIcon name='arrow-up' type='AntDesign' size={scale(17)} color={themePalette.secondaryTextLight} />
-                        <CustomText size={font.size_14} color={themePalette.secondaryTextLight}>{'16% ' + nomenclature.FROM_LAST_MONTH}</CustomText>
+                        <CustomIcon name='arrow-down-right' type='Feather' size={scale(19)} color={themePalette.negative} />
+                        <CustomText size={font.size_14} color={themePalette.secondaryTextLight}>{'16% ' + nomenclature.LESS_THAN_LAST_MONTH}</CustomText>
                     </View>
                 </View>
                 <BlurView intensity={20} tint="light" style={{
@@ -90,8 +89,8 @@ const YearlyStats = () => {
                         data={pieData}
                     />
                 </BlurView>
+                <RecentTransactions title={nomenclature.TRANSACTIONS}/>
             </ScrollView>
-        </SafeAreaView>
     )
 }
 

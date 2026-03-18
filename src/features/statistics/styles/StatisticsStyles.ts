@@ -1,16 +1,16 @@
 import { AppTheme } from "@/src/constants/Colors";
+import { scale } from "@/src/utils/scale";
 import { StyleSheet } from "react-native";
 
 export const useStyle = (theme: AppTheme) => StyleSheet.create({
     overviewCard:{
-        borderRadius:16,
-        height:132,
-        paddingLeft:24,
-        marginLeft:'5%',
-        paddingTop:24,
-        width:'91%',
+        borderRadius:scale(16),
+        paddingHorizontal:scale(24),
+        marginLeft:scale(20),
+        paddingVertical:scale(24),
+        width:scale(360),
         backgroundColor:theme.primaryCard,
         color:theme.secondaryText,
-        marginBottom:22
+        marginBottom:scale(22)
     }
     })
