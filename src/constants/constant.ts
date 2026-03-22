@@ -9,6 +9,8 @@ import {
 import YearlyStats from "../features/statistics/YearlyStats";
 import { NavigationTabs } from "../types/TabNavigatorTypes";
 import WeeklyStats from "../features/statistics/WeeklyStats";
+import SetCategoryBudget from "../features/budget/SetCategoryBudget";
+import SetOverallBudget from "../features/budget/SetOverallBudget";
 
 export const mascotImage = require("@/assets/images/mascot.png");
 export const dashboardTabs: Array<DashboardTabTypes> = [
@@ -22,7 +24,7 @@ export const dashboardTabs: Array<DashboardTabTypes> = [
     name: "Receipt",
     icon: "receipt",
     type: "MaterialIcons",
-    path: "/(protected)/receipt",
+    path: "/(protected)/set-budget",
   },
   {
     name: "Budget",
@@ -53,6 +55,16 @@ export const statsNavigationTabs: NavigationTabs = [
     component: YearlyStats,
   },
 ];
+export const setBudgetNavigationTabs: NavigationTabs = [
+  {
+    tabHeading: "Category",
+    component: SetCategoryBudget,
+  },
+  {
+    tabHeading: "Overall",
+    component: SetOverallBudget,
+  },
+];
 
 export type TransactionType = {
   id: number;
@@ -75,3 +87,5 @@ export const sideButtons: KeypadIconButton[] = [
   { icon: "calendar-month", color: "#98BCFF" },
   { icon: "check", color: "#4393BA" },
 ];
+
+export const quickInputs: number[] = [500, 1000, 5000];

@@ -3,7 +3,7 @@ import { AppTheme } from "./Colors";
 import { scale } from "../utils/scale";
 
 export const primaryButtonStyle: Function = (theme: AppTheme) => ({
-    borderRadius: scale(8),
+    borderRadius: scale(12),
     paddingHorizontal: scale(17),
     justifyContent: 'center',
     alignItems: 'center',

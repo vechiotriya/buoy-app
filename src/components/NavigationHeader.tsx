@@ -28,7 +28,7 @@ const NavigationHeader = ({title, navigation}: NavigationHeaderProps) => {
       <CustomText
       size={font.size_24}
       variant='bold'
-      >{title.charAt(0).toUpperCase() + title.slice(1)}</CustomText>
+      >{title.charAt(0).toUpperCase() + title.slice(1).replace('-', ' ')}</CustomText>
       </TouchableOpacity>
     </View>
   )

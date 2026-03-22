@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, StyleSheetProperties, Text, View, ViewStyle } from "react-native";
 import { useRef } from "react";
 import { scale } from "../utils/scale";
 import { useTheme } from "../hooks/ThemeContextProvider";
@@ -11,8 +11,9 @@ interface SelectProps {
   values: string[];
   label: string;
   onSelect: (selectedItem: string, index: number) => void;
+  style: ViewStyle;
 }
-const Select: React.FC<SelectProps> = ({ label, values, onSelect }) => {
+const Select: React.FC<SelectProps> = ({ label, values, onSelect,style }) => {
   const { themePalette } = useTheme();
   const selectRef = useRef<SelectDropdown | null>(null);
   return (
@@ -28,22 +29,20 @@ const Select: React.FC<SelectProps> = ({ label, values, onSelect }) => {
       renderButton={(selectedItem, isOpened) => {
         return (
           <View
-            style={{
+            style={[{
               flexDirection: "row",
               alignItems: "center",
+              justifyContent: "space-between",
               gap: scale(10),
               backgroundColor: themePalette.background,
               paddingHorizontal: scale(14),
               paddingVertical: scale(7),
               borderRadius: scale(8),
-            }}
+            },style]}
           >
             <CustomText
               size={font.size_12}
-              color={
-                selectedItem
-                  ? themePalette.secondaryText
-                  : themePalette.inputText2
+              color={ themePalette.inputText2
               }
             >
               {selectedItem || label}
