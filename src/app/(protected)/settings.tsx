@@ -3,6 +3,7 @@ import CustomText from "@/src/components/CustomText";
 import font from "@/src/constants/font";
 import nomenclature from "@/src/constants/nomenclature";
 import { primaryButtonStyle } from "@/src/constants/styles";
+import { useGetUserDetailsQuery } from "@/src/features/home/slices/api/userApi";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { loggedOut } from "@/src/store/slices/authSlice";
 import { scale } from "@/src/utils/scale";
@@ -19,6 +20,7 @@ export default function Settings() {
   const buttonStyle = primaryButtonStyle(themePalette);
   const route = useRouter();
   const dispatch = useDispatch();
+  const { data } = useGetUserDetailsQuery({});
 
   return (
     <View style={styles.container}>
@@ -38,10 +40,8 @@ export default function Settings() {
             ></Image>
 
             <View>
-              <CustomText variant="bold">
-                Alex Martin
-              </CustomText>
-              <CustomText style={styles.username}>@martin95</CustomText>
+              <CustomText variant="bold">{data.fullName}</CustomText>
+              <CustomText style={styles.username}>{'@'+data.username}</CustomText>
             </View>
           </View>
           <CustomIcon
@@ -198,7 +198,10 @@ export default function Settings() {
 
       {/* Logout */}
       <TouchableOpacity
-        style={[buttonStyle, { flexDirection: "row", gap: scale(8), width: scale(360) }]}
+        style={[
+          buttonStyle,
+          { flexDirection: "row", gap: scale(8), width: scale(360) },
+        ]}
         onPress={() => dispatch(loggedOut())}
       >
         <CustomIcon
@@ -282,8 +285,6 @@ const styles = StyleSheet.create({
     borderRadius: scale(25),
     backgroundColor: "#ddd",
   },
-
-
 
   username: {
     color: "#e0e0e0",

@@ -1,9 +1,7 @@
 import {
   Image,
   StyleSheet,
-  TouchableHighlight,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import React from "react";
@@ -15,10 +13,13 @@ import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import nomenclature from "@/src/constants/nomenclature";
 import { scale } from "@/src/utils/scale";
+import { useGetUserDetailsQuery } from "@/src/features/home/slices/api/userApi";
 
 const Profile = () => {
   const { themePalette } = useTheme();
   const buttonStyle = primaryButtonStyle(themePalette);
+  const { data, isLoading } = useGetUserDetailsQuery({});
+  
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.profileImageContainer}>
@@ -55,7 +56,7 @@ const Profile = () => {
         <View style={styles.row}>
           <CustomText size={font.size_14}>{nomenclature.FULLNAME}</CustomText>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <CustomText size={font.size_14}>Alex Martin</CustomText>
+            <CustomText size={font.size_14}>{data?.fullName}</CustomText>
             <TouchableOpacity>
               <CustomIcon
                 name="pencil"
@@ -71,32 +72,14 @@ const Profile = () => {
         <View style={styles.row}>
           <CustomText size={font.size_14}>{nomenclature.EMAIL}</CustomText>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <CustomText size={font.size_14}>amartin@gmail.com</CustomText>
-            <TouchableOpacity>
-              <CustomIcon
-                name="pencil"
-                type="Entypo"
-                size={scale(20)}
-                color="#fff"
-                iconStyle={{ marginLeft: scale(8), marginBottom: scale(6) }}
-              />
-            </TouchableOpacity>
+            <CustomText size={font.size_14}>{data?.email}</CustomText>
           </View>
         </View>
         <View style={styles.divider} />
         <View style={styles.row}>
           <CustomText size={font.size_14}>{nomenclature.USERNAME}</CustomText>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <CustomText size={font.size_14}>@martin95</CustomText>
-            <TouchableOpacity>
-              <CustomIcon
-                name="pencil"
-                type="Entypo"
-                size={scale(20)}
-                color="#fff"
-                iconStyle={{ marginLeft: scale(8), marginBottom: scale(6) }}
-              />
-            </TouchableOpacity>
+            <CustomText size={font.size_14}>{data?.username}</CustomText>
           </View>
         </View>
       </BlurView>

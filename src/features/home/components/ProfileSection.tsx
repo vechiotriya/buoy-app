@@ -6,14 +6,16 @@ import font from '@/src/constants/font'
 import nomenclature from '@/src/constants/nomenclature'
 import { AppTheme } from '@/src/constants/Colors'
 import { scale } from '@/src/utils/scale'
+import { useGetUserDetailsQuery } from '../slices/api/userApi'
 
 const ProfileSection = () => {
     const {themePalette}=useTheme()
     const styles=useStyles(themePalette)
+    const {data}=useGetUserDetailsQuery({})
   return (
     <View style={styles.profileContainer}>
         <View style={{}}>
-            <CustomText variant='bold' size={font.size_24}>Hello, Ritul</CustomText>
+            <CustomText variant='bold' size={font.size_24}>{'Hello, '+data?.fullName.split(' ')[0]}</CustomText>
             <CustomText size={font.size_14}>{nomenclature.BEGIN_TEXT}</CustomText>
         </View>
         <Image source={{uri:'https://content.latest-hairstyles.com/wp-content/uploads/long-wavy-pixie-cut-with-curls.jpg',width:70,height:70}} style={styles.profileImage}></Image>
