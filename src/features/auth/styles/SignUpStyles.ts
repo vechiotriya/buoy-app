@@ -7,9 +7,7 @@ const useStyles = (theme:AppTheme) => StyleSheet.create({
     container:{
         paddingTop:scale(20),
         flex:1,
-        flexDirection:'column',
         alignItems:'center',
-        paddingBottom:scale(50)
     },
    
 })

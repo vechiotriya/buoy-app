@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { ThemeProvider } from '@/src/hooks/ThemeContextProvider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Provider, useSelector } from 'react-redux';
+import { store } from '../store/store';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -38,13 +40,14 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return ( <Provider store={store}><RootLayoutNav /></Provider> );
 }
 
 function RootLayoutNav() {
-    const isLoggedIn = true; // your auth state
-
+    const isLoggedIn = useSelector((state: any) => state.auth.isAuthenticated);
+    console.log('User is logged in:', isLoggedIn);
   return (
+
     <ThemeProvider>
       <GestureHandlerRootView>
         <Stack

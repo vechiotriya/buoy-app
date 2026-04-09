@@ -4,6 +4,7 @@ import font from "@/src/constants/font";
 import nomenclature from "@/src/constants/nomenclature";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
+import { loggedOut } from "@/src/store/slices/authSlice";
 import { scale } from "@/src/utils/scale";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
@@ -11,11 +12,13 @@ import { Image, Switch, TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 
 import { Text, View } from "react-native";
+import { useDispatch } from "react-redux";
 
 export default function Settings() {
   const { themePalette } = useTheme();
   const buttonStyle = primaryButtonStyle(themePalette);
   const route = useRouter();
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -196,6 +199,7 @@ export default function Settings() {
       {/* Logout */}
       <TouchableOpacity
         style={[buttonStyle, { flexDirection: "row", gap: scale(8), width: scale(360) }]}
+        onPress={() => dispatch(loggedOut())}
       >
         <CustomIcon
           type="Ionicons"
