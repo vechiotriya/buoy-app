@@ -40,8 +40,8 @@ export default function Settings() {
             ></Image>
 
             <View>
-              <CustomText variant="bold">{data.fullName}</CustomText>
-              <CustomText style={styles.username}>{'@'+data.username}</CustomText>
+              <CustomText variant="bold">{data?.fullName}</CustomText>
+              <CustomText style={styles.username}>{'@'+data?.username||" "}</CustomText>
             </View>
           </View>
           <CustomIcon

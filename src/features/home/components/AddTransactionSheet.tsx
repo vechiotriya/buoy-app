@@ -22,6 +22,7 @@ import { BlurView } from "expo-blur";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import nomenclature from "@/src/constants/nomenclature";
 import { scale } from "@/src/utils/scale";
+import { useAddTransactionMutation } from "@/src/services/transactionApi";
 
 interface AddTransactionSheetProps {
   type: "expense" | "income";
@@ -49,10 +50,11 @@ const AddTransactionSheet = ({
     "Miscellaneous",
     "Add new category",
   ]);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(null);
   const [newCategory, setNewCategory] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const buttonStyle = primaryButtonStyle(themePalette);
+  const [addTransaction, { isSuccess }] = useAddTransactionMutation();
 
   const backspace = () => {
     setAmount((prev) => prev?.slice(0, prev.length - 1));
@@ -70,8 +72,31 @@ const AddTransactionSheet = ({
   const clear = () => {
     setAmount("0");
   };
-  const submit = () => {
-    closeSheet();
+  const submit = async() => {
+    const dateString=new Date(date).toISOString().slice(0,10)
+    console.log({
+      amount: parseFloat(amount ?? "0"),
+      transactionType:type.slice(0, 1).toUpperCase() + type.slice(1),
+      category:category??null,
+      purpose:comment??null,
+      transactionSource:null,
+      transactionDate:dateString,
+    });
+    
+    addTransaction({
+      amount: parseFloat(amount ?? "0"),
+      transactionType:type.slice(0, 1).toUpperCase() + type.slice(1),
+      category,
+      purpose:comment,
+      transactionSource:null,
+      transactionDate:dateString,
+    }).unwrap().then((res) => {
+      console.log(res);
+      closeSheet();
+    }).catch((err) => {
+      console.log(err);
+    })
+    return;
   };
   const keypadAction = (operation: string) => {
     if (operation == "backspace") return backspace();

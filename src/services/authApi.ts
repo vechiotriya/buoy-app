@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://192.168.209.252:8080/auth",
+    baseUrl: process.env.EXPO_PUBLIC_BASE_URL + "/auth",
     prepareHeaders:(headers)=>{
         headers.set('Content-Type', 'application/json');
         return headers;

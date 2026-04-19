@@ -20,7 +20,7 @@ const SignIn = () => {
     username: "",
     password: "",
   });
-  const [signIn, { isLoading }] = authApi.useSignInMutation();
+  const [signIn, { isLoading ,error:signInError}] = authApi.useSignInMutation();
   const dispatch = useDispatch();
   const handleSignIn = async () => {
     try {
@@ -42,7 +42,7 @@ const SignIn = () => {
         }),
       );
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Login error:", error,signInError);
       if (Platform.OS === "ios") Alert.prompt("Login error");
       else Alert.alert("Login error");
     }
