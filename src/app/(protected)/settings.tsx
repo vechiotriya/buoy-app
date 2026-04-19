@@ -3,7 +3,7 @@ import CustomText from "@/src/components/CustomText";
 import font from "@/src/constants/font";
 import nomenclature from "@/src/constants/nomenclature";
 import { primaryButtonStyle } from "@/src/constants/styles";
-import { useGetUserDetailsQuery } from "@/src/features/home/slices/api/userApi";
+import { useGetUserDetailsQuery } from "@/src/services/userApi";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { loggedOut } from "@/src/store/slices/authSlice";
 import { scale } from "@/src/utils/scale";

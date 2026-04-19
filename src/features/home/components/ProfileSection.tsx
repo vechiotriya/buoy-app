@@ -6,7 +6,7 @@ import font from '@/src/constants/font'
 import nomenclature from '@/src/constants/nomenclature'
 import { AppTheme } from '@/src/constants/Colors'
 import { scale } from '@/src/utils/scale'
-import { useGetUserDetailsQuery } from '../slices/api/userApi'
+import { useGetUserDetailsQuery } from '../../../services/userApi'
 
 const ProfileSection = () => {
     const {themePalette}=useTheme()

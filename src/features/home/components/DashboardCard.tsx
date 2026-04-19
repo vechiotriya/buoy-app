@@ -7,7 +7,7 @@ import { CustomIcon } from "@/src/components/CustomIcon";
 import { mascotImage } from "@/src/constants/constant";
 import nomenclature from "@/src/constants/nomenclature";
 import font from "@/src/constants/font";
-import { useGetUserDetailsQuery } from "../slices/api/userApi";
+import { useGetUserDetailsQuery } from "../../../services/userApi";
 
 const DashboardCard = () => {
   const { themePalette } = useTheme();

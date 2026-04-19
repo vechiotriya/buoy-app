@@ -13,7 +13,7 @@ import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import nomenclature from "@/src/constants/nomenclature";
 import { scale } from "@/src/utils/scale";
-import { useGetUserDetailsQuery } from "@/src/features/home/slices/api/userApi";
+import { useGetUserDetailsQuery } from "@/src/services/userApi";
 
 const Profile = () => {
   const { themePalette } = useTheme();
