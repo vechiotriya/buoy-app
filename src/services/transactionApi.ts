@@ -18,7 +18,7 @@ export const transactionApi = createApi({
 endpoints:(builder) => ({
     getAllTransactions:builder.query({
         query:() => ({
-            url:'/',
+            url:'',
             method:'GET',
         }),
     }),
@@ -29,7 +29,13 @@ endpoints:(builder) => ({
             body:transaction,
         }),
     }),
+    getMonthTotalStatistics:builder.query({
+        query:(date:string) => ({
+            url:`/month/${date}/total`,
+            method:'GET',
+        }),
+    }),
 }),
 })
 
-export const {useGetAllTransactionsQuery,useAddTransactionMutation} = transactionApi
+export const {useGetAllTransactionsQuery,useAddTransactionMutation,useGetMonthTotalStatisticsQuery} = transactionApi

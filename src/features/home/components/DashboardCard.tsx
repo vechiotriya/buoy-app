@@ -8,11 +8,15 @@ import { mascotImage } from "@/src/constants/constant";
 import nomenclature from "@/src/constants/nomenclature";
 import font from "@/src/constants/font";
 import { useGetUserDetailsQuery } from "../../../services/userApi";
+import { createDateString } from "@/src/utils/misc";
+import { useGetMonthTotalStatisticsQuery } from "@/src/services/transactionApi";
 
 const DashboardCard = () => {
   const { themePalette } = useTheme();
   const styles = useStyle(themePalette);
-  const { data } = useGetUserDetailsQuery({});
+  const date = createDateString(new Date());
+  const { data, isLoading, isError } = useGetMonthTotalStatisticsQuery(date);
+console.log(data);
 
   return (
     <View style={styles.cardContainer}>
@@ -58,7 +62,7 @@ const DashboardCard = () => {
             color={themePalette.secondaryText}
             style={{ alignSelf: "center" }}
           >
-            {nomenclature.RUPEE_SIGN + " " + 5000}
+            {nomenclature.RUPEE_SIGN + " " + (data?.totalIncome ?? 0)}
           </CustomText>
         </View>
         <View style={{ justifyContent: "center" }}>
@@ -82,7 +86,7 @@ const DashboardCard = () => {
             color={themePalette.secondaryText}
             style={{ alignSelf: "center" }}
           >
-            {nomenclature.RUPEE_SIGN + " " + 5000}
+            {nomenclature.RUPEE_SIGN + " " + (data?.totalExpense ?? 0)}
           </CustomText>
         </View>
       </View>
