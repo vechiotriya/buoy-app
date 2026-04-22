@@ -50,15 +50,6 @@ const TransactionItem = ({ item }: { item: TransactionType }) => {
 }
 const Transaction = React.memo(TransactionItem);
 export const RecentTransactions = ({title,seeAll}:TransactionListProps) => {
-    const transactions = [
-        { id: 1, title: 'Transaction 1', amount: '100', category: 'Food', iconName: 'food', type: 'Expense' },
-        { id: 2, title: 'Transaction 2', amount: '200', category: 'Transport', iconName: 'airplane', type: 'Expense' },
-        { id: 3, title: 'Transaction 3', amount: '300', category: 'Shopping', iconName: 'shopping', type: 'Expense' },
-        { id: 15, title: 'Transaction 1', amount: '100', category: 'Food', iconName: 'food', type: 'Expense' },
-        { id: 24, title: 'Transaction 2', amount: '200', category: 'Transport', iconName: 'airplane', type: 'Income' },
-        { id: 34, title: 'Transaction 3', amount: '300', category: 'Shopping', iconName: 'shopping', type: 'Expense' },
-        { id: 4, title: 'Transaction 4', amount: '400', category: 'Entertainment', iconName: 'movie', type: 'Expense' },
-    ];
     const {data,isLoading,error} = useGetAllTransactionsQuery({});    
     const route=useRouter();
     return (
