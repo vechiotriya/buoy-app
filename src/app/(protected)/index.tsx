@@ -39,17 +39,6 @@ export default function Home() {
         <SpendAnalysis />
         <RecentTransactions seeAll />
       </ScrollView>
-      {/* <BottomSheet
-        ref={bottomSheetRef}
-        style={{ flex: 1, backgroundColor: "white" }}
-      >
-        <AddTransactionSheet
-          type="income"
-          closeSheet={() => {
-            bottomSheetRef.current?.close();
-          }}
-        />
-      </BottomSheet> */}
     </SafeAreaView>
   );
 }

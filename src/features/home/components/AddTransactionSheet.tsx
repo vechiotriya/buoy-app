@@ -12,7 +12,6 @@ import { BottomSheetView } from "@gorhom/bottom-sheet";
 import CustomText from "@/src/components/CustomText";
 import font from "@/src/constants/font";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
-import { Picker } from "@react-native-picker/picker";
 import { keypadLayout, sideButtons } from "@/src/constants/constant";
 import KeypadButton from "./KeypadButton";
 import DatePicker, { SingleOutput } from "react-native-neat-date-picker";
@@ -23,6 +22,8 @@ import { primaryButtonStyle } from "@/src/constants/styles";
 import nomenclature from "@/src/constants/nomenclature";
 import { scale } from "@/src/utils/scale";
 import { useAddTransactionMutation } from "@/src/services/transactionApi";
+import { createDateString } from "@/src/utils/misc";
+import Select from "@/src/components/Select";
 
 interface AddTransactionSheetProps {
   type: "expense" | "income";
@@ -50,8 +51,8 @@ const AddTransactionSheet = ({
     "Miscellaneous",
     "Add new category",
   ]);
-  const [category, setCategory] = useState(null);
-  const [newCategory, setNewCategory] = useState("");
+  const [category, setCategory] = useState<string>("");
+  const [newCategory, setNewCategory] = useState<string>("");
   const [showAddModal, setShowAddModal] = useState(false);
   const buttonStyle = primaryButtonStyle(themePalette);
   const [addTransaction, { isSuccess }] = useAddTransactionMutation();
@@ -72,30 +73,33 @@ const AddTransactionSheet = ({
   const clear = () => {
     setAmount("0");
   };
-  const submit = async() => {
-    const dateString=new Date(date).toISOString().slice(0,10)
+  const submit = async () => {
+    const dateString = createDateString(new Date(date));
     console.log({
       amount: parseFloat(amount ?? "0"),
-      transactionType:type.slice(0, 1).toUpperCase() + type.slice(1),
-      category:category??null,
-      purpose:comment??null,
-      transactionSource:null,
-      transactionDate:dateString,
+      transactionType: type.slice(0, 1).toUpperCase() + type.slice(1),
+      category: category ?? null,
+      purpose: comment ?? null,
+      transactionSource: null,
+      transactionDate: dateString,
     });
-    
+
     addTransaction({
       amount: parseFloat(amount ?? "0"),
-      transactionType:type.slice(0, 1).toUpperCase() + type.slice(1),
+      transactionType: type.slice(0, 1).toUpperCase() + type.slice(1),
       category,
-      purpose:comment,
-      transactionSource:null,
-      transactionDate:dateString,
-    }).unwrap().then((res) => {
-      console.log(res);
-      closeSheet();
-    }).catch((err) => {
-      console.log(err);
+      purpose: comment,
+      transactionSource: null,
+      transactionDate: dateString,
     })
+      .unwrap()
+      .then((res) => {
+        console.log(res);
+        closeSheet();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     return;
   };
   const keypadAction = (operation: string) => {
@@ -105,58 +109,44 @@ const AddTransactionSheet = ({
     if (operation == "check") return submit();
   };
   return (
-    <BottomSheetView style={{ paddingHorizontal: scale(16), paddingBottom: scale(124) }}>
+    <BottomSheetView
+      style={{ paddingHorizontal: scale(16), paddingBottom: scale(124) }}
+    >
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <CustomText
           variant="bold"
           color={themePalette.inputText}
           size={font.size_14}
         >{`Date: ${date.toDateString().split(" ").slice(1).join(" ")}`}</CustomText>
-     {type==="expense" &&   <View
-          style={{
-            backgroundColor: themePalette.secondary,
-            width: scale(170),
-            height: scale(36),
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "row",
-            borderRadius: scale(23),
-            paddingLeft: scale(12),
-          }}
-        >
-          <CustomIcon
-            name={"shapes"}
-            color={themePalette.text}
-            size={scale(16)}
-            type="FontAwesome6"
-          />
-          <Picker
-            mode="dropdown"
-            selectedValue={category}
-            onValueChange={(itemValue, itemIndex) => {
-              if (itemValue === "add-new-category") {
-                setShowAddModal(true);
-              } else {
-                setCategory(itemValue);
-              }
-            }}
+        {type === "expense" && (
+          <View
             style={{
-              fontFamily: "poppins-bold",
-              color: themePalette.text,
-              flex: 1,
+              backgroundColor: themePalette.secondary,
+              width: scale(190),
+              height: scale(36),
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
+              borderRadius: scale(23),
+              paddingLeft: scale(9),
             }}
-            dropdownIconColor={themePalette.text}
-            dropdownIconRippleColor={themePalette.text}
           >
-            {categories.map((cat) => (
-              <Picker.Item
-                key={cat}
-                label={cat}
-                value={cat.toLowerCase().replace(/\s+/g, "-")}
-              />
-            ))}
-          </Picker>
-        </View>}
+            <CustomIcon
+              name={"shapes"}
+              color={themePalette.text}
+              size={scale(16)}
+              type="FontAwesome6"
+            />
+            <Select label="Select Category"  onSelect={
+              (itemValue, itemIndex) => {
+                if (itemValue === "add-new-category") {
+                  setShowAddModal(true);
+                } else {
+                  setCategory(itemValue);
+                }
+            }} values={categories} textStyle={{color:themePalette.text}} style={{backgroundColor:"transparent"}}></Select>
+          </View>
+        )}
       </View>
       <View
         style={{
@@ -314,7 +304,7 @@ const AddTransactionSheet = ({
         <View
           style={{
             rowGap: scale(4),
-            height:scale(363),
+            height: scale(363),
           }}
         >
           {sideButtons.map((button) => {

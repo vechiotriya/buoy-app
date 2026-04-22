@@ -68,11 +68,10 @@ export const setBudgetNavigationTabs: NavigationTabs = [
 
 export type TransactionType = {
   id: number;
-  title: string;
+  purpose: string;
   amount: number;
   category: string;
-  iconName: string;
-  type: "Income" | "Expense";
+  transactionType: "Income" | "Expense";
 };
 
 export const keypadLayout: KeypadItem[][] = [

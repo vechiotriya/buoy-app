@@ -9,15 +9,21 @@ const tabs = [
   { name: "add", icon: "add-outline", type: "Ionicons" },
   { name: "settings", icon: "settings-outline", type: "Ionicons" },
 ];
-const FloatingTabMenu = () => {
+interface FloatingTabMenuProps {
+
+  setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const FloatingTabMenu = ({ setShowMenu }: FloatingTabMenuProps) => {
   const { themePalette } = useTheme();
   const navigate = useRouter();
-
   return (
     <View style={styles.container}>
       {tabs.map((route: any, index: number) => {
         const onPress = () => {
+          if (route.name !== "add") 
           navigate.push(route.name);
+          else
+            setShowMenu((prev)=>!prev);
         };
         return (
           <TouchableOpacity
