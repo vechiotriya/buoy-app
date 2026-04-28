@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import { BottomSheetView } from "@gorhom/bottom-sheet";
+import React, { RefObject, useState } from "react";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import CustomText from "@/src/components/CustomText";
 import font from "@/src/constants/font";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
@@ -21,22 +21,23 @@ import { BlurView } from "expo-blur";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import nomenclature from "@/src/constants/nomenclature";
 import { scale } from "@/src/utils/scale";
-import { useAddTransactionMutation } from "@/src/services/transactionApi";
+import { useAddTransactionMutation, useGetAllTransactionsQuery } from "@/src/services/transactionApi";
 import { createDateString } from "@/src/utils/misc";
 import Select from "@/src/components/Select";
+import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
 interface AddTransactionSheetProps {
   type: "expense" | "income";
-  closeSheet: Function;
+  ref:RefObject<BottomSheetMethods | null>;
 }
 
 const AddTransactionSheet = ({
   type,
-  closeSheet,
+  ref
 }: AddTransactionSheetProps) => {
   const [amount, setAmount] = useState<string>();
   const [comment, setComment] = useState<string>();
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<string>(createDateString(new Date()));
   const { themePalette } = useTheme();
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [categories, setCategories] = useState([
@@ -51,7 +52,7 @@ const AddTransactionSheet = ({
     "Miscellaneous",
     "Add new category",
   ]);
-  const [category, setCategory] = useState<string>("");
+  const [category, setCategory] = useState<string|undefined>();
   const [newCategory, setNewCategory] = useState<string>("");
   const [showAddModal, setShowAddModal] = useState(false);
   const buttonStyle = primaryButtonStyle(themePalette);
@@ -67,35 +68,34 @@ const AddTransactionSheet = ({
     setShowDatePicker(false);
   };
   const onConfirm = (output: SingleOutput) => {
-    setShowDatePicker(false);
-    setDate((prev) => output.date ?? prev);
+    setShowDatePicker(false);console.log(output);
+    
+    setDate((prev) => output.dateString ?? prev);
   };
   const clear = () => {
     setAmount("0");
   };
   const submit = async () => {
-    const dateString = createDateString(new Date(date));
+    // const dateString = createDateString(new Date(date));
     console.log({
       amount: parseFloat(amount ?? "0"),
       transactionType: type.slice(0, 1).toUpperCase() + type.slice(1),
       category: category ?? null,
       purpose: comment ?? null,
-      transactionSource: null,
-      transactionDate: dateString,
+      transactionDate: date,
     });
 
     addTransaction({
       amount: parseFloat(amount ?? "0"),
       transactionType: type.slice(0, 1).toUpperCase() + type.slice(1),
-      category,
+      category: category ?? null,
       purpose: comment,
-      transactionSource: null,
-      transactionDate: dateString,
+      transaction_date: date,
     })
       .unwrap()
       .then((res) => {
         console.log(res);
-        closeSheet();
+        ref?.current?.close();
       })
       .catch((err) => {
         console.log(err);
@@ -109,6 +109,19 @@ const AddTransactionSheet = ({
     if (operation == "check") return submit();
   };
   return (
+          <BottomSheet
+            ref={ref}
+            index={-1}
+            enablePanDownToClose
+            onClose={()=>{
+              setAmount("0")
+              setCategory("")
+              setComment("")
+              setDate(createDateString(new Date()))
+              Keyboard.dismiss()
+            }}
+            style={{ flex: 1, backgroundColor: "white" }}
+          >
     <BottomSheetView
       style={{ paddingHorizontal: scale(16), paddingBottom: scale(124) }}
     >
@@ -117,7 +130,7 @@ const AddTransactionSheet = ({
           variant="bold"
           color={themePalette.inputText}
           size={font.size_14}
-        >{`Date: ${date.toDateString().split(" ").slice(1).join(" ")}`}</CustomText>
+        >{`Date: ${new Date(date||"").toDateString().split(" ").slice(1).join(" ")}`}</CustomText>
         {type === "expense" && (
           <View
             style={{
@@ -137,7 +150,9 @@ const AddTransactionSheet = ({
               size={scale(16)}
               type="FontAwesome6"
             />
-            <Select label="Select Category"  onSelect={
+            <Select label="Select Category"
+            currentSelectedItem={category}
+            onSelect={
               (itemValue, itemIndex) => {
                 if (itemValue === "add-new-category") {
                   setShowAddModal(true);
@@ -323,6 +338,7 @@ const AddTransactionSheet = ({
         </View>
       </View>
     </BottomSheetView>
+    </BottomSheet>
   );
 };
 

@@ -80,32 +80,9 @@ export default function TabLayout() {
         </View>
       )}
       <FloatingTabMenu setShowMenu={setShowMenu} />
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={-1}
-        enablePanDownToClose
-        style={{ flex: 1, backgroundColor: "white" }}
-      >
-        <AddTransactionSheet
-          type="income"
-          closeSheet={() => {
-            bottomSheetRef.current?.close();
-          }}
-        />
-      </BottomSheet>
-      <BottomSheet
-        ref={bottomSheetRef2}
-        index={-1}
-        enablePanDownToClose
-        style={{ flex: 1, backgroundColor: "white" }}
-      >
-        <AddTransactionSheet
-          type="expense"
-          closeSheet={() => {
-            bottomSheetRef2.current?.close();
-          }}
-        />
-      </BottomSheet>
+
+      <AddTransactionSheet ref={bottomSheetRef} type="income" />
+      <AddTransactionSheet ref={bottomSheetRef2} type="expense" />
     </View>
   );
 }

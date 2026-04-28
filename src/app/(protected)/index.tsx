@@ -6,13 +6,8 @@ import MenuTab from "@/src/features/home/components/MenuTab";
 import SpendAnalysis from "@/src/components/SpendAnalysis";
 import { RecentTransactions } from "@/src/components/RecentTransactions";
 import { dashboardTabs } from "@/src/constants/constant";
-import BottomSheet from "@gorhom/bottom-sheet";
-import { useRef } from "react";
 import { scale } from "@/src/utils/scale";
-import AddTransactionSheet from "@/src/features/home/components/AddTransactionSheet";
-
 export default function Home() {
-  const bottomSheetRef = useRef<BottomSheet>(null);
 
   return (
     <SafeAreaView>
