@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import CustomText from "./CustomText";
 import { BlurView } from "expo-blur";
 import { useTheme } from "../hooks/ThemeContextProvider";
@@ -10,6 +10,7 @@ import { scale } from "../utils/scale";
 import Select from "./Select";
 const SpendAnalysis = () => {
   const { themePalette } = useTheme();
+  const [selectedOption, setSelectedOption] = useState<string | undefined>("This Week");
   const barData = [
     { value: 250, label: "Mon" },
     { value: 500, label: "Tue" },
@@ -48,7 +49,10 @@ const SpendAnalysis = () => {
           }}
         >
           <Select            
-            onSelect={() => {}}
+            onSelect={(item) => {
+              setSelectedOption(item);
+            }}
+            currentSelectedItem={selectedOption}
             values={spendAnalysisOptions}
           ></Select>
         </BlurView>

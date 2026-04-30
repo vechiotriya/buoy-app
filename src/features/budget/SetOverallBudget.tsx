@@ -16,9 +16,10 @@ import { primaryButtonStyle } from "@/src/constants/styles";
 const SetOverallBudget = () => {
   const styles = useStyles();
   const ref = useRef<TextInput>(null);
+  const [selectedPeriod, setSelectedPeriod] = useState("Weekly");
   const [amount, setAmount] = useState("");
-    const { themePalette } = useTheme();
-    const buttonStyle = primaryButtonStyle(themePalette);
+  const { themePalette } = useTheme();
+  const buttonStyle = primaryButtonStyle(themePalette);
   return (
     <ScrollView style={styles.container}>
       <PrimaryInput
@@ -41,6 +42,7 @@ const SetOverallBudget = () => {
       <CustomText style={styles.label}>{nomenclature.PERIOD}</CustomText>
       <Select
         label="Period"
+        currentSelectedItem={selectedPeriod}
         values={["Weekly", "Monthly", "Yearly"]}
         onSelect={(selectedItem, index) => {}}
         style={styles.selectContainer}

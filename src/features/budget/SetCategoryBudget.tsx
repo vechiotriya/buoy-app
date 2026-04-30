@@ -21,6 +21,7 @@ import { quickInputs } from "@/src/constants/constant";
 const SetCategoryBudget = () => {
   const { themePalette } = useTheme();
   const buttonStyle = primaryButtonStyle(themePalette);
+  const [selectedPeriod, setSelectedPeriod] = useState("Weekly");
   const styles=useStyles()
   interface ItemProps {
     label: string;
@@ -94,6 +95,7 @@ const SetCategoryBudget = () => {
       <CustomText style={styles.label}>{nomenclature.PERIOD}</CustomText>
       <Select
         label="Period"
+        currentSelectedItem={selectedPeriod}
         values={["Weekly", "Monthly", "Yearly"]}
         onSelect={(selectedItem, index) => {}}
         style={styles.selectContainer}
