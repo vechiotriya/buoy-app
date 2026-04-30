@@ -8,7 +8,7 @@ interface CustomTextProps {
     variant?: 'regular' | 'bold';
     color?: string;
     size?: number;
-    children: string;
+    children: string|undefined;
 }
 
 const CustomText: React.FC<CustomTextProps> = ({

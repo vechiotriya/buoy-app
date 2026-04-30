@@ -1,34 +1,24 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { ScrollView, StyleSheet } from "react-native";
+import React, { useRef } from "react";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { scale } from "@/src/utils/scale";
 import Select from "@/src/components/Select";
+import { FilterQueryParams } from "../types";
+import {
+  AMOUNT_MAPPING,
+  CATEGORY_MAPPING,
+  DATE_MAPPING,
+  TYPE_MAPPING,
+} from "../constants";
 
-const FilterBar = () => {
+const FilterBar = ({
+  filteredData,
+  setFilteredData,
+}: {
+  filteredData: FilterQueryParams;
+  setFilteredData: React.Dispatch<React.SetStateAction<FilterQueryParams>>;
+}) => {
   const { themePalette } = useTheme();
-  const typeData = ["All", "Income", "Expense"];
-  const categoryData = [
-    "Housing",
-    "Utilities & Bills",
-    "Groceries",
-    "Transportation",
-    "Health & Insurance",
-    "Entertainment",
-    "Savings",
-    "Debt",
-    "Miscellaneous",
-  ];
-  const amountData = [
-    "Up to ₹200",
-    "₹200 - ₹500",
-    "₹500 - ₹2000",
-    "Above ₹2000",
-  ];
-  const dateData = [
-    "Last 30 days",
-    "Last 90 days",
-    "This month",
-  ];
   return (
     <ScrollView
       horizontal
@@ -37,27 +27,65 @@ const FilterBar = () => {
     >
       <Select
         label="Type"
-        onSelect={() => {
+        currentSelectedItem={filteredData.type}
+        onSelect={(item) => {
+          const selectedType = item as FilterQueryParams["type"];
+          if (filteredData.type === selectedType) {
+            setFilteredData((prev) => ({ ...prev, type: undefined }));
+          } else {
+            setFilteredData((prev) => ({
+              ...prev,
+              type: selectedType,
+            }));
+          }
         }}
-        values={typeData}
+        values={Object.keys(TYPE_MAPPING)}
       ></Select>
       <Select
         label="Category"
-        onSelect={() => {
+        currentSelectedItem={filteredData.category}
+        onSelect={(item) => {
+          const selectedCategory = item as FilterQueryParams["category"];
+          setFilteredData((prev) => {
+            if (prev.category === selectedCategory) {
+              return { ...prev, category: undefined };
+            }
+            return { ...prev, category: selectedCategory };
+          });
         }}
-        values={categoryData}
+        values={Object.keys(CATEGORY_MAPPING)}
       ></Select>
       <Select
         label="Date"
-        onSelect={() => {
+        currentSelectedItem={filteredData.date}
+        onSelect={(item) => {
+          const selectedDate = item as FilterQueryParams["date"];
+          if (filteredData.date === selectedDate) {
+            setFilteredData((prev) => ({ ...prev, date: undefined }));
+          } else {
+            setFilteredData((prev) => ({
+              ...prev,
+              date: selectedDate,
+            }));
+          }
         }}
-        values={dateData}
+        values={Object.keys(DATE_MAPPING)}
       ></Select>
       <Select
         label="Amount"
-        onSelect={() => {
+        currentSelectedItem={filteredData.amount}
+        onSelect={(item) => {
+          const selectedAmount = item as FilterQueryParams["amount"];
+          if (filteredData.amount === selectedAmount) {
+            setFilteredData((prev) => ({ ...prev, amount: undefined }));
+          } else {
+            setFilteredData((prev) => ({
+              ...prev,
+              amount: selectedAmount,
+            }));
+          }
         }}
-        values={amountData}
+        values={Object.keys(AMOUNT_MAPPING)}
       ></Select>
     </ScrollView>
   );
@@ -66,10 +94,11 @@ const FilterBar = () => {
 export default FilterBar;
 
 const styles = StyleSheet.create({
-  container:{
-        paddingHorizontal: scale(20),
-        flexDirection: "row",
-        alignItems: "center",
-        gap: scale(12),
-      },
+  container: {
+    paddingHorizontal: scale(20),
+    paddingBottom: scale(15),
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: scale(12),
+  },
 });

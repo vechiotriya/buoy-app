@@ -1,17 +1,37 @@
-import { StyleSheet, Text, View } from 'react-native'
-import PrimaryInput from '@/src/components/PrimaryInput'
-import { useState } from 'react';
-import { scale } from '@/src/utils/scale';
+import { StyleSheet, View } from "react-native";
+import PrimaryInput from "@/src/components/PrimaryInput";
+import { scale } from "@/src/utils/scale";
 
-const SearchBar = () => {
-    const [searchKeyword, setSearchKeyword] = useState('');
+type SearchBarProps = {
+  search: (text: string) => void;
+  searchText: string;
+  setSearchText: (text: string) => void;
+};
+const SearchBar: React.FC<SearchBarProps> = ({
+  search,
+  searchText,
+  setSearchText,
+}) => {
   return (
-    <View style={{marginTop: scale(25), marginBottom: scale(5),justifyContent: 'center', alignItems: 'center'}}>
-    <PrimaryInput placeholder='Search transactions' value={searchKeyword} onChangeText={setSearchKeyword}/>
+    <View
+      style={{
+        marginTop: scale(25),
+        marginBottom: scale(2),
+        alignItems: "center",
+      }}
+    >
+      <PrimaryInput
+        placeholder="Search transactions"
+        value={searchText}
+        onChangeText={(text) => {
+          setSearchText(text);
+          search(text);
+        }}
+      />
     </View>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

@@ -8,7 +8,7 @@ import { scale } from "../utils/scale";
 
 interface PrimaryInputProps {
   label?: string;
-  value: string;
+  value?: string;
   error?: string;
   secure?: boolean;
   style?: TextInputProps;
