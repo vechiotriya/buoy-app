@@ -63,30 +63,29 @@ const Transactions = () => {
     data: transactions,
   }))??[]
   const handleSearch = useDebounceValue((text:string)=>{
+    setSearchText(text);
     if (text?.trim()){ 
       triggerSearch(text?.trim());
     }
     else refetch();
-    },500)
+    },1000)
 
-  return (
-    <SectionList
-      contentContainerStyle={{ paddingBottom: scale(84) }}
-      ListHeaderComponent={() => {
-        return (
+  const SearchFilterComponent=()=>{
+    return (
           <>
-            <SearchBar search={handleSearch} searchText={searchText} setSearchText={setSearchText}/>
+            <SearchBar search={handleSearch}/>
             <FilterBar
               filteredData={filteredData}
               setFilteredData={setFilteredData}
             />
           </>
         );
-      }}
+  }
+  return (
+    <SectionList
+      contentContainerStyle={{ paddingBottom: scale(84) }}
+      ListHeaderComponent={<SearchFilterComponent/>}
       sections={searchText ? searchResultData : DATA}
-      ListEmptyComponent={()=>{
-       return <CustomText size={font.size_14}>{"Empty"}</CustomText>
-      }}
       keyExtractor={(item) => item.purpose}
       renderItem={({ item, index, section }) => {
         return (

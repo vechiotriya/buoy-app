@@ -1,17 +1,15 @@
 import { StyleSheet, View } from "react-native";
 import PrimaryInput from "@/src/components/PrimaryInput";
 import { scale } from "@/src/utils/scale";
+import { useState } from "react";
 
 type SearchBarProps = {
   search: (text: string) => void;
-  searchText: string;
-  setSearchText: (text: string) => void;
 };
 const SearchBar: React.FC<SearchBarProps> = ({
   search,
-  searchText,
-  setSearchText,
 }) => {
+  const [searchText, setSearchText] = useState('');
   return (
     <View
       style={{
