@@ -48,6 +48,7 @@ export default {
   OR_CONTINUE_WITH: "Or continue with",
   WEEKLY_SPENDING_SUMMARY: "Weekly Spending Summary",
   TOP_SPENDING_DAY: "Top Spending Day",
+  TOP_SPENDING_MONTH: "Top Spending Month",
   TRANSACTIONS: "Transactions",
   MONTHLY_BUDGET_OVERVIEW: "Monthly Budget Overview",
   TOTAL_BUDGET: "Total Budget",

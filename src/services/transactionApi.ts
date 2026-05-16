@@ -63,7 +63,23 @@ export const transactionApi = createApi({
         method: "GET",
       })},
       providesTags: ["Transactions"],
-    })
+    }),
+    getStatsByWeek: builder.query<any, void>({
+      query: () =>{
+      return  ({
+        url: `/stats/week`,
+        method: "GET",
+      })},
+      providesTags: ["Transactions"],
+    }),
+    getStatsByYear: builder.query<any, void>({
+      query: () =>{
+      return  ({
+        url: `/stats/year`,
+        method: "GET",
+      })},
+      providesTags: ["Transactions"],
+    }),
   }),
 });
 
@@ -72,5 +88,7 @@ export const {
   useAddTransactionMutation,
   useGetMonthTotalStatisticsQuery,
   useGetGroupedTransactionsByMonthQuery,
-  useLazyGetGroupedTransactionBySearchQuery
+  useLazyGetGroupedTransactionBySearchQuery,
+  useGetStatsByWeekQuery,
+  useGetStatsByYearQuery,
 } = transactionApi;

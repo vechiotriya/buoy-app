@@ -11,9 +11,11 @@ import { BarChart, PieChart } from "react-native-gifted-charts";
 import { pickColor } from "@/src/hooks/common";
 import { scale } from "@/src/utils/scale";
 import { RecentTransactions } from "@/src/components/RecentTransactions";
+import { useGetStatsByWeekQuery } from "@/src/services/transactionApi";
 const WeeklyStats = () => {
   const { themePalette } = useTheme();
   const style = useStyle(themePalette);
+  const { data, isLoading, error } = useGetStatsByWeekQuery();
   const barData = [
     { value: 250, label: "Jan" },
     { value: 500, label: "Feb" },
@@ -33,6 +35,8 @@ const WeeklyStats = () => {
     { value: 40, color: pickColor(themePalette), text: "30%" },
     { value: 20, color: pickColor(themePalette), text: "26%" },
   ];
+  console.log("hhh", data, error);
+
   return (
     <ScrollView
       style={{
@@ -56,21 +60,37 @@ const WeeklyStats = () => {
           variant="bold"
           color={themePalette.primary}
         >
-          {nomenclature.RUPEE_SIGN + " 2,486.00"}
+          {nomenclature.RUPEE_SIGN + " " + data?.total || "0"}
         </CustomText>
         <View style={{ flexDirection: "row" }}>
-          <CustomIcon
-            name="arrow-up-right"
-            type="Feather"
-            size={scale(15)}
-            color={themePalette.positive}
-          />
-          <CustomText
-            size={font.size_12}
-            color={themePalette.secondaryTextLight}
-          >
-            {"16% " + nomenclature.MORE_THAN_LAST_WEEK}
-          </CustomText>
+          {data?.changeSinceLast && Number(data?.changeSinceLast)<=100 &&
+            (data?.changeSinceLast > 0 ? (
+              <CustomIcon
+                name="arrow-up-right"
+                type="Feather"
+                size={scale(15)}
+                color={themePalette.positive}
+              />
+            ) : (
+              <CustomIcon
+                name="arrow-down-right"
+                type="Feather"
+                size={scale(15)}
+                color={themePalette.negative}
+              />
+            ))}
+          {data?.changeSinceLast && Number(data?.changeSinceLast)<=100 && (
+            <CustomText
+              size={font.size_12}
+              color={themePalette.secondaryTextLight}
+            >
+              {data?.changeSinceLast && Number(data?.changeSinceLast)<=100 &&
+                " " +
+                (Number(data?.changeSinceLast) < 0
+                  ? nomenclature.LESS_THAN_LAST_WEEK
+                  : nomenclature.MORE_THAN_LAST_WEEK)}
+            </CustomText>
+          )}
         </View>
         <BlurView
           intensity={50}
@@ -79,10 +99,10 @@ const WeeklyStats = () => {
             borderRadius: scale(16),
             borderWidth: 0.2,
             paddingLeft: scale(15),
-            backgroundColor:'rgba(196, 232, 251, 0.5)',
+            backgroundColor: "rgba(196, 232, 251, 0.5)",
             borderColor: themePalette.borderColor,
             overflow: "hidden",
-            paddingVertical:scale(10),
+            paddingVertical: scale(10),
           }}
         >
           <CustomText size={font.size_12} color={themePalette.inputText2}>
@@ -93,13 +113,13 @@ const WeeklyStats = () => {
             variant="bold"
             color={themePalette.primary}
           >
-            {'Monday'}
+            {data?.topSpending || "Monday"}
           </CustomText>
           <CustomText
             size={font.size_14}
             color={themePalette.secondaryTextLight}
           >
-            {nomenclature.RUPEE_SIGN + " 2,486.00"}
+            {nomenclature.RUPEE_SIGN + " " + data?.topSpendingAmount || "0"}
           </CustomText>
         </BlurView>
       </View>
@@ -120,7 +140,7 @@ const WeeklyStats = () => {
           variant="bold"
           style={{ marginHorizontal: scale(20), marginTop: scale(19) }}
         >
-          {nomenclature.EXPENSE_OVERVIEW}
+        {nomenclature.EXPENSE_OVERVIEW}
         </CustomText>
         <View
           style={{
@@ -135,7 +155,7 @@ const WeeklyStats = () => {
             noOfSections={3}
             barBorderRadius={scale(8)}
             frontColor="#1E85B7"
-            data={barData}
+            data={data?.graph}
             hideYAxisText={true}
             hideAxesAndRules={true}
             barBorderBottomLeftRadius={0}
@@ -177,7 +197,7 @@ const WeeklyStats = () => {
           data={pieData}
         />
       </BlurView>
-      <RecentTransactions/>
+      <RecentTransactions />
     </ScrollView>
   );
 };
