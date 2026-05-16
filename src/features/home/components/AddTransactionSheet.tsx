@@ -21,10 +21,11 @@ import { BlurView } from "expo-blur";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import nomenclature from "@/src/constants/nomenclature";
 import { scale } from "@/src/utils/scale";
-import { useAddTransactionMutation, useGetAllTransactionsQuery } from "@/src/services/transactionApi";
+import { useAddTransactionMutation } from "@/src/services/transactionApi";
 import { createDateString } from "@/src/utils/misc";
 import Select from "@/src/components/Select";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { CATEGORY_MAPPING } from "../../transactions/constants";
 
 interface AddTransactionSheetProps {
   type: "expense" | "income";
@@ -80,7 +81,7 @@ const AddTransactionSheet = ({
     console.log({
       amount: parseFloat(amount ?? "0"),
       transactionType: type.slice(0, 1).toUpperCase() + type.slice(1),
-      category: category ?? null,
+      category: CATEGORY_MAPPING[category] ?? null,
       purpose: comment ?? null,
       transactionDate: date,
     });
@@ -88,7 +89,7 @@ const AddTransactionSheet = ({
     addTransaction({
       amount: parseFloat(amount ?? "0"),
       transactionType: type.slice(0, 1).toUpperCase() + type.slice(1),
-      category: category ?? null,
+      category: CATEGORY_MAPPING[category] ?? null,
       purpose: comment,
       transaction_date: date,
     })
