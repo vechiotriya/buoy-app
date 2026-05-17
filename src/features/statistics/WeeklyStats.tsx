@@ -12,30 +12,21 @@ import { pickColor } from "@/src/hooks/common";
 import { scale } from "@/src/utils/scale";
 import { RecentTransactions } from "@/src/components/RecentTransactions";
 import { useGetStatsByWeekQuery } from "@/src/services/transactionApi";
+import { useGetCategoriesExpensesQuery } from "@/src/services/categoryApi";
+import { getCategoryColor } from "@/src/utils/misc";
 const WeeklyStats = () => {
   const { themePalette } = useTheme();
   const style = useStyle(themePalette);
   const { data, isLoading, error } = useGetStatsByWeekQuery();
-  const barData = [
-    { value: 250, label: "Jan" },
-    { value: 500, label: "Feb" },
-    { value: 745, label: "Mar", frontColor: "#ffff" },
-    { value: 320, label: "Apr" },
-    { value: 600, label: "May" },
-    { value: 256, label: "Jun" },
-    { value: 30, label: "Jul" },
-    { value: 300, label: "Aug" },
-    { value: 390, label: "Sep" },
-    { value: 100, label: "Oct" },
-    { value: 300, label: "Nov" },
-    { value: 90, label: "Dec" },
-  ];
-  const pieData = [
-    { value: 54, color: pickColor(themePalette), text: "54%" },
-    { value: 40, color: pickColor(themePalette), text: "30%" },
-    { value: 20, color: pickColor(themePalette), text: "26%" },
-  ];
-  console.log("hhh", data, error);
+  const { data: categoryExpenses } = useGetCategoriesExpensesQuery({});
+
+  const pieData =
+    categoryExpenses?.week?.map((item: any) => ({
+      value: item.value,
+      color: getCategoryColor(themePalette.donutChartColors, item.text),
+      text: item.text,
+    })) || [];
+  console.log("pp", pieData);
 
   return (
     <ScrollView
@@ -63,7 +54,8 @@ const WeeklyStats = () => {
           {nomenclature.RUPEE_SIGN + " " + data?.total || "0"}
         </CustomText>
         <View style={{ flexDirection: "row" }}>
-          {data?.changeSinceLast && Number(data?.changeSinceLast)<=100 &&
+          {data?.changeSinceLast &&
+            Number(data?.changeSinceLast) <= 100 &&
             (data?.changeSinceLast > 0 ? (
               <CustomIcon
                 name="arrow-up-right"
@@ -79,16 +71,17 @@ const WeeklyStats = () => {
                 color={themePalette.negative}
               />
             ))}
-          {data?.changeSinceLast && Number(data?.changeSinceLast)<=100 && (
+          {data?.changeSinceLast && Number(data?.changeSinceLast) <= 100 && (
             <CustomText
               size={font.size_12}
               color={themePalette.secondaryTextLight}
             >
-              {data?.changeSinceLast && Number(data?.changeSinceLast)<=100 &&
+              {data?.changeSinceLast &&
+                Number(data?.changeSinceLast) <= 100 &&
                 " " +
-                (Number(data?.changeSinceLast) < 0
-                  ? nomenclature.LESS_THAN_LAST_WEEK
-                  : nomenclature.MORE_THAN_LAST_WEEK)}
+                  (Number(data?.changeSinceLast) < 0
+                    ? nomenclature.LESS_THAN_LAST_WEEK
+                    : nomenclature.MORE_THAN_LAST_WEEK)}
             </CustomText>
           )}
         </View>
@@ -140,7 +133,7 @@ const WeeklyStats = () => {
           variant="bold"
           style={{ marginHorizontal: scale(20), marginTop: scale(19) }}
         >
-        {nomenclature.EXPENSE_OVERVIEW}
+          {nomenclature.EXPENSE_OVERVIEW}
         </CustomText>
         <View
           style={{
@@ -179,23 +172,45 @@ const WeeklyStats = () => {
           borderWidth: 0.2,
           borderColor: themePalette.borderColor,
           overflow: "hidden",
-          alignItems: "center",
-          justifyContent: "center",
           paddingVertical: scale(20),
         }}
       >
-        <PieChart
-          radius={scale(100)}
-          focusOnPress
-          textSize={font.size_12}
-          donut
-          innerRadius={scale(80)}
-          innerCircleColor={themePalette.backgroundGradient2}
-          centerLabelComponent={() => {
-            return <CustomText color="black">70%</CustomText>;
+        <CustomText
+          size={font.size_18}
+          variant="bold"
+          style={{ marginVertical: scale(5),marginLeft:scale(20) }}
+        >
+          {nomenclature.CATEGORY_WISE_SPENDING}
+        </CustomText>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
           }}
-          data={pieData}
-        />
+        >
+          <PieChart
+            radius={scale(100)}
+            focusOnPress
+            focusedPieIndex={0}
+            textSize={font.size_12}
+            showValuesAsTooltipText={true}
+            donut
+            innerRadius={scale(80)}
+            innerCircleBorderWidth={scale(2)}
+            innerCircleColor={themePalette.backgroundGradient2}
+            centerLabelComponent={(value: number) => {
+              console.log(value);
+              if (value == -1) return;
+              return (
+                <View style={{ alignItems: "center" }}>
+                  <CustomText variant="bold">{pieData[value]?.text}</CustomText>
+                  <CustomText>{`${pieData[value]?.value} %`}</CustomText>
+                </View>
+              );
+            }}
+            data={pieData}
+          />
+        </View>
       </BlurView>
       <RecentTransactions />
     </ScrollView>

@@ -58,4 +58,5 @@ export default {
   SAVE_BUDGET: "💰 Save Budget",
   UPDATE_BUDGET: "💰 Update Budget",
   SPENT: "spent",
+  CATEGORY_WISE_SPENDING: "Category-wise Spending",
 };

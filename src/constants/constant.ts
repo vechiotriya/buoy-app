@@ -88,3 +88,15 @@ export const sideButtons: KeypadIconButton[] = [
 ];
 
 export const quickInputs: number[] = [500, 1000, 5000];
+
+export const defaultCategories = [
+  "Housing",
+  "Utilities & Bills",
+  "Groceries",
+  "Transportation",
+  "Health & Insurance",
+  "Entertainment",
+  "Savings",
+  "Debt",
+  "Miscellaneous",
+];
