@@ -13,17 +13,23 @@ type Budget = {
   name: string;
   spent: number;
   amount: number;
-  categories: string[];
-  duration: string;
+  category: string[];
+  period: string;
 };
-const BudgetCard = ({ budget }: { budget: Budget }) => {
+type Props = {
+  budget: Budget;
+};
+const BudgetCard = ({ budget }: Props) => {
+
+  const budgetData=budget?.item;
+    console.log("budgetCard",budgetData);
   const { themePalette } = useTheme();
   const styles = useStyles(themePalette);
   return (
     <View style={styles.card}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <CustomText variant="bold" color={themePalette.secondaryTextLight}>
-          {budget.name}
+          {budgetData.name}
         </CustomText>
         <View
           style={{
@@ -37,7 +43,7 @@ const BudgetCard = ({ budget }: { budget: Budget }) => {
           }}
         >
           <CustomText size={font.size_12} color={themePalette.primary}>
-            {budget.duration}
+            {budgetData.period}
           </CustomText>
         </View>
       </View>
@@ -48,13 +54,13 @@ const BudgetCard = ({ budget }: { budget: Budget }) => {
           marginRight: scale(7),
         }}
       >
-        {budget.categories.map((category) => (
+        {budgetData?.category?.map((cat) => (
           <View
-          key={category}
+          key={cat}
             style={{
               backgroundColor: getCategoryColor(
                 themePalette.categoryColors,
-                category,
+                cat,
               ),
               alignItems: "center",
               justifyContent: "center",
@@ -63,7 +69,7 @@ const BudgetCard = ({ budget }: { budget: Budget }) => {
               paddingHorizontal: scale(10),
             }}
           >
-            <CustomText size={font.size_12}>{category}</CustomText>
+            <CustomText size={font.size_12}>{cat}</CustomText>
           </View>
         ))}
       </View>
@@ -75,18 +81,18 @@ const BudgetCard = ({ budget }: { budget: Budget }) => {
         }}
       >
         <CustomText size={font.size_10} color={themePalette.inputText}>
-          {"10% " + nomenclature.SPENT}
+          {`${Number(budgetData.spent / budgetData.amount)*100}% ` + nomenclature.SPENT}
         </CustomText>
         <View style={{ flexDirection: "row" }}>
           <CustomText size={font.size_12} color={themePalette.inputText}>
-            {nomenclature.RUPEE_SIGN + budget.spent}
+            {nomenclature.RUPEE_SIGN + budgetData.spent}
           </CustomText>
           <CustomText size={font.size_12} color={themePalette.inputText2}>
-            {" / " + nomenclature.RUPEE_SIGN + budget.amount}
+            {" / " + nomenclature.RUPEE_SIGN + budgetData.amount}
           </CustomText>
         </View>
       </View>
-      <ProgressBar progress={budget.spent / budget.amount} />
+      <ProgressBar progress={Number(budgetData.spent / budgetData.amount)} />
     </View>
   );
 };

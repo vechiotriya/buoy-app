@@ -54,7 +54,7 @@ const WeeklyStats = () => {
           {nomenclature.RUPEE_SIGN + " " + data?.total || "0"}
         </CustomText>
         <View style={{ flexDirection: "row" }}>
-          {data?.changeSinceLast &&
+          {!!data?.changeSinceLast &&
             Number(data?.changeSinceLast) <= 100 &&
             (data?.changeSinceLast > 0 ? (
               <CustomIcon
@@ -71,17 +71,16 @@ const WeeklyStats = () => {
                 color={themePalette.negative}
               />
             ))}
-          {data?.changeSinceLast && Number(data?.changeSinceLast) <= 100 && (
+          {!!data?.changeSinceLast && (
             <CustomText
               size={font.size_12}
               color={themePalette.secondaryTextLight}
             >
-              {data?.changeSinceLast &&
-                Number(data?.changeSinceLast) <= 100 &&
+              {data?.changeSinceLast +
                 " " +
-                  (Number(data?.changeSinceLast) < 0
-                    ? nomenclature.LESS_THAN_LAST_WEEK
-                    : nomenclature.MORE_THAN_LAST_WEEK)}
+                (Number(data?.changeSinceLast) < 0
+                  ? nomenclature.LESS_THAN_LAST_MONTH
+                  : nomenclature.MORE_THAN_LAST_MONTH)}
             </CustomText>
           )}
         </View>

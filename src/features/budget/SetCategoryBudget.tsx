@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PrimaryInput from "@/src/components/PrimaryInput";
 import { scale } from "@/src/utils/scale";
 import QuickInput from "./components/QuickInput";
@@ -17,20 +17,24 @@ import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import { useStyles } from "./styles/SetBudget";
 import { quickInputs } from "@/src/constants/constant";
+import { useAddBudgetMutation } from "@/src/services/budgetApi";
+import { useGetCategoriesQuery } from "@/src/services/categoryApi";
 
 const SetCategoryBudget = () => {
   const { themePalette } = useTheme();
   const buttonStyle = primaryButtonStyle(themePalette);
   const [selectedPeriod, setSelectedPeriod] = useState("Weekly");
-  const styles=useStyles()
+  const [name, setName] = useState("");
+  const [addBudget, { isLoading }] = useAddBudgetMutation();
+  const styles = useStyles();
   interface ItemProps {
     label: string;
     isChecked: boolean;
   }
   const ref = useRef<TextInput>(null);
   const [amount, setAmount] = useState("");
-  const [categories, setCategories] = useState<ItemProps[]>([
-    {
+  const { data } = useGetCategoriesQuery({});
+  const defaultCategories= [{
       label: "Groceries",
       isChecked: false,
     },
@@ -57,8 +61,20 @@ const SetCategoryBudget = () => {
     {
       label: "Miscellaneous",
       isChecked: false,
-    },
-  ]);
+    }];
+  const [categories, setCategories] = useState<String[]>([...defaultCategories]);
+
+    useEffect(() => {
+      if (!data) return;
+  
+      const moreCategories = data.map((cat) => {return { label: cat.name, isChecked: false }})||[];
+  
+      setCategories([
+        ...defaultCategories,
+        ...moreCategories,
+        "Add new category",
+      ]);
+    }, [data]);
   const toggleCategory = (index: number) => {
     setCategories((prev) =>
       prev.map((item, i) =>
@@ -67,13 +83,22 @@ const SetCategoryBudget = () => {
     );
   };
 
+  const handleAddBudget = () => {
+    const selectedCategories = categories
+      .filter((item) => item.isChecked)
+      .map((item) => item.label);
+    console.log("adding budget",{ amount, period: selectedPeriod, category: selectedCategories, name });
+    
+    addBudget({ amount, period: selectedPeriod, category: selectedCategories, name, spent:0 });
+  };
   return (
     <ScrollView style={styles.container}>
       <PrimaryInput
         label="Name"
-        value={""}
+        value={name}
         error=""
         placeholder="Give a name to the budget"
+        onChangeText={setName}
       />
       <PrimaryInput
         label="Amount"
@@ -97,12 +122,12 @@ const SetCategoryBudget = () => {
         label="Period"
         currentSelectedItem={selectedPeriod}
         values={["Weekly", "Monthly", "Yearly"]}
-        onSelect={(selectedItem, index) => {}}
+        onSelect={(selectedItem) => setSelectedPeriod(selectedItem)}
         style={styles.selectContainer}
       />
       <CustomText style={styles.label}>{nomenclature.CATEGORY}</CustomText>
       <CheckList items={categories} onToggle={toggleCategory} />
-      <TouchableOpacity style={[buttonStyle,{marginTop:scale(35)}]}>
+      <TouchableOpacity onPress={() => {handleAddBudget()}} style={[buttonStyle,{marginTop:scale(35)}]}>
         <CustomText>{nomenclature.SAVE_BUDGET}</CustomText>
       </TouchableOpacity>
     </ScrollView>

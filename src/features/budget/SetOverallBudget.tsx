@@ -12,6 +12,7 @@ import { TextInput } from "react-native";
 import { scale } from "@/src/utils/scale";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { primaryButtonStyle } from "@/src/constants/styles";
+import { useAddBudgetMutation } from "@/src/services/budgetApi";
 
 const SetOverallBudget = () => {
   const styles = useStyles();
@@ -20,6 +21,18 @@ const SetOverallBudget = () => {
   const [amount, setAmount] = useState("");
   const { themePalette } = useTheme();
   const buttonStyle = primaryButtonStyle(themePalette);
+  const [addBudget, { isLoading }] = useAddBudgetMutation();
+
+  const handleAddBudget = () => {
+    console.log("adding budget", {
+      name: "All",
+      amount,
+      spent:0,
+      period: selectedPeriod,
+    });
+
+    addBudget({ amount, period: selectedPeriod, name: "All",spent:0 });
+  };
   return (
     <ScrollView style={styles.container}>
       <PrimaryInput
@@ -47,7 +60,7 @@ const SetOverallBudget = () => {
         onSelect={(selectedItem, index) => {}}
         style={styles.selectContainer}
       />
-      <TouchableOpacity style={[buttonStyle, { marginTop: scale(35) }]}>
+      <TouchableOpacity onPress={()=>{handleAddBudget()}} style={[buttonStyle, { marginTop: scale(35) }]}>
         <CustomText>{nomenclature.UPDATE_BUDGET}</CustomText>
       </TouchableOpacity>
     </ScrollView>

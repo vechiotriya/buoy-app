@@ -47,7 +47,7 @@ const YearlyStats = () => {
           {nomenclature.RUPEE_SIGN + " " + data?.total}
         </CustomText>
         <View style={{ flexDirection: "row" }}>
-          {data?.changeSinceLast &&
+          {!!data?.changeSinceLast &&
             (data?.changeSinceLast > 0 ? (
               <CustomIcon
                 name="arrow-up-right"
@@ -63,7 +63,7 @@ const YearlyStats = () => {
                 color={themePalette.negative}
               />
             ))}
-          {data?.changeSinceLast && (
+          {!!data?.changeSinceLast && (
             <CustomText
               size={font.size_12}
               color={themePalette.secondaryTextLight}
