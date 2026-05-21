@@ -27,5 +27,14 @@ export const authApi = createApi({
         body: userInfo,
       }),
     }),
+    googleAuth: builder.mutation({
+      query: (authRequest) => ({
+        url: "/google",
+        method: "POST",
+        body: authRequest,
+      }),
   }),
+}),
 });
+
+export const { useSignInMutation, useSignUpMutation, useGoogleAuthMutation } = authApi;

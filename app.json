@@ -14,15 +14,29 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vechiotriya.buoyapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
       },
-      "edgeToEdgeEnabled": true,
-      "package": "com.vechiotriya.buoyapp"
+      "package": "com.vechiotriya.buoyapp",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ],
+          "data": [
+            {
+              "scheme": "com.googleusercontent.apps.322686807257-6dgqukhtomj07qcod4nsb9jtth4d99eo"
+            }
+          ]
+        }
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -33,7 +47,15 @@
       "expo-router",
       "@react-native-community/datetimepicker",
       "expo-font",
-      "expo-web-browser"
+      "expo-web-browser",
+            [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow access to select a profile picture.",
+          "cameraPermission": "Allow access to take a profile picture."
+        }
+      ]
+
     ],
     "experiments": {
       "typedRoutes": true

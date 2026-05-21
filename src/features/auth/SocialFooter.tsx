@@ -8,14 +8,14 @@ import { useTheme } from '@/src/hooks/ThemeContextProvider'
 import useStyles from './styles/SignInStyles'
 import font from '@/src/constants/font'
 
-const SocialFooter = () => {
+const SocialFooter = ({signInWithGoogle}) => {
       const {themePalette}= useTheme()
   const styles=useStyles(themePalette)
   return (
     <View style={styles.footerContainer}>
       <View style={{rowGap:scale(32),}}>
         <View style={{height:1,marginTop:scale(10),backgroundColor:themePalette.borderColor}}/>
-        <TouchableOpacity style={{alignItems:'center',justifyContent:'center',backgroundColor:themePalette.background,borderWidth:1,borderColor:themePalette.borderColor,borderRadius:12,width:scale(111),height:scale(46)}}>
+        <TouchableOpacity onPress={()=>{signInWithGoogle()}} style={{alignItems:'center',justifyContent:'center',backgroundColor:themePalette.background,borderWidth:1,borderColor:themePalette.borderColor,borderRadius:12,width:scale(111),height:scale(46)}}>
           <CustomIcon name='google' type='FontAwesome' size={scale(20)} color={themePalette.tabIconDefault} iconStyle={{marginBottom:-3}}/>
         </TouchableOpacity>
       </View>

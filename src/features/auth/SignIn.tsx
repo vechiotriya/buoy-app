@@ -11,6 +11,7 @@ import SocialFooter from "./SocialFooter";
 import { authApi } from "@/src/services/authApi";
 import { loggedIn } from "@/src/store/slices/authSlice";
 import { useDispatch } from "react-redux";
+import { useGoogleAuth } from "@/src/hooks/useGoogleAuth";
 
 const SignIn = () => {
   const { themePalette } = useTheme();
@@ -22,6 +23,8 @@ const SignIn = () => {
   });
   const [signIn, { isLoading ,error:signInError}] = authApi.useSignInMutation();
   const dispatch = useDispatch();
+  const { user, loading, request, signIn:googleSignIn, signOut } = useGoogleAuth();
+
   const handleSignIn = async () => {
     try {
       const response = await signIn(formData).unwrap();
@@ -82,7 +85,7 @@ const SignIn = () => {
       >
         <CustomText>{nomenclature.LOGIN}</CustomText>
       </TouchableOpacity>
-      <SocialFooter />
+      <SocialFooter signInWithGoogle={googleSignIn}/>
     </View>
   );
 };
