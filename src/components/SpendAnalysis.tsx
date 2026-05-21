@@ -8,18 +8,14 @@ import { spendAnalysisOptions } from "../constants/constant";
 import { BarChart } from "react-native-gifted-charts";
 import { scale } from "../utils/scale";
 import Select from "./Select";
+import { useGetStatsByLastWeekQuery, useGetStatsByWeekQuery } from "../services/transactionApi";
 const SpendAnalysis = () => {
   const { themePalette } = useTheme();
   const [selectedOption, setSelectedOption] = useState<string | undefined>("This Week");
-  const barData = [
-    { value: 250, label: "Mon" },
-    { value: 500, label: "Tue" },
-    { value: 745, label: "Wed", frontColor: "#ffff" },
-    { value: 320, label: "Thu" },
-    { value: 600, label: "Fri" },
-    { value: 256, label: "Sat" },
-    { value: 300, label: "Sun" },
-  ];
+  const { data, isLoading, error } = useGetStatsByWeekQuery();
+  const { data: lastWeekData, isLoading: lastWeekLoading, error: lastWeekError } = useGetStatsByLastWeekQuery();
+  console.log("last week stats",lastWeekData);
+  const barData= selectedOption==="This Week"?data?.graph:lastWeekData;
   return (
     <View style={{ rowGap: scale(15) }}>
       <View

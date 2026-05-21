@@ -72,6 +72,14 @@ export const transactionApi = createApi({
       })},
       providesTags: ["Transactions"],
     }),
+    getStatsByLastWeek: builder.query<any, void>({
+      query: () =>{
+      return  ({
+        url: `/stats/lastWeek`,
+        method: "GET",
+      })},
+      providesTags: ["Transactions"],
+    }),
     getStatsByYear: builder.query<any, void>({
       query: () =>{
       return  ({
@@ -90,5 +98,6 @@ export const {
   useGetGroupedTransactionsByMonthQuery,
   useLazyGetGroupedTransactionBySearchQuery,
   useGetStatsByWeekQuery,
+  useGetStatsByLastWeekQuery,
   useGetStatsByYearQuery,
 } = transactionApi;

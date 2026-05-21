@@ -69,10 +69,10 @@ const YearlyStats = () => {
               color={themePalette.secondaryTextLight}
             >
               {data?.changeSinceLast +
-                " " +
+                "% " +
                 (Number(data?.changeSinceLast) < 0
-                  ? nomenclature.LESS_THAN_LAST_WEEK
-                  : nomenclature.MORE_THAN_LAST_WEEK)}
+                  ? nomenclature.LESS_THAN_LAST_MONTH
+                  : nomenclature.MORE_THAN_LAST_MONTH)}
             </CustomText>
           )}
         </View>

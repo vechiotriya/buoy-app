@@ -26,7 +26,6 @@ const WeeklyStats = () => {
       color: getCategoryColor(themePalette.donutChartColors, item.text),
       text: item.text,
     })) || [];
-  console.log("pp", pieData);
 
   return (
     <ScrollView
@@ -77,10 +76,10 @@ const WeeklyStats = () => {
               color={themePalette.secondaryTextLight}
             >
               {data?.changeSinceLast +
-                " " +
+                "% " +
                 (Number(data?.changeSinceLast) < 0
-                  ? nomenclature.LESS_THAN_LAST_MONTH
-                  : nomenclature.MORE_THAN_LAST_MONTH)}
+                  ? nomenclature.LESS_THAN_LAST_WEEK
+                  : nomenclature.MORE_THAN_LAST_WEEK)}
             </CustomText>
           )}
         </View>
