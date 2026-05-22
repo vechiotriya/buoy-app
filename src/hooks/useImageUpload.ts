@@ -40,7 +40,7 @@ export function useImageUpload() {
       allowsEditing: true,
       aspect: [1, 1],
       shape: "oval",
-      quality: 0.8,
+      quality: 0.7,
     });
 
     if (!result.canceled) {
