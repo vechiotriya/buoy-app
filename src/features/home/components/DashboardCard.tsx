@@ -35,7 +35,7 @@ console.log(data);
             color={themePalette.secondaryText}
             style={{ paddingLeft: "2%", marginTop: 5 }}
           >
-            {nomenclature.RUPEE_SIGN + " " + data?.balance}
+            {nomenclature.RUPEE_SIGN + " " + (data?.balance??0)}
           </CustomText>
         </View>
         <Image source={mascotImage} style={{ width: 94, height: 90 }}></Image>

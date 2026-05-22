@@ -1,5 +1,4 @@
 import { storage } from "@/src/services/storage";
-import { User } from "@/src/types/misc";
 import { createSlice } from "@reduxjs/toolkit"
 
 interface AuthState {

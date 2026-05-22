@@ -3,7 +3,7 @@ import CustomText from "@/src/components/CustomText";
 import font from "@/src/constants/font";
 import nomenclature from "@/src/constants/nomenclature";
 import { primaryButtonStyle } from "@/src/constants/styles";
-import { useGetUserDetailsQuery } from "@/src/services/userApi";
+import { useGetUserDetailsQuery, userApi } from "@/src/services/userApi";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { loggedOut } from "@/src/store/slices/authSlice";
 import { scale } from "@/src/utils/scale";
@@ -14,6 +14,10 @@ import { StyleSheet } from "react-native";
 
 import { Text, View } from "react-native";
 import { useDispatch } from "react-redux";
+import { transactionApi } from "@/src/services/transactionApi";
+import { budgetApi } from "@/src/services/budgetApi";
+import { categoryApi } from "@/src/services/categoryApi";
+import { authApi } from "@/src/services/authApi";
 
 export default function Settings() {
   const { themePalette } = useTheme();
@@ -226,7 +230,14 @@ export default function Settings() {
           buttonStyle,
           { flexDirection: "row", gap: scale(8), width: scale(360) },
         ]}
-        onPress={() => dispatch(loggedOut())}
+        onPress={() => {
+          dispatch(loggedOut());
+          dispatch(userApi.util.resetApiState());
+          dispatch(transactionApi.util.resetApiState());
+          dispatch(budgetApi.util.resetApiState());
+          dispatch(categoryApi.util.resetApiState());
+          dispatch(authApi.util.resetApiState());
+        }}
       >
         <CustomIcon
           type="Ionicons"

@@ -5,6 +5,7 @@ export interface AppTheme {
   backgroundGradient1: string;
   backgroundGradient2: string;
   primary: string;
+  primaryDisabled: string;
   secondary: string;
   secondaryTextLight: string;
   text: string;
@@ -32,6 +33,7 @@ export const lightTheme: AppTheme = {
   backgroundGradient1: "#1D9CDB",
   backgroundGradient2: "#6CB3D6",
   primary: "#1E85B7",
+  primaryDisabled: "#9fa5a8",
   secondary: "#98DBEA",
   text: "#fff",
   secondaryText: "#1E85B7",
@@ -92,6 +94,7 @@ export const darkTheme: AppTheme = {
   backgroundGradient1: "#1D9CDB",
   backgroundGradient2: "#6CB3D6",
   primary: "#1E85B7",
+  primaryDisabled: "#739bb0",
   secondary: "#98DBEA",
   text: "#fff",
   secondaryText: "#1E85B7",

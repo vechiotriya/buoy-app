@@ -24,10 +24,8 @@ import PrimaryInput from "@/src/components/PrimaryInput";
 
 const Profile = () => {
   const { themePalette } = useTheme();
-  const buttonStyle = primaryButtonStyle(themePalette);
   const { data, isLoading, refetch } = useGetUserDetailsQuery({});
-
-  const { pickImage, uploadProfile, takePhoto,uploading } = useImageUpload();
+  const { pickImage, uploadProfile, takePhoto, uploading } = useImageUpload();
   const [showMenu, setShowMenu] = React.useState(false);
   const [edit, setEdit] = React.useState(false);
   const [fullName, setFullName] = React.useState(data?.fullName || "");
@@ -35,6 +33,14 @@ const Profile = () => {
     useDeleteProfilePictureMutation();
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
   const addPicture = ["Pick from gallery", "Take Photo"];
+  let disabled =
+    data?.fullName === fullName ||
+    isLoading ||
+    isUpdating ||
+    isDeleting ||
+    uploading;
+  const buttonStyle = primaryButtonStyle(themePalette, disabled);
+
   return (
     <View style={styles.container}>
       {showMenu && (
@@ -62,7 +68,7 @@ const Profile = () => {
               }}
               onPress={async () => {
                 setShowMenu(false);
-                let imageUri
+                let imageUri;
                 if (item === "Pick from gallery") {
                   imageUri = await pickImage();
                 } else if (item === "Take Photo") {
@@ -159,7 +165,12 @@ const Profile = () => {
             ) : (
               <PrimaryInput
                 value={fullName}
-                style={{width:scale(150),height:scale(35),marginBottom:0,marginTop:scale(15)} }
+                style={{
+                  width: scale(150),
+                  height: scale(35),
+                  marginBottom: 0,
+                  marginTop: scale(15),
+                }}
                 onChangeText={(text) => {
                   setFullName(text);
                 }}
@@ -169,21 +180,23 @@ const Profile = () => {
               onPress={() => setEdit((prev) => !prev)}
               style={{ marginLeft: scale(8) }}
             >
-            {!edit ?  <CustomIcon
-                name="pencil"
-                type="Entypo"
-                size={scale(20)}
-                color="#fff"
-                iconStyle={{ marginLeft: scale(8), marginBottom: scale(6) }}
-              />:
-              <CustomIcon
-                name="check"
-                type="Feather"
-                size={scale(20)}
-                color="#fff"
-                iconStyle={{ marginLeft: scale(8), marginBottom: scale(6) }}
-              />
-              }
+              {!edit ? (
+                <CustomIcon
+                  name="pencil"
+                  type="Entypo"
+                  size={scale(20)}
+                  color="#fff"
+                  iconStyle={{ marginLeft: scale(8), marginBottom: scale(6) }}
+                />
+              ) : (
+                <CustomIcon
+                  name="check"
+                  type="Feather"
+                  size={scale(20)}
+                  color="#fff"
+                  iconStyle={{ marginLeft: scale(8), marginBottom: scale(6) }}
+                />
+              )}
             </TouchableOpacity>
           </View>
         </View>
@@ -203,15 +216,16 @@ const Profile = () => {
         </View>
       </BlurView>
       <TouchableOpacity
-        disabled={data?.fullName === fullName || isLoading||isUpdating}
+        disabled={disabled}
         onPress={() => {
-          updateProfile({ fullName }).then(() => {
-            setEdit(false);
-            console.log("upp");
-            
-          }).catch((err)=>{
-            console.log(err);
-          });
+          updateProfile({ fullName })
+            .then(() => {
+              setEdit(false);
+              console.log("upp");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }}
         style={[buttonStyle, { marginTop: scale(100), width: scale(360) }]}
       >
