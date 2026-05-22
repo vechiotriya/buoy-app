@@ -30,18 +30,42 @@ export default function Settings() {
           onPress={() => route.push("/profile")}
         >
           <View style={styles.profile}>
-            <Image
-              source={{
-                uri: "https://content.latest-hairstyles.com/wp-content/uploads/long-wavy-pixie-cut-with-curls.jpg",
-                width: scale(70),
-                height: scale(70),
-              }}
-              style={styles.avatar}
-            ></Image>
+            {data?.profile ? (
+              <Image
+                source={{
+                  uri: data?.profile,
+                  width: scale(70),
+                  height: scale(70),
+                }}
+                style={styles.avatar}
+              />
+            ) : (
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderWidth: 2,
+                  borderRadius: scale(70),
+                  height: scale(50),
+                  aspectRatio: 1,
+                  padding: scale(10),
+                  borderColor: themePalette.borderSecondary,
+                }}
+              >
+                <CustomIcon
+                  name="user"
+                  type="FontAwesome"
+                  size={scale(20)}
+                  color={themePalette.borderSecondary}
+                />
+              </View>
+            )}
 
             <View>
               <CustomText variant="bold">{data?.fullName}</CustomText>
-              <CustomText style={styles.username}>{'@'+data?.username||" "}</CustomText>
+              <CustomText style={styles.username}>
+                {"@" + data?.username || " "}
+              </CustomText>
             </View>
           </View>
           <CustomIcon

@@ -7,6 +7,7 @@ import nomenclature from '@/src/constants/nomenclature'
 import { AppTheme } from '@/src/constants/Colors'
 import { scale } from '@/src/utils/scale'
 import { useGetUserDetailsQuery } from '../../../services/userApi'
+import { CustomIcon } from '@/src/components/CustomIcon'
 
 const ProfileSection = () => {
     const {themePalette}=useTheme()
@@ -18,7 +19,28 @@ const ProfileSection = () => {
             <CustomText variant='bold' size={font.size_24}>{'Hello, '+data?.fullName.split(' ')[0]}</CustomText>
             <CustomText size={font.size_14}>{nomenclature.BEGIN_TEXT}</CustomText>
         </View>
-        <Image source={{uri:'https://content.latest-hairstyles.com/wp-content/uploads/long-wavy-pixie-cut-with-curls.jpg',width:70,height:70}} style={styles.profileImage}></Image>
+      {data?.profile ?   (<Image source={{uri:data?.profile,width:70,height:70}} style={styles.profileImage}></Image>)
+      :(<View
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderWidth: 2,
+                    borderRadius: scale(60),
+                    height: scale(50),
+                    aspectRatio: 1,
+                    padding: scale(5),
+                    borderColor: themePalette.borderSecondary,
+                    marginRight:scale(24)
+                  }}
+                >
+                  <CustomIcon
+                    name="user"
+                    type="FontAwesome"
+                    size={scale(20)}
+                    color={themePalette.borderSecondary}
+                  />
+                </View>)
+      }
     </View>
   )
 }

@@ -5,13 +5,14 @@ import font from "../constants/font";
 import { AppTheme } from "../constants/Colors";
 import { useTheme } from "../hooks/ThemeContextProvider";
 import { scale } from "../utils/scale";
+import { TextStyle } from "react-native";
 
 interface PrimaryInputProps {
   label?: string;
   value?: string;
   error?: string;
   secure?: boolean;
-  style?: TextInputProps;
+  style?: TextStyle;
   placeholder?: string;
   onChangeText?: (text: string) => void;
   onSubmitEditing?: () => void;
