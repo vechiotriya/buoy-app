@@ -9,6 +9,7 @@ import { BarChart } from "react-native-gifted-charts";
 import { scale } from "../utils/scale";
 import Select from "./Select";
 import { useGetStatsByLastWeekQuery, useGetStatsByWeekQuery } from "../services/transactionApi";
+import { normalizeError } from "../utils/error";
 const SpendAnalysis = () => {
   const { themePalette } = useTheme();
   const [selectedOption, setSelectedOption] = useState<string | undefined>("This Week");
@@ -16,6 +17,14 @@ const SpendAnalysis = () => {
   const { data: lastWeekData, isLoading: lastWeekLoading, error: lastWeekError } = useGetStatsByLastWeekQuery();
   console.log("last week stats",lastWeekData);
   const barData= selectedOption==="This Week"?data?.graph:lastWeekData;
+  if (error) {
+    console.log("API error", error);
+    throw normalizeError(error as Error);
+  }
+  if (lastWeekError) {
+    console.log("API error", lastWeekError);
+    throw normalizeError(lastWeekError as Error);
+  }
   return (
     <View style={{ rowGap: scale(15) }}>
       <View

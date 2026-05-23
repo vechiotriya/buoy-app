@@ -19,6 +19,7 @@ import { useStyles } from "./styles/SetBudget";
 import { quickInputs } from "@/src/constants/constant";
 import { useAddBudgetMutation } from "@/src/services/budgetApi";
 import { useGetCategoriesQuery } from "@/src/services/categoryApi";
+import { normalizeError } from "@/src/utils/error";
 
 const SetCategoryBudget = () => {
   const { themePalette } = useTheme();
@@ -33,7 +34,11 @@ const SetCategoryBudget = () => {
   }
   const ref = useRef<TextInput>(null);
   const [amount, setAmount] = useState("");
-  const { data } = useGetCategoriesQuery({});
+  const { data,error } = useGetCategoriesQuery({});
+    if (error) {
+        console.log("API error", error);
+         throw normalizeError(error as Error);
+    }
   const defaultCategories= [{
       label: "Groceries",
       isChecked: false,

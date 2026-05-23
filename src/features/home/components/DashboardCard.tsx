@@ -7,16 +7,19 @@ import { CustomIcon } from "@/src/components/CustomIcon";
 import { mascotImage } from "@/src/constants/constant";
 import nomenclature from "@/src/constants/nomenclature";
 import font from "@/src/constants/font";
-import { useGetUserDetailsQuery } from "../../../services/userApi";
 import { createDateString } from "@/src/utils/misc";
 import { useGetMonthTotalStatisticsQuery } from "@/src/services/transactionApi";
+import { normalizeError } from "@/src/utils/error";
 
 const DashboardCard = () => {
   const { themePalette } = useTheme();
   const styles = useStyle(themePalette);
   const date = createDateString(new Date());
-  const { data, isLoading, isError } = useGetMonthTotalStatisticsQuery(date);
-console.log(data);
+  const { data, isLoading, isError,error } = useGetMonthTotalStatisticsQuery(date);
+  if (error) {
+    console.log("API error", error);
+    throw normalizeError(error as Error);
+  }
 
   return (
     <View style={styles.cardContainer}>

@@ -18,13 +18,19 @@ import { transactionApi } from "@/src/services/transactionApi";
 import { budgetApi } from "@/src/services/budgetApi";
 import { categoryApi } from "@/src/services/categoryApi";
 import { authApi } from "@/src/services/authApi";
+import { normalizeError } from "@/src/utils/error";
 
 export default function Settings() {
   const { themePalette } = useTheme();
   const buttonStyle = primaryButtonStyle(themePalette);
   const route = useRouter();
   const dispatch = useDispatch();
-  const { data } = useGetUserDetailsQuery({});
+  const { data, error } = useGetUserDetailsQuery({});
+
+  if (error) {
+    console.log("API error", error);
+    throw normalizeError(error as Error);
+  }
 
   return (
     <View style={styles.container}>

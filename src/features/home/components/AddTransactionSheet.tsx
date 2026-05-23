@@ -34,6 +34,7 @@ import {
   useAddCategoryMutation,
   useGetCategoriesQuery,
 } from "@/src/services/categoryApi";
+import { normalizeError } from "@/src/utils/error";
 
 interface AddTransactionSheetProps {
   type: "expense" | "income";
@@ -53,8 +54,11 @@ const AddTransactionSheet = ({ type, ref }: AddTransactionSheetProps) => {
   const [addTransaction, { isSuccess }] = useAddTransactionMutation();
   const [addCategory, { isSuccess: isCategorySuccess }] =
     useAddCategoryMutation();
-  const { data } = useGetCategoriesQuery({});
-
+  const { data,error } = useGetCategoriesQuery({});
+    if (error) {
+        console.log("API error", error);
+         throw normalizeError(error as Error);
+    }
   const [categories, setCategories] = useState([
     ...defaultCategories,
     "Add new category",

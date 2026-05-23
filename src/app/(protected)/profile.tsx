@@ -21,10 +21,11 @@ import {
 } from "@/src/services/userApi";
 import { useImageUpload } from "@/src/hooks/useImageUpload";
 import PrimaryInput from "@/src/components/PrimaryInput";
+import { normalizeError } from "@/src/utils/error";
 
 const Profile = () => {
   const { themePalette } = useTheme();
-  const { data, isLoading, refetch } = useGetUserDetailsQuery({});
+  const { data, isLoading, error } = useGetUserDetailsQuery({});
   const { pickImage, uploadProfile, takePhoto, uploading } = useImageUpload();
   const [showMenu, setShowMenu] = React.useState(false);
   const [edit, setEdit] = React.useState(false);
@@ -40,7 +41,10 @@ const Profile = () => {
     isDeleting ||
     uploading;
   const buttonStyle = primaryButtonStyle(themePalette, disabled);
-
+  if (error) {
+    console.log("API error", error);
+    throw normalizeError(error as Error);
+  }
   return (
     <View style={styles.container}>
       {showMenu && (

@@ -14,19 +14,29 @@ import { RecentTransactions } from "@/src/components/RecentTransactions";
 import { useGetStatsByYearQuery } from "@/src/services/transactionApi";
 import { useGetCategoriesExpensesQuery } from "@/src/services/categoryApi";
 import { getCategoryColor } from "@/src/utils/misc";
+import { normalizeError } from "@/src/utils/error";
 
 const YearlyStats = () => {
   const { themePalette } = useTheme();
   const style = useStyle(themePalette);
   const { data, isLoading, error } = useGetStatsByYearQuery();
-  const { data: categoryExpenses } = useGetCategoriesExpensesQuery({});
+  const { data: categoryExpenses, error: categoryError } =
+    useGetCategoriesExpensesQuery({});
   const pieData =
     categoryExpenses?.year?.map((item: any) => ({
       value: item.value,
       color: getCategoryColor(themePalette.donutChartColors, item.text),
       text: item.text,
     })) || [];
-  console.log("pp", pieData);
+
+  if (error) {
+    console.log("API error", error);
+    throw normalizeError(error as Error);
+  }
+  if (categoryError) {
+    console.log("API error", categoryError);
+    throw normalizeError(categoryError as Error);
+  }
 
   return (
     <ScrollView
@@ -181,28 +191,28 @@ const YearlyStats = () => {
             alignItems: "center",
           }}
         >
-        <PieChart
-          radius={scale(100)}
-          focusOnPress
-          focusedPieIndex={0}
-          textSize={font.size_12}
-          showValuesAsTooltipText={true}
-          donut
-          innerRadius={scale(80)}
-          innerCircleBorderWidth={scale(2)}
-          innerCircleColor={themePalette.backgroundGradient2}
-          centerLabelComponent={(value: number) => {
-            console.log(value);
-            if (value == -1) return;
-            return (
-              <View style={{ alignItems: "center" }}>
-                <CustomText variant="bold">{pieData[value]?.text}</CustomText>
-                <CustomText>{`${pieData[value]?.value} %`}</CustomText>
-              </View>
-            );
-          }}
-          data={pieData}
-        />
+          <PieChart
+            radius={scale(100)}
+            focusOnPress
+            focusedPieIndex={0}
+            textSize={font.size_12}
+            showValuesAsTooltipText={true}
+            donut
+            innerRadius={scale(80)}
+            innerCircleBorderWidth={scale(2)}
+            innerCircleColor={themePalette.backgroundGradient2}
+            centerLabelComponent={(value: number) => {
+              console.log(value);
+              if (value == -1) return;
+              return (
+                <View style={{ alignItems: "center" }}>
+                  <CustomText variant="bold">{pieData[value]?.text}</CustomText>
+                  <CustomText>{`${pieData[value]?.value} %`}</CustomText>
+                </View>
+              );
+            }}
+            data={pieData}
+          />
         </View>
       </BlurView>
       <RecentTransactions title={nomenclature.TRANSACTIONS} />

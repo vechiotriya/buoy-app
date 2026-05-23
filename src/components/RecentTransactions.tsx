@@ -11,6 +11,7 @@ import nomenclature from '../constants/nomenclature'
 import { scale } from '../utils/scale'
 import { useRouter } from 'expo-router'
 import { useGetAllTransactionsQuery } from '../services/transactionApi'
+import { normalizeError } from '../utils/error'
 
 interface TransactionListProps {
     title?: string;
@@ -52,6 +53,10 @@ const Transaction = React.memo(TransactionItem);
 export const RecentTransactions = ({title,seeAll}:TransactionListProps) => {
     const {data,isLoading,error} = useGetAllTransactionsQuery({});    
     const route=useRouter();
+    if (error) {
+        console.log("API error", error);
+         throw normalizeError(error as Error);
+    }
     return (
         <View style={{ marginHorizontal: scale(24), rowGap: scale(24),paddingBottom: scale(24) }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>

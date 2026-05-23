@@ -17,6 +17,7 @@ import {
 import { useDebounceValue } from "@/src/hooks/common";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { useLazyGetGroupedTransactionBySearchQuery, useGetGroupedTransactionsByMonthQuery } from "@/src/services/transactionApi";
+import { normalizeError } from "@/src/utils/error";
 import { dayMonthExtractor } from "@/src/utils/misc";
 import { scale } from "@/src/utils/scale";
 import { BlurView } from "expo-blur";
@@ -49,7 +50,7 @@ const Transactions = () => {
   const { data, isLoading, error,refetch } =
     useGetGroupedTransactionsByMonthQuery(body);
   console.log(error);
-  const [triggerSearch, { data: searchResult }]= useLazyGetGroupedTransactionBySearchQuery();
+  const [triggerSearch, { data: searchResult,error:searchError }]= useLazyGetGroupedTransactionBySearchQuery();
   const [searchText, setSearchText] = useState('');
   const DATA =
     data?.map(
@@ -70,6 +71,14 @@ const Transactions = () => {
     else refetch();
     },1000)
 
+  if (error) {
+    console.log("API error", error);
+    throw normalizeError(error as Error);
+  }
+  if (searchError) {
+    console.log("API error", searchError);
+    throw normalizeError(searchError as Error);
+  }
   const SearchFilterComponent=()=>{
     return (
           <>

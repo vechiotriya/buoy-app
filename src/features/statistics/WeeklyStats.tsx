@@ -14,11 +14,22 @@ import { RecentTransactions } from "@/src/components/RecentTransactions";
 import { useGetStatsByWeekQuery } from "@/src/services/transactionApi";
 import { useGetCategoriesExpensesQuery } from "@/src/services/categoryApi";
 import { getCategoryColor } from "@/src/utils/misc";
+import { normalizeError } from "@/src/utils/error";
 const WeeklyStats = () => {
   const { themePalette } = useTheme();
   const style = useStyle(themePalette);
   const { data, isLoading, error } = useGetStatsByWeekQuery();
-  const { data: categoryExpenses } = useGetCategoriesExpensesQuery({});
+  const { data: categoryExpenses, error: categoryError } =
+    useGetCategoriesExpensesQuery({});
+
+  if (error) {
+    console.log("API error", error);
+    throw normalizeError(error as Error);
+  }
+  if (categoryError) {
+    console.log("API error", categoryError);
+    throw normalizeError(categoryError as Error);
+  }
 
   const pieData =
     categoryExpenses?.week?.map((item: any) => ({
@@ -176,7 +187,7 @@ const WeeklyStats = () => {
         <CustomText
           size={font.size_18}
           variant="bold"
-          style={{ marginVertical: scale(5),marginLeft:scale(20) }}
+          style={{ marginVertical: scale(5), marginLeft: scale(20) }}
         >
           {nomenclature.CATEGORY_WISE_SPENDING}
         </CustomText>

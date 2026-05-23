@@ -7,6 +7,7 @@ import nomenclature from "@/src/constants/nomenclature";
 import BudgetCard from "@/src/features/budget/components/BudgetCard";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { useGetBudgetQuery } from "@/src/services/budgetApi";
+import { normalizeError } from "@/src/utils/error";
 import { scale } from "@/src/utils/scale";
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
@@ -17,7 +18,11 @@ export default function Budget() {
   const { themePalette } = useTheme();
   const styles = useStyles(themePalette);
   const { data: budgetData, isLoading, error } = useGetBudgetQuery({});
-  console.log("budget",budgetData,error);
+
+  if (error) {
+    console.log("API error", error);
+    throw normalizeError(error as Error);
+  }
   
   const overallBudget = budgetData?.find((item)=>item.name==='All')??null;
   const categoryBudgets = budgetData?.filter((item)=>item.name!=='All')??[];
