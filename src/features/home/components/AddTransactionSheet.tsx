@@ -303,6 +303,7 @@ const AddTransactionSheet = ({ type, ref }: AddTransactionSheetProps) => {
             {keypadLayout?.map((row) => {
               return (
                 <View
+                  key={row.toString()}
                   style={{
                     flexDirection: "row",
                     columnGap: scale(4),
@@ -313,6 +314,7 @@ const AddTransactionSheet = ({ type, ref }: AddTransactionSheetProps) => {
                     if (typeof rowItem == "string" || rowItem == null) {
                       return (
                         <KeypadButton
+                          key={rowItem}
                           backgroundColor={themePalette.keypadButton}
                           label={rowItem ?? ""}
                           onPress={() => {
@@ -337,6 +339,7 @@ const AddTransactionSheet = ({ type, ref }: AddTransactionSheetProps) => {
                     }
                     return (
                       <KeypadButton
+                        key={rowItem.icon.toString()}
                         backgroundColor={rowItem.color}
                         label={rowItem.icon}
                         icon={rowItem.icon}
@@ -359,6 +362,7 @@ const AddTransactionSheet = ({ type, ref }: AddTransactionSheetProps) => {
             {sideButtons.map((button) => {
               return (
                 <KeypadButton
+                  key={button.icon.toString()}
                   backgroundColor={button.color}
                   label={button.icon}
                   icon={button.icon}

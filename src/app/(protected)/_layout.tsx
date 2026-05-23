@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Stack, useRouter } from "expo-router";
+import { ErrorBoundaryProps, Stack, useRouter } from "expo-router";
 import NavigationHeader from "@/src/components/NavigationHeader";
 import { TouchableHighlight, View } from "react-native";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
@@ -10,7 +10,15 @@ import CustomText from "@/src/components/CustomText";
 import font from "@/src/constants/font";
 import BottomSheet from "@gorhom/bottom-sheet";
 import AddTransactionSheet from "@/src/features/home/components/AddTransactionSheet";
+import { TouchableOpacity } from "react-native";
+import { primaryButtonStyle } from "@/src/constants/styles";
+import ErrorPage from "@/src/components/ErrorPage";
 
+export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
+  return (
+    <ErrorPage retry={retry} message={error.message} />
+  );
+}
 export default function TabLayout() {
   const { themePalette } = useTheme();
   const addData = ["Add Income", "Add Expense", "Add Budget"];

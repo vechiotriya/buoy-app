@@ -1,4 +1,3 @@
-import { ViewStyle } from "react-native";
 import SignIn from "../features/auth/SignIn";
 import SignUp from "../features/auth/SignUp";
 import {
@@ -13,6 +12,7 @@ import SetCategoryBudget from "../features/budget/SetCategoryBudget";
 import SetOverallBudget from "../features/budget/SetOverallBudget";
 
 export const mascotImage = require("@/assets/images/mascot.png");
+export const errorImage= require("@/assets/images/error-image.png");
 export const dashboardTabs: Array<DashboardTabTypes> = [
   {
     name: "Scan",

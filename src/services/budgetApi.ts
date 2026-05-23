@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { storage } from "./storage";
+import { normalizeError } from "../utils/error";
 
 export const budgetApi = createApi({
   reducerPath: "budget",
@@ -13,8 +14,15 @@ export const budgetApi = createApi({
       }
       return headers;
     },
+    responseHandler: async (response) => {
+      const data = await response.json();
+       if (!response.ok) {
+        throw new Error(response.statusText,{cause: {status: response.status,message: data.message || "Server error"}});
+      }
+      return data;
+    },
   }),
-    endpoints: (builder) => ({
+  endpoints: (builder) => ({
     getBudget: builder.query({
       query: () => ({
         url: "/all",
@@ -23,14 +31,14 @@ export const budgetApi = createApi({
       providesTags: ["Budget"],
     }),
     addBudget: builder.mutation({
-        query: (budget) => ({
-          url: "/add",
-          method: "POST",
-          body: budget,
-        }),
-        invalidatesTags: ["Budget"],
-    })
-  })  
+      query: (budget) => ({
+        url: "/add",
+        method: "POST",
+        body: budget,
+      }),
+      invalidatesTags: ["Budget"],
+    }),
+  }),
 });
 
 export const { useGetBudgetQuery, useAddBudgetMutation } = budgetApi;

@@ -8,7 +8,6 @@ import { RecentTransactions } from "@/src/components/RecentTransactions";
 import { dashboardTabs } from "@/src/constants/constant";
 import { scale } from "@/src/utils/scale";
 export default function Home() {
-
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={{ rowGap: scale(24) }}>
@@ -23,7 +22,7 @@ export default function Home() {
         >
           {dashboardTabs.map((tab, index) => (
             <MenuTab
-              key={index}
+              key={tab.name}
               name={tab.name}
               icon={tab.icon}
               type={tab.type}

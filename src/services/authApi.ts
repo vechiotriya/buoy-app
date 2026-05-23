@@ -1,14 +1,18 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { normalizeError } from "../utils/error";
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.EXPO_PUBLIC_BASE_URL + "/auth",
-    prepareHeaders:(headers)=>{
-        headers.set('Content-Type', 'application/json');
-        return headers;
+    prepareHeaders: (headers) => {
+      headers.set("Content-Type", "application/json");
+      return headers;
     },
     responseHandler: async (response) => {
-      const data = await response.json()
+      const data = await response.json();
+       if (!response.ok) {
+        throw new Error(response.statusText,{cause: {status: response.status,message: data.message || "Server error"}});
+      }
       return data;
     },
   }),
@@ -33,8 +37,9 @@ export const authApi = createApi({
         method: "POST",
         body: authRequest,
       }),
+    }),
   }),
-}),
 });
 
-export const { useSignInMutation, useSignUpMutation, useGoogleAuthMutation } = authApi;
+export const { useSignInMutation, useSignUpMutation, useGoogleAuthMutation } =
+  authApi;

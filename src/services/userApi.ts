@@ -1,5 +1,6 @@
 import { storage } from "@/src/services/storage";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { normalizeError } from "../utils/error";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -14,6 +15,9 @@ export const userApi = createApi({
     },
     responseHandler: async (response) => {
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(response.statusText,{cause: {status: response.status,message: data.message || "Server error"}});
+      }
       return data;
     },
   }),
