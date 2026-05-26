@@ -11,7 +11,6 @@ import WeeklyStats from "../features/statistics/WeeklyStats";
 import SetCategoryBudget from "../features/budget/SetCategoryBudget";
 import SetOverallBudget from "../features/budget/SetOverallBudget";
 
-export const mascotImage = require("@/assets/images/mascot.png");
 export const mascot2Image = require("@/assets/images/mascot2.png");
 export const errorImage= require("@/assets/images/error-image.png");
 export const coinInHand= require("@/assets/images/coin-in-hand.png");

@@ -4,12 +4,13 @@ import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { useStyle } from "../styles/DashboardCardStyles";
 import CustomText from "@/src/components/CustomText";
 import { CustomIcon } from "@/src/components/CustomIcon";
-import { mascotImage } from "@/src/constants/constant";
+import { mascot2Image, mascotImage } from "@/src/constants/constant";
 import nomenclature from "@/src/constants/nomenclature";
 import font from "@/src/constants/font";
 import { createDateString } from "@/src/utils/misc";
 import { useGetMonthTotalStatisticsQuery } from "@/src/services/transactionApi";
 import { normalizeError } from "@/src/utils/error";
+import { scale } from "@/src/utils/scale";
 
 const DashboardCard = () => {
   const { themePalette } = useTheme();
@@ -34,14 +35,14 @@ const DashboardCard = () => {
           </CustomText>
           <CustomText
             variant="bold"
-            size={font.size_24}
+            size={font.size_32}
             color={themePalette.secondaryText}
-            style={{ paddingLeft: "2%", marginTop: 5 }}
+            style={{ paddingLeft: "2%", marginTop: scale(5) }}
           >
             {nomenclature.RUPEE_SIGN + " " + (data?.balance??0)}
           </CustomText>
         </View>
-        <Image source={mascotImage} style={{ width: 94, height: 90 }}></Image>
+        <Image source={mascot2Image} style={{ width: scale(100), height: scale(110) }}></Image>
       </View>
       <View style={[styles.infoRowContainer, { paddingHorizontal: "10%" }]}>
         <View style={{ justifyContent: "center" }}>
