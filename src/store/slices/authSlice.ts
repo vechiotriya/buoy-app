@@ -1,32 +1,44 @@
 import { storage } from "@/src/services/storage";
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 interface AuthState {
-    isAuthenticated: boolean;
-    user: string | null;
+  isAuthenticated: boolean;
+  isOnboarded: boolean;
+  initialBalance: number;
+  user: string | null;
 }
 
-const initialState:AuthState={
-    isAuthenticated: !!storage.getString('accessToken'),
-    user:null
-}
+const initialState: AuthState = {
+  isAuthenticated: !!storage.getString("accessToken"),
+  isOnboarded: storage.getBoolean("onboarded") ?? false,
+  initialBalance: storage.getNumber("initialBalance") ?? 0,
+  user: null,
+};
 
-const authSlice=createSlice({
-    name:'auth',
-    initialState,
-    reducers:{
-        loggedIn:(state,action)=>{
-            state.isAuthenticated=true;
-            state.user=action.payload.user;            
-            storage.set('accessToken', action.payload.accessToken);
-        },
-        loggedOut:(state)=>{
-            state.isAuthenticated=false;
-            state.user=null;
-            storage.remove('accessToken');
-        }
-    }
-})
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    setOnboarded(state) {
+      state.isOnboarded = true;
+      storage.set("onboarded", true);
+    },
+    setInitialBalance(state, action) {
+      state.initialBalance = action.payload;
+      storage.set("initialBalance", action.payload);
+    },
+    loggedIn: (state, action) => {
+      state.isAuthenticated = true;
+      state.user = action.payload.user;
+      storage.set("accessToken", action.payload.accessToken);
+    },
+    loggedOut: (state) => {
+      state.isAuthenticated = false;
+      state.user = null;
+      storage.remove("accessToken");
+    },
+  },
+});
 
-export const {loggedIn,loggedOut}=authSlice.actions;
+export const { loggedIn, loggedOut, setOnboarded, setInitialBalance } = authSlice.actions;
 export default authSlice.reducer;

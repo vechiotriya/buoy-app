@@ -1,29 +1,28 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-import { ThemeProvider } from '@/src/hooks/ThemeContextProvider';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Provider, useSelector } from 'react-redux';
-import { store } from '../store/store';
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useFonts } from "expo-font";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+import "react-native-reanimated";
+import { ThemeProvider } from "@/src/hooks/ThemeContextProvider";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Provider, useSelector } from "react-redux";
+import { store } from "../store/store";
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
-} from 'expo-router';
+} from "expo-router";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    'poppins-regular': require('../../assets/fonts/Poppins-Regular.ttf'),
-    'poppins-bold': require('../../assets/fonts/Poppins-Bold.ttf'),
+    "poppins-regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+    "poppins-bold": require("../../assets/fonts/Poppins-Bold.ttf"),
     ...FontAwesome.font,
   });
-
 
   useEffect(() => {
     if (loaded) {
@@ -35,29 +34,41 @@ export default function RootLayout() {
     return null;
   }
 
-  return ( <Provider store={store}><RootLayoutNav /></Provider> );
+  return (
+    <Provider store={store}>
+      <RootLayoutNav />
+    </Provider>
+  );
 }
 
 function RootLayoutNav() {
-    const isLoggedIn = useSelector((state: any) => state.auth.isAuthenticated);
-    console.log('User is logged in:', isLoggedIn);
+  const isLoggedIn = useSelector((state: any) => state.auth.isAuthenticated);
+  console.log("User is logged in:", isLoggedIn);
+  const isOnboarded = useSelector((state: any) => state.auth.isOnboarded);
   return (
-
     <ThemeProvider>
       <GestureHandlerRootView>
         <Stack
-        screenOptions={{
-          animation: "slide_from_bottom",
-        }}
+          screenOptions={{
+            animation: "slide_from_bottom",
+          }}
         >
-        <Stack.Protected guard={isLoggedIn}>
-          <Stack.Screen name="(protected)" options={{ headerShown: false }} />
-        </Stack.Protected>
-        <Stack.Protected guard={!isLoggedIn}>
-          <Stack.Screen name="sign" options={{ headerShown: false }} />
-        </Stack.Protected>
+          <Stack.Protected
+            guard={!isOnboarded}
+          >
+            <Stack.Screen
+              name="(onboarding)"
+              options={{ headerShown: false }}
+            />
+          </Stack.Protected>
+          <Stack.Protected guard={isLoggedIn}>
+            <Stack.Screen name="(protected)" options={{ headerShown: false }} />
+          </Stack.Protected>
+          <Stack.Protected guard={!isLoggedIn}>
+            <Stack.Screen name="sign" options={{ headerShown: false }} />
+          </Stack.Protected>
         </Stack>
       </GestureHandlerRootView>
     </ThemeProvider>
-      );
+  );
 }

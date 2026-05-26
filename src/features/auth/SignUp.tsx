@@ -19,6 +19,8 @@ import { useDispatch } from "react-redux";
 import { loggedIn } from "@/src/store/slices/authSlice";
 import { trimFields } from "@/src/utils/misc";
 import { ScrollView } from "react-native-gesture-handler";
+import { useGoogleAuth } from "@/src/hooks/useGoogleAuth";
+import { storage } from "@/src/services/storage";
 
 const SignUp = () => {
   const { themePalette } = useTheme();
@@ -33,11 +35,24 @@ const SignUp = () => {
   const [signUp, { isLoading, error }] = authApi.useSignUpMutation();
   const dispatch = useDispatch();
   const [signIn] = authApi.useSignInMutation();
+  const {
+    user,
+    loading,
+    request,
+    signIn: googleSignIn,
+    signOut,
+  } = useGoogleAuth();
 
+  const balance=storage.getNumber("initialBalance") ?? 0
+  console.log("balance",balance);
+  
   const handleSignUp = async (data: any) => {
     try {
+      console.log('SignUp data',data);
+      
       const response = await signUp(data).unwrap(); // unwrap throws on error
       console.log("Sign-up successful:", response);
+      storage.remove("initialBalance");
       const title = nomenclature.SIGN_UP_SUCCESSFUL_TITLE;
       const message = nomenclature.SIGN_UP_SUCCESSFUL_MESSAGE;
       const buttons: AlertButton[] = [
@@ -50,7 +65,7 @@ const SignUp = () => {
             })
               .unwrap()
               .then((res) => {
-                console.log("Sign-in successful",res);
+                console.log("Sign-up successful", res);
                 dispatch(
                   loggedIn({
                     user: formData.username,
@@ -59,7 +74,7 @@ const SignUp = () => {
                 );
               })
               .catch((error) => {
-                console.error("Sign-in error:", error);
+                console.error("Sign-up error:", error);
               });
           },
         },
@@ -70,8 +85,9 @@ const SignUp = () => {
         Alert.alert(title, message, buttons);
       }
     } catch (err) {
-      console.error("Sign-up error:", `${err}`);
-      if(Platform.OS === "ios") Alert.prompt('Sign up error'); else Alert.alert('Sign up error');
+      console.error("Sign-up error:", err);
+      if (Platform.OS === "ios") Alert.prompt("Sign up error");
+      else Alert.alert("Sign up error");
     }
   };
   return (
@@ -120,12 +136,12 @@ const SignUp = () => {
           disabled={isLoading}
           style={buttonStyle}
           onPress={() => {
-            handleSignUp(trimFields(formData));
+            handleSignUp({ ...trimFields(formData), balance });
           }}
         >
           <CustomText>{nomenclature.SIGN_UP}</CustomText>
         </TouchableOpacity>
-        <SocialFooter />
+        <SocialFooter signInWithGoogle={googleSignIn} />
       </ScrollView>
     </KeyboardAvoidingView>
   );

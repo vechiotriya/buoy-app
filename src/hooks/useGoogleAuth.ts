@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { loggedIn } from "../store/slices/authSlice";
 import { Alert, Platform } from "react-native";
 import nomenclature from "../constants/nomenclature";
+import { storage } from "../services/storage";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -15,6 +16,7 @@ export function useGoogleAuth() {
   const [loading, setLoading] = useState(false);
   const [googleAuth, { isLoading }] = useGoogleAuthMutation({});
   const dispatch = useDispatch();
+  const balance=storage.getNumber("initialBalance") ?? 0
   // Warm up browser before it's needed
   useEffect(() => {
     WebBrowser.warmUpAsync();
@@ -46,10 +48,9 @@ export function useGoogleAuth() {
       console.error("No ID token received — check scopes and client config");
       return;
     }
-    console.log("passing",{idToken 
-    });
+    console.log("passing",{idToken , balance});
     
-    googleAuth({ idToken })
+    googleAuth({ idToken,balance })
       .unwrap()
       .then((res) => {console.log("Google Auth Response:", res)
         Platform.OS === "ios"
@@ -67,6 +68,7 @@ export function useGoogleAuth() {
                   accessToken: res?.accessToken,
                 }),
               );
+              storage.remove("initialBalance");
       })
       .catch((err) => console.error("Google Auth Error:", err));
   }, [response]);

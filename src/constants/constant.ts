@@ -12,7 +12,12 @@ import SetCategoryBudget from "../features/budget/SetCategoryBudget";
 import SetOverallBudget from "../features/budget/SetOverallBudget";
 
 export const mascotImage = require("@/assets/images/mascot.png");
+export const mascot2Image = require("@/assets/images/mascot2.png");
 export const errorImage= require("@/assets/images/error-image.png");
+export const coinInHand= require("@/assets/images/coin-in-hand.png");
+export const bankLocker= require("@/assets/images/bank-locker.png");
+export const growthGraph= require("@/assets/images/growth-graph.png");
+
 export const dashboardTabs: Array<DashboardTabTypes> = [
   {
     name: "Scan",
@@ -100,3 +105,18 @@ export const defaultCategories = [
   "Debt",
   "Miscellaneous",
 ];
+
+export const onboardingSlides= [
+  {
+    image: coinInHand,
+    text: "Set a budget for each category and track your spending habits.",
+  },
+  {
+    image: growthGraph,
+    text: "Stay on top of your finances with real-time updates and insights.",
+  },
+  {
+    image: bankLocker,
+    text: "Get started now and take control of your financial future!",
+  }
+]
