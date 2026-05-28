@@ -16,6 +16,8 @@ export const errorImage= require("@/assets/images/error-image.png");
 export const coinInHand= require("@/assets/images/coin-in-hand.png");
 export const bankLocker= require("@/assets/images/bank-locker.png");
 export const growthGraph= require("@/assets/images/growth-graph.png");
+export const aboutImage= require("@/assets/images/buoy.jpg");
+export const empty= require("@/assets/images/empty.png");
 
 export const dashboardTabs: Array<DashboardTabTypes> = [
   {
