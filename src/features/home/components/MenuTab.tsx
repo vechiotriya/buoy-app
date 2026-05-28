@@ -14,7 +14,7 @@ export default ({ name, icon, type, path }:DashboardTabTypes) => {
     const navigation=useRouter()
     const styles = useStyles(themePalette)
     return (
-        <TouchableOpacity style={styles.container} onPress={() =>{ 
+        <TouchableOpacity disabled={name === "Receipt" || name === "Scan"} style={[styles.container, (name=="Receipt"||name=="Scan")&&{opacity:0.5}]} onPress={() =>{ 
             navigation.navigate(path)
         }}>
             <CustomIcon
