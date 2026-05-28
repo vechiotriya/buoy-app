@@ -1,22 +1,23 @@
-import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  TextInputProps,
+  View,
+  TextStyle,
+} from "react-native";
 import React, { forwardRef } from "react";
+
 import CustomText from "./CustomText";
 import font from "../constants/font";
 import { AppTheme } from "../constants/Colors";
 import { useTheme } from "../hooks/ThemeContextProvider";
 import { scale } from "../utils/scale";
-import { TextStyle } from "react-native";
 
-interface PrimaryInputProps {
+interface PrimaryInputProps extends TextInputProps {
   label?: string;
-  value?: string;
   error?: string;
   secure?: boolean;
   style?: TextStyle;
-  placeholder?: string;
-  onChangeText?: (text: string) => void;
-  onSubmitEditing?: () => void;
-  returnKeyType?: "done" | "go" | "next" | "search" | "send";
 }
 
 const PrimaryInput = forwardRef<TextInput, PrimaryInputProps>(
@@ -31,6 +32,7 @@ const PrimaryInput = forwardRef<TextInput, PrimaryInputProps>(
       onChangeText,
       onSubmitEditing,
       returnKeyType,
+      ...rest
     },
     ref
   ) => {
@@ -42,8 +44,10 @@ const PrimaryInput = forwardRef<TextInput, PrimaryInputProps>(
         {label && <CustomText>{label}</CustomText>}
 
         <TextInput
+          {...rest}
           ref={ref}
           value={value}
+          placeholderTextColor={themePalette.inputText2}
           style={[styles.inputText, style]}
           placeholder={placeholder}
           secureTextEntry={secure}
@@ -51,6 +55,15 @@ const PrimaryInput = forwardRef<TextInput, PrimaryInputProps>(
           onSubmitEditing={onSubmitEditing}
           returnKeyType={returnKeyType}
         />
+
+        {!!error && (
+          <CustomText
+            style={styles.errorText}
+            size={font.size_12}
+          >
+            {error}
+          </CustomText>
+        )}
       </View>
     );
   }
@@ -60,6 +73,11 @@ export default PrimaryInput;
 
 const useStyles = (theme: AppTheme) =>
   StyleSheet.create({
+    container: {
+      justifyContent: "center",
+      marginBottom: scale(24),
+    },
+
     inputText: {
       backgroundColor: theme.background,
       fontFamily: "poppins-regular",
@@ -71,8 +89,10 @@ const useStyles = (theme: AppTheme) =>
       minHeight: scale(45),
       width: scale(360),
     },
-    container: {
-      justifyContent: "center",
-      marginBottom: scale(24),
+
+    errorText: {
+      color: theme.negative,
+      marginTop: scale(6),
+      marginLeft: scale(4),
     },
   });

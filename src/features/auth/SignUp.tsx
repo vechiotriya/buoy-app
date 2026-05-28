@@ -1,95 +1,141 @@
 import {
   Alert,
-  AlertButton,
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
-import useStyles from "./styles/SignUpStyles";
-import { useTheme } from "@/src/hooks/ThemeContextProvider";
-import PrimaryInput from "@/src/components/PrimaryInput";
-import nomenclature from "@/src/constants/nomenclature";
-import CustomText from "@/src/components/CustomText";
-import { primaryButtonStyle } from "@/src/constants/styles";
-import SocialFooter from "./SocialFooter";
-import { authApi } from "@/src/services/authApi";
-import { useDispatch } from "react-redux";
-import { loggedIn } from "@/src/store/slices/authSlice";
-import { trimFields } from "@/src/utils/misc";
+import React, { useMemo, useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
+
+import useStyles from "./styles/SignUpStyles";
+
+import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { useGoogleAuth } from "@/src/hooks/useGoogleAuth";
+
+import PrimaryInput from "@/src/components/PrimaryInput";
+import CustomText from "@/src/components/CustomText";
+import SocialFooter from "./SocialFooter";
+
+import nomenclature from "@/src/constants/nomenclature";
+import { primaryButtonStyle } from "@/src/constants/styles";
+
+import { authApi } from "@/src/services/authApi";
 import { storage } from "@/src/services/storage";
+
+import { loggedIn } from "@/src/store/slices/authSlice";
+
+import { trimFields } from "@/src/utils/misc";
 
 const SignUp = () => {
   const { themePalette } = useTheme();
+
   const styles = useStyles(themePalette);
   const buttonStyle = primaryButtonStyle(themePalette);
+
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
     email: "",
     password: "",
   });
-  const [signUp, { isLoading, error }] = authApi.useSignUpMutation();
-  const dispatch = useDispatch();
-  const [signIn] = authApi.useSignInMutation();
-  const {
-    user,
-    loading,
-    request,
-    signIn: googleSignIn,
-    signOut,
-  } = useGoogleAuth();
 
-  const balance=storage.getNumber("initialBalance") ?? 0
-  console.log("balance",balance);
-  
-  const handleSignUp = async (data: any) => {
+  const [signUp, { isLoading }] = authApi.useSignUpMutation();
+  const [signIn] = authApi.useSignInMutation();
+
+  const { signIn: googleSignIn } = useGoogleAuth();
+
+  const balance = storage.getNumber("initialBalance") ?? 0;
+
+  const cleanedData = useMemo(() => {
+    return trimFields(formData);
+  }, [formData]);
+
+  const emailError = useMemo(() => {
+    if (!cleanedData.email) return "";
+
+    const emailRegex = /^\S+@\S+\.\S+$/;
+
+    return emailRegex.test(cleanedData.email)
+      ? ""
+      : "Enter a valid email";
+  }, [cleanedData.email]);
+
+  const passwordError = useMemo(() => {
+    if (!cleanedData.password) return "";
+
+    return cleanedData.password.length >= 6
+      ? ""
+      : "Password must be at least 6 characters";
+  }, [cleanedData.password]);
+
+  const usernameError = useMemo(() => {
+    if (!cleanedData.username) return "";
+
+    return cleanedData.username.length >= 3
+      ? ""
+      : "Username must be at least 3 characters";
+  }, [cleanedData.username]);
+
+  const fullNameError = useMemo(() => {
+    if (!cleanedData.fullName) return "";
+
+    return cleanedData.fullName.length >= 2
+      ? ""
+      : "Enter your full name";
+  }, [cleanedData.fullName]);
+
+  const isDisabled =
+    isLoading ||
+    !cleanedData.fullName ||
+    !cleanedData.username ||
+    !cleanedData.email ||
+    !cleanedData.password ||
+    !!emailError ||
+    !!passwordError ||
+    !!usernameError ||
+    !!fullNameError;
+
+  const handleSignUp = async () => {
     try {
-      console.log('SignUp data',data);
-      
-      const response = await signUp(data).unwrap(); // unwrap throws on error
-      console.log("Sign-up successful:", response);
+      const payload = {
+        ...cleanedData,
+        balance,
+      };
+
+      await signUp(payload).unwrap();
+
       storage.remove("initialBalance");
-      const title = nomenclature.SIGN_UP_SUCCESSFUL_TITLE;
-      const message = nomenclature.SIGN_UP_SUCCESSFUL_MESSAGE;
-      const buttons: AlertButton[] = [
-        {
-          text: nomenclature.SIGN_UP_SUCCESSFUL_BUTTON,
-          onPress: () => {
-            signIn({
-              username: formData.username,
-              password: formData.password,
-            })
-              .unwrap()
-              .then((res) => {
-                console.log("Sign-up successful", res);
-                dispatch(
-                  loggedIn({
-                    user: formData.username,
-                    accessToken: res.accessToken,
-                  }),
-                );
-              })
-              .catch((error) => {
-                console.error("Sign-up error:", error);
-              });
-          },
-        },
-      ];
-      if (Platform.OS === "ios") {
-        Alert.prompt(title, message, buttons);
-      } else {
-        Alert.alert(title, message, buttons);
-      }
-    } catch (err) {
-      console.error("Sign-up error:", err);
-      if (Platform.OS === "ios") Alert.prompt("Sign up error");
-      else Alert.alert("Sign up error");
+
+      const loginResponse = await signIn({
+        username: payload.username,
+        password: payload.password,
+      }).unwrap();
+
+      dispatch(
+        loggedIn({
+          user: payload.username,
+          accessToken: loginResponse.accessToken,
+        })
+      );
+
+      Alert.alert(
+        nomenclature.SIGN_UP_SUCCESSFUL_TITLE,
+        nomenclature.SIGN_UP_SUCCESSFUL_MESSAGE
+      );
+    } catch (error: any) {
+      console.error("Sign-up error:", error);
+
+      Alert.alert(
+        "Sign Up Failed",
+        error?.data?.message || "Something went wrong"
+      );
     }
   };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -98,49 +144,87 @@ const SignUp = () => {
       <ScrollView
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
         <PrimaryInput
           label={nomenclature.FULLNAME}
           value={formData.fullName}
-          error=""
+          error={fullNameError}
+          placeholder="John Doe"
+          autoCapitalize="words"
+          returnKeyType="next"
           onChangeText={(text) =>
-            setFormData((prev) => ({ ...prev, fullName: text }))
+            setFormData((prev) => ({
+              ...prev,
+              fullName: text,
+            }))
           }
         />
+
         <PrimaryInput
           label={nomenclature.USERNAME}
           value={formData.username}
-          error=""
+          error={usernameError}
+          placeholder="johndoe"
+          autoCapitalize="none"
+          returnKeyType="next"
           onChangeText={(text) =>
-            setFormData((prev) => ({ ...prev, username: text }))
+            setFormData((prev) => ({
+              ...prev,
+              username: text,
+            }))
           }
         />
+
         <PrimaryInput
           label={nomenclature.EMAIL}
           value={formData.email}
-          error=""
+          error={emailError}
+          placeholder="john@example.com"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          returnKeyType="next"
           onChangeText={(text) =>
-            setFormData((prev) => ({ ...prev, email: text }))
+            setFormData((prev) => ({
+              ...prev,
+              email: text,
+            }))
           }
         />
+
         <PrimaryInput
           label={nomenclature.PASSWORD}
           value={formData.password}
-          error=""
+          error={passwordError}
+          placeholder="••••••••"
           secure
+          returnKeyType="done"
+          onSubmitEditing={handleSignUp}
           onChangeText={(text) =>
-            setFormData((prev) => ({ ...prev, password: text }))
+            setFormData((prev) => ({
+              ...prev,
+              password: text,
+            }))
           }
         />
+
         <TouchableOpacity
-          disabled={isLoading}
-          style={buttonStyle}
-          onPress={() => {
-            handleSignUp({ ...trimFields(formData), balance });
-          }}
+          disabled={isDisabled}
+          style={[
+            buttonStyle,
+            {
+              opacity: isDisabled ? 0.5 : 1,
+            },
+          ]}
+          onPress={handleSignUp}
         >
-          <CustomText>{nomenclature.SIGN_UP}</CustomText>
+          <CustomText>
+            {isLoading
+              ? "Creating Account..."
+              : nomenclature.SIGN_UP}
+          </CustomText>
         </TouchableOpacity>
+
         <SocialFooter signInWithGoogle={googleSignIn} />
       </ScrollView>
     </KeyboardAvoidingView>

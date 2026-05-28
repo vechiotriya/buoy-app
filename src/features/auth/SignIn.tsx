@@ -1,5 +1,6 @@
-import { Alert, Platform, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import { Alert, TouchableOpacity, View } from "react-native";
+import React, { useMemo, useState } from "react";
+
 import PrimaryInput from "@/src/components/PrimaryInput";
 import nomenclature from "@/src/constants/nomenclature";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
@@ -7,85 +8,136 @@ import useStyles from "./styles/SignInStyles";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import CustomText from "@/src/components/CustomText";
 import font from "@/src/constants/font";
+
 import SocialFooter from "./SocialFooter";
+
 import { authApi } from "@/src/services/authApi";
 import { loggedIn } from "@/src/store/slices/authSlice";
+
 import { useDispatch } from "react-redux";
 import { useGoogleAuth } from "@/src/hooks/useGoogleAuth";
 
 const SignIn = () => {
   const { themePalette } = useTheme();
+
   const styles = useStyles(themePalette);
   const buttonStyle = primaryButtonStyle(themePalette);
+
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-  const [signIn, { isLoading ,error:signInError}] = authApi.useSignInMutation();
-  const dispatch = useDispatch();
-  const { user, loading, request, signIn:googleSignIn, signOut } = useGoogleAuth();
+
+  const [signIn, { isLoading }] = authApi.useSignInMutation();
+
+  const { signIn: googleSignIn } = useGoogleAuth();
+
+  const usernameError = useMemo(() => {
+    if (!formData.username) return "";
+    if (formData.username.length < 3)
+      return "Username is too short";
+
+    return "";
+  }, [formData.username]);
+
+  const passwordError = useMemo(() => {
+    if (!formData.password) return "";
+    if (formData.password.length < 6)
+      return "Password must be at least 6 characters";
+
+    return "";
+  }, [formData.password]);
+
+  const isDisabled =
+    isLoading ||
+    !formData.username ||
+    !formData.password ||
+    !!usernameError ||
+    !!passwordError;
 
   const handleSignIn = async () => {
     try {
-      const response = await signIn(formData).unwrap();
-      console.log("Sign-in successful:", response.data);
-      Platform.OS === "ios"
-        ? Alert.prompt(
-            nomenclature.SIGN_IN_SUCCESSFUL_TITLE,
-            nomenclature.SIGN_IN_SUCCESSFUL_MESSAGE,
-          )
-        : Alert.alert(
-            nomenclature.SIGN_IN_SUCCESSFUL_TITLE,
-            nomenclature.SIGN_IN_SUCCESSFUL_MESSAGE,
-          );
+      const payload = {
+        username: formData.username.trim(),
+        password: formData.password,
+      };
+
+      const response = await signIn(payload).unwrap();
+
       dispatch(
         loggedIn({
-          user: formData.username,
+          user: payload.username,
           accessToken: response.accessToken,
-        }),
+        })
       );
-    } catch (error) {
-      console.error("Login error:", error,signInError);
-      if (Platform.OS === "ios") Alert.prompt("Login error");
-      else Alert.alert("Login error");
+
+      Alert.alert(
+        nomenclature.SIGN_IN_SUCCESSFUL_TITLE,
+        nomenclature.SIGN_IN_SUCCESSFUL_MESSAGE
+      );
+    } catch (error: any) {
+      console.error("Login error:", error);
+
+      Alert.alert(
+        "Login Failed",
+        error?.data?.message || "Something went wrong"
+      );
     }
   };
+
   return (
     <View style={styles.container}>
       <PrimaryInput
-        label={nomenclature.EMAIL+'/ '+nomenclature.USERNAME}
+        label={`${nomenclature.EMAIL} / ${nomenclature.USERNAME}`}
         value={formData.username}
-        error=""
+        error={usernameError}
+        autoCapitalize="none"
+        keyboardType="email-address"
         onChangeText={(text) =>
-          setFormData((prev) => {
-            return { ...prev, username: text.trim() };
-          })
+          setFormData((prev) => ({
+            ...prev,
+            username: text,
+          }))
         }
       />
+
       <PrimaryInput
         label={nomenclature.PASSWORD}
         value={formData.password}
-        error=""
+        error={passwordError}
         secure
         onChangeText={(text) =>
-          setFormData((prev) => {
-            return { ...prev, password: text.trim() };
-          })
+          setFormData((prev) => ({
+            ...prev,
+            password: text,
+          }))
         }
       />
+
       <TouchableOpacity style={styles.forgotText}>
         <CustomText size={font.size_14}>
           {nomenclature.FORGOT_PASSWORD}
         </CustomText>
       </TouchableOpacity>
+
       <TouchableOpacity
-        disabled={isLoading}
-        style={buttonStyle}
+        disabled={isDisabled}
+        style={[
+          buttonStyle,
+          {
+            opacity: isDisabled ? 0.5 : 1,
+          },
+        ]}
         onPress={handleSignIn}
       >
-        <CustomText>{nomenclature.LOGIN}</CustomText>
+        <CustomText>
+          {isLoading ? "Signing In..." : nomenclature.LOGIN}
+        </CustomText>
       </TouchableOpacity>
-      <SocialFooter signInWithGoogle={googleSignIn}/>
+
+      <SocialFooter signInWithGoogle={googleSignIn} />
     </View>
   );
 };
