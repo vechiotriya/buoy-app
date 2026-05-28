@@ -86,7 +86,7 @@ const SpendAnalysis = () => {
             height={scale(220)}
             noOfSections={3}
             barBorderRadius={scale(8)}
-            frontColor="#1E85B7"
+            frontColor={themePalette.primary}
             data={barData}
             hideYAxisText={true}
             hideAxesAndRules={true}

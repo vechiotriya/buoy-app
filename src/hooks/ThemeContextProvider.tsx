@@ -3,6 +3,7 @@ import { createContext, ReactNode, useContext, useEffect, useMemo, useState, } f
 import { useColorScheme } from 'react-native';
 import { Mode, ThemeContextType } from '../types/ThemeContextTypes';
 import { AppTheme, darkTheme, lightTheme } from '../constants/Colors';
+import { storage } from '../services/storage';
 const ThemeContext = createContext<ThemeContextType | null>(null);
 const defaultMode = 'light';
 const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -16,7 +17,7 @@ const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     const getTheme = async () => {
         try {
-            const savedTheme: Mode | null = null
+            const savedTheme: Mode | null = storage.getString("theme") as Mode | null;
             const localTheme = savedTheme ?? colorScheme ?? defaultMode;
             setTheme(localTheme);
         }
@@ -27,7 +28,7 @@ const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     const handleTheme = (mode: Mode) => {
         setTheme(mode);
-        // setLocalStorage('theme', mode);
+        storage.set("theme", mode);
     };
 
     useEffect(() => {

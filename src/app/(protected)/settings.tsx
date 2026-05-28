@@ -21,12 +21,11 @@ import { authApi } from "@/src/services/authApi";
 import { normalizeError } from "@/src/utils/error";
 
 export default function Settings() {
-  const { themePalette } = useTheme();
+  const { themePalette,theme,handleTheme } = useTheme();
   const buttonStyle = primaryButtonStyle(themePalette);
   const route = useRouter();
   const dispatch = useDispatch();
   const { data, error } = useGetUserDetailsQuery({});
-
   if (error) {
     console.log("API error", error);
     throw normalizeError(error as Error);
@@ -133,7 +132,7 @@ export default function Settings() {
             <CustomText>{nomenclature.DARK_MODE}</CustomText>
           </View>
 
-          <Switch />
+          <Switch value={theme === "dark"} onValueChange={()=>{handleTheme(theme === "dark" ? "light" : "dark")}} />
         </View>
 
         <View style={styles.divider} />
