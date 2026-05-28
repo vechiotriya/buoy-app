@@ -8,13 +8,13 @@ import font from "@/src/constants/font";
 import { CustomIcon } from "@/src/components/CustomIcon";
 import { BlurView } from "expo-blur";
 import { BarChart, PieChart } from "react-native-gifted-charts";
-import { pickColor } from "@/src/hooks/common";
 import { scale } from "@/src/utils/scale";
 import { RecentTransactions } from "@/src/components/RecentTransactions";
 import { useGetStatsByYearQuery } from "@/src/services/transactionApi";
 import { useGetCategoriesExpensesQuery } from "@/src/services/categoryApi";
 import { getCategoryColor } from "@/src/utils/misc";
 import { normalizeError } from "@/src/utils/error";
+import Empty from "@/src/components/Empty";
 
 const YearlyStats = () => {
   const { themePalette } = useTheme();
@@ -28,6 +28,7 @@ const YearlyStats = () => {
       color: getCategoryColor(themePalette.donutChartColors, item.text),
       text: item.text,
     })) || [];
+  const barDataIsEmpty = Array(data?.graph)?.every((item) => item?.value !== 0);
 
   if (error) {
     console.log("API error", error);
@@ -86,37 +87,40 @@ const YearlyStats = () => {
             </CustomText>
           )}
         </View>
-        <BlurView
-          intensity={50}
-          style={{
-            marginTop: scale(10),
-            borderRadius: scale(16),
-            borderWidth: 0.2,
-            paddingLeft: scale(15),
-            backgroundColor: "rgba(196, 232, 251, 0.5)",
-            borderColor: themePalette.borderColor,
-            overflow: "hidden",
-            paddingVertical: scale(10),
-          }}
-        >
-          <CustomText size={font.size_12} color={themePalette.inputText2}>
-            {nomenclature.TOP_SPENDING_MONTH}
-          </CustomText>
-          <CustomText
-            size={font.size_18}
-            variant="bold"
-            color={themePalette.primary}
+        {data?.topSpending !== "N/A" && (
+          <BlurView
+            intensity={50}
+            style={{
+              marginTop: scale(10),
+              borderRadius: scale(16),
+              borderWidth: 0.2,
+              paddingLeft: scale(15),
+              backgroundColor: "rgba(196, 232, 251, 0.5)",
+              borderColor: themePalette.borderColor,
+              overflow: "hidden",
+              paddingVertical: scale(10),
+            }}
           >
-            {data?.topSpending || "Monday"}
-          </CustomText>
-          <CustomText
-            size={font.size_14}
-            color={themePalette.secondaryTextLight}
-          >
-            {nomenclature.RUPEE_SIGN + " " + data?.topSpendingAmount || "0"}
-          </CustomText>
-        </BlurView>
+            <CustomText size={font.size_12} color={themePalette.inputText2}>
+              {nomenclature.TOP_SPENDING_MONTH}
+            </CustomText>
+            <CustomText
+              size={font.size_18}
+              variant="bold"
+              color={themePalette.primary}
+            >
+              {data?.topSpending || "Monday"}
+            </CustomText>
+            <CustomText
+              size={font.size_14}
+              color={themePalette.secondaryTextLight}
+            >
+              {nomenclature.RUPEE_SIGN + " " + data?.topSpendingAmount || "0"}
+            </CustomText>
+          </BlurView>
+        )}
       </View>
+      {barDataIsEmpty? <Empty text={"No expenses made yet"} /> :
       <BlurView
         intensity={20}
         tint="light"
@@ -164,6 +168,7 @@ const YearlyStats = () => {
           />
         </View>
       </BlurView>
+}
       <BlurView
         intensity={20}
         tint="light"

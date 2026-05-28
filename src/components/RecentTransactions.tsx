@@ -12,6 +12,7 @@ import { scale } from '../utils/scale'
 import { useRouter } from 'expo-router'
 import { useGetAllTransactionsQuery } from '../services/transactionApi'
 import { normalizeError } from '../utils/error'
+import Empty from './Empty'
 
 interface TransactionListProps {
     title?: string;
@@ -63,7 +64,7 @@ export const RecentTransactions = ({title,seeAll}:TransactionListProps) => {
                 <CustomText size={font.size_18} variant='bold' >
                     {title || nomenclature.RECENT_TRANSACTIONS}
                 </CustomText>
-            {seeAll && <TouchableOpacity onPress={() => route.push('/(protected)/transactions')
+            {(!!seeAll && data?.length>7) && <TouchableOpacity onPress={() => route.push('/(protected)/transactions')
             }>
                     <CustomText size={font.size_14} variant='regular'>
                         {nomenclature.SEE_ALL}
@@ -83,6 +84,11 @@ export const RecentTransactions = ({title,seeAll}:TransactionListProps) => {
                     offset: 76 * index,
                 })}
                 style={{ paddingBottom: scale(25) }}
+                ListEmptyComponent={() => {
+                    return (
+                        <Empty text="No transactions yet." />
+                    )
+                }}
             />
         </View>
     )

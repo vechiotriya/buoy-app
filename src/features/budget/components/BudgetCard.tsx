@@ -9,7 +9,7 @@ import { getCategoryColor } from "@/src/utils/misc";
 import nomenclature from "@/src/constants/nomenclature";
 import { ProgressBar } from "@/src/components/ProgressBar";
 
-type Budget = {
+export type Budget = {
   name: string;
   spent: number;
   amount: number;
@@ -17,9 +17,9 @@ type Budget = {
   period: string;
 };
 type Props = {
-  budget: Budget;
+  budget: { item: Budget };
 };
-const BudgetCard = ({ budget }: Props) => {
+const BudgetCard: React.FC<Props> = ({ budget }) => {
 
   const budgetData=budget?.item;
     console.log("budgetCard",budgetData);

@@ -10,12 +10,15 @@ import { scale } from "../utils/scale";
 import Select from "./Select";
 import { useGetStatsByLastWeekQuery, useGetStatsByWeekQuery } from "../services/transactionApi";
 import { normalizeError } from "../utils/error";
+import Empty from "./Empty";
 const SpendAnalysis = () => {
   const { themePalette } = useTheme();
   const [selectedOption, setSelectedOption] = useState<string | undefined>("This Week");
   const { data, isLoading, error } = useGetStatsByWeekQuery();
   const { data: lastWeekData, isLoading: lastWeekLoading, error: lastWeekError } = useGetStatsByLastWeekQuery();
   console.log("last week stats",lastWeekData);
+  const isEmpty:boolean=Array(data?.graph)?.every((item) => item?.value !== 0);
+  
   const barData= selectedOption==="This Week"?data?.graph:lastWeekData;
   if (error) {
     console.log("API error", error);
@@ -62,6 +65,7 @@ const SpendAnalysis = () => {
           ></Select>
         </BlurView>
       </View>
+     { isEmpty?<Empty text={"No data to show"} />:
       <BlurView
         intensity={20}
         tint="light"
@@ -101,7 +105,7 @@ const SpendAnalysis = () => {
             xAxisThickness={0}
           />
         </View>
-      </BlurView>
+      </BlurView>}
     </View>
   );
 };

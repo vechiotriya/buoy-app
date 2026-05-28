@@ -1,10 +1,11 @@
 import { CustomIcon } from "@/src/components/CustomIcon";
 import CustomText from "@/src/components/CustomText";
+import Empty from "@/src/components/Empty";
 import GradientBackground from "@/src/components/GradientBackground";
 import { AppTheme } from "@/src/constants/Colors";
 import font from "@/src/constants/font";
 import nomenclature from "@/src/constants/nomenclature";
-import BudgetCard from "@/src/features/budget/components/BudgetCard";
+import BudgetCard, { Budget as BudgetType } from "@/src/features/budget/components/BudgetCard";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { useGetBudgetQuery } from "@/src/services/budgetApi";
 import { normalizeError } from "@/src/utils/error";
@@ -24,8 +25,8 @@ export default function Budget() {
     throw normalizeError(error as Error);
   }
   
-  const overallBudget = budgetData?.find((item)=>item.name==='All')??null;
-  const categoryBudgets = budgetData?.filter((item)=>item.name!=='All')??[];
+  const overallBudget = budgetData?.find((item:BudgetType)=>item.name==='All')??null;
+  const categoryBudgets = budgetData?.filter((item:BudgetType)=>item.name!=='All')??[];
   const totalSpentPercentage: number = overallBudget ? (overallBudget.spent / overallBudget.amount) * 100 : 0;
   
   const pieData = [
@@ -112,7 +113,10 @@ export default function Budget() {
       }
       </View>
       <CustomText style={{marginVertical:scale(23),marginLeft:scale(27)}} variant="bold">{nomenclature.ONGOING_BUDGET}</CustomText>
-      <FlatList style={{flex:1}} data={categoryBudgets} renderItem={(budget) => {return <BudgetCard key={budget?.name} budget={budget} />}} keyExtractor={(item, index) => index.toString()} />
+      <FlatList style={{flex:1}} data={categoryBudgets} renderItem={(budget) => {return <BudgetCard key={budget?.item?.name} budget={budget} />}} keyExtractor={(item, index) => item.name} ListEmptyComponent={()=>{
+        return <Empty text="No ongoing budgets." />
+      }}/>
+
     </View>
   );
 }

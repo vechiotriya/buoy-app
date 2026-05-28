@@ -8,20 +8,20 @@ import font from "@/src/constants/font";
 import { CustomIcon } from "@/src/components/CustomIcon";
 import { BlurView } from "expo-blur";
 import { BarChart, PieChart } from "react-native-gifted-charts";
-import { pickColor } from "@/src/hooks/common";
 import { scale } from "@/src/utils/scale";
 import { RecentTransactions } from "@/src/components/RecentTransactions";
 import { useGetStatsByWeekQuery } from "@/src/services/transactionApi";
 import { useGetCategoriesExpensesQuery } from "@/src/services/categoryApi";
 import { getCategoryColor } from "@/src/utils/misc";
 import { normalizeError } from "@/src/utils/error";
+import Empty from "@/src/components/Empty";
 const WeeklyStats = () => {
   const { themePalette } = useTheme();
   const style = useStyle(themePalette);
   const { data, isLoading, error } = useGetStatsByWeekQuery();
   const { data: categoryExpenses, error: categoryError } =
     useGetCategoriesExpensesQuery({});
-
+  const barDataIsEmpty=Array(data?.graph)?.every((item) => item?.value !== 0);
   if (error) {
     console.log("API error", error);
     throw normalizeError(error as Error);
@@ -30,7 +30,8 @@ const WeeklyStats = () => {
     console.log("API error", categoryError);
     throw normalizeError(categoryError as Error);
   }
-
+  console.log("DAta",data);
+  
   const pieData =
     categoryExpenses?.week?.map((item: any) => ({
       value: item.value,
@@ -94,7 +95,7 @@ const WeeklyStats = () => {
             </CustomText>
           )}
         </View>
-        <BlurView
+      {data?.topSpending!=="N/A" && <BlurView
           intensity={50}
           style={{
             marginTop: scale(10),
@@ -123,9 +124,9 @@ const WeeklyStats = () => {
           >
             {nomenclature.RUPEE_SIGN + " " + data?.topSpendingAmount || "0"}
           </CustomText>
-        </BlurView>
+        </BlurView>}
       </View>
-      <BlurView
+    {barDataIsEmpty? <Empty text={"No expenses made yet"} /> :<BlurView
         intensity={20}
         tint="light"
         style={{
@@ -171,7 +172,7 @@ const WeeklyStats = () => {
             xAxisThickness={0}
           />
         </View>
-      </BlurView>
+      </BlurView>}
       <BlurView
         intensity={20}
         tint="light"
