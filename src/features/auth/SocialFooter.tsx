@@ -1,38 +1,71 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { CustomIcon } from '@/src/components/CustomIcon'
-import CustomText from '@/src/components/CustomText'
-import { scale } from '@/src/utils/scale'
-import nomenclature from '@/src/constants/nomenclature'
-import { useTheme } from '@/src/hooks/ThemeContextProvider'
-import useStyles from './styles/SignInStyles'
-import font from '@/src/constants/font'
+import { View, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { CustomIcon } from "@/src/components/CustomIcon";
+import CustomText from "@/src/components/CustomText";
+import { scale } from "@/src/utils/scale";
+import nomenclature from "@/src/constants/nomenclature";
+import { useTheme } from "@/src/hooks/ThemeContextProvider";
+import useStyles from "./styles/SignInStyles";
+import font from "@/src/constants/font";
 
-const SocialFooter = ({signInWithGoogle}) => {
-      const {themePalette}= useTheme()
-  const styles=useStyles(themePalette)
+interface SocialFooterProps {
+  signInWithGoogle: () => void;
+ }
+const SocialFooter: React.FC<SocialFooterProps> = ({ signInWithGoogle }) => {
+  const { themePalette } = useTheme();
+  const styles = useStyles(themePalette);
   return (
+    <View style={{flexDirection:'column', alignItems:'center',marginTop:scale(30)}}>
     <View style={styles.footerContainer}>
-      <View style={{rowGap:scale(32),}}>
-        <View style={{height:1,marginTop:scale(10),backgroundColor:themePalette.borderColor}}/>
-        <TouchableOpacity onPress={()=>{signInWithGoogle()}} style={{alignItems:'center',justifyContent:'center',backgroundColor:themePalette.background,borderWidth:1,borderColor:themePalette.borderColor,borderRadius:12,width:scale(111),height:scale(46)}}>
-          <CustomIcon name='google' type='FontAwesome' size={scale(20)} color={themePalette.tabIconDefault} iconStyle={{marginBottom:-3}}/>
-        </TouchableOpacity>
+      <CustomText>{nomenclature.OR_CONTINUE_WITH}</CustomText>
+    </View>
+    <View style={{flexDirection:'row', columnGap:scale(12),marginTop:scale(20),marginBottom:scale(30)}}>
+          <TouchableOpacity
+        onPress={() => {
+          signInWithGoogle();
+        }}
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: themePalette.background,
+          borderWidth: 1,
+          borderColor: themePalette.borderColor,
+          borderRadius: 12,
+          width: scale(70),
+          aspectRatio: 1,
+        }}
+      >
+        <CustomIcon
+          name="google"
+          type="FontAwesome"
+          size={scale(20)}
+          color={themePalette.tabIconDefault}
+          iconStyle={{ marginBottom: -3 }}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: themePalette.background,
+          borderWidth: 1,
+          borderColor: themePalette.borderColor,
+          borderRadius: 12,
+          width: scale(70),
+          aspectRatio: 1,
+        }}
+      >
+        <CustomIcon
+          name="facebook"
+          type="FontAwesome"
+          size={scale(20)}
+          color={themePalette.tabIconDefault}
+          iconStyle={{ marginBottom: -3 }}
+        />
+      </TouchableOpacity>
       </View>
-      <View style={{rowGap:scale(20),}}>
-        <CustomText size={font.size_14}>{nomenclature.OR_CONTINUE_WITH}</CustomText>
-        <TouchableOpacity style={{alignItems:'center',justifyContent:'center',backgroundColor:themePalette.background,borderWidth:1,borderColor:themePalette.borderColor,borderRadius:12,width:scale(111),height:scale(46)}}>
-          <CustomIcon name='apple' type='FontAwesome' size={scale(20)} color={themePalette.tabIconDefault} iconStyle={{marginBottom:-3}}/>
-        </TouchableOpacity>
-      </View>
-      <View style={{rowGap:scale(32),}}>
-        <View style={{height:1,marginTop:scale(10),backgroundColor:themePalette.borderColor}}/>
-        <TouchableOpacity style={{alignItems:'center',justifyContent:'center',backgroundColor:themePalette.background,borderWidth:1,borderColor:themePalette.borderColor,borderRadius:12,width:scale(111),height:scale(46)}}>
-          <CustomIcon name='facebook' type='FontAwesome' size={scale(20)} color={themePalette.tabIconDefault} iconStyle={{marginBottom:-3}}/>
-        </TouchableOpacity>
-      </View>
-      </View>
-  )
-}
+    </View>
+  );
+};
 
-export default SocialFooter
+export default SocialFooter;

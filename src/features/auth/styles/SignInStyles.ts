@@ -16,7 +16,6 @@ const useStyles = (theme:AppTheme) => StyleSheet.create({
     },
     footerContainer:{
         flexDirection:'row',
-        columnGap:scale(12),
         justifyContent:'center',
         marginTop:scale(30)
     }
