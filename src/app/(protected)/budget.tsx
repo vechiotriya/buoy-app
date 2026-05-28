@@ -29,8 +29,8 @@ export default function Budget() {
   const totalSpentPercentage: number = overallBudget ? (overallBudget.spent / overallBudget.amount) * 100 : 0;
   
   const pieData = [
-    { value: totalSpentPercentage, color: themePalette.speedometerColor },
-    { value: 100 - totalSpentPercentage, color: "lightgray" },
+    { value: 100-totalSpentPercentage,color: "lightgray"},
+    { value: totalSpentPercentage,color: themePalette.speedometerColor },
   ];
   return (
     <View style={styles.container}>
