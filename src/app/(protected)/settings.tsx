@@ -160,32 +160,6 @@ export default function Settings() {
             />
           </View>
         </View>
-
-        <View style={styles.divider} />
-
-        <View style={styles.row}>
-          <View style={styles.rowLeft}>
-            <CustomIcon
-              type="Ionicons"
-              name="logo-bitcoin"
-              size={scale(18)}
-              color="#fff"
-              iconStyle={{ marginBottom: scale(1) }}
-            />
-            <CustomText>{nomenclature.CURRENCY}</CustomText>
-          </View>
-
-          <View style={styles.rowRight}>
-            <CustomText style={styles.value}>INR</CustomText>
-            <CustomIcon
-              type="Ionicons"
-              name="chevron-forward"
-              size={scale(18)}
-              color="#fff"
-              iconStyle={{ marginBottom: scale(1) }}
-            />
-          </View>
-        </View>
       </BlurView>
 
       {/* About */}
@@ -207,7 +181,7 @@ export default function Settings() {
 
         <View style={styles.divider} />
 
-        <View style={styles.row}>
+        <TouchableOpacity onPress={() => route.push("/about")} style={styles.row}>
           <View style={styles.rowLeft}>
             <CustomIcon
               type="Ionicons"
@@ -226,7 +200,7 @@ export default function Settings() {
             color="#fff"
             iconStyle={{ marginBottom: scale(1) }}
           />
-        </View>
+        </TouchableOpacity>
       </BlurView>
 
       {/* Logout */}
