@@ -38,7 +38,7 @@ const useStyles =(theme:AppTheme)=>StyleSheet.create({
         backgroundColor:theme.background,
         justifyContent:'space-between',
         padding: scale(5),
-        marginHorizontal:scale(15),
+        marginHorizontal:scale(10),
         marginTop:scale(2),
         borderRadius:scale(16),
     },

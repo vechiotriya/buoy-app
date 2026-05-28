@@ -30,7 +30,6 @@ const WeeklyStats = () => {
     console.log("API error", categoryError);
     throw normalizeError(categoryError as Error);
   }
-  console.log("DAta",data);
   
   const pieData =
     categoryExpenses?.week?.map((item: any) => ({
