@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet,ViewStyle } from "react-native";
 import React from "react";
 import { useTheme } from "../hooks/ThemeContextProvider";
 import { AppTheme } from "../constants/Colors";
@@ -10,12 +10,13 @@ import { BlurView } from "expo-blur";
 
 type Props = {
   text: string;
+  style?: ViewStyle
 };
-const Empty: React.FC<Props> = ({ text }) => {
+const Empty: React.FC<Props> = ({ text, style }) => {
   const { themePalette } = useTheme();
   const styles = useStyles(themePalette);
   return (
-    <BlurView intensity={30} tint="light" style={styles.container}>
+    <BlurView intensity={30} tint="light" style={[styles.container,style]}>
       <Image
         source={empty}
         style={{

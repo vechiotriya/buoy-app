@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomText from "./CustomText";
 import { BlurView } from "expo-blur";
 import { useTheme } from "../hooks/ThemeContextProvider";
@@ -16,10 +16,10 @@ const SpendAnalysis = () => {
   const [selectedOption, setSelectedOption] = useState<string | undefined>("This Week");
   const { data, isLoading, error } = useGetStatsByWeekQuery();
   const { data: lastWeekData, isLoading: lastWeekLoading, error: lastWeekError } = useGetStatsByLastWeekQuery();
-  console.log("last week stats",lastWeekData);
-  const isEmpty:boolean=Array(data?.graph)?.every((item) => item?.value !== 0);
+
   
   const barData= selectedOption==="This Week"?data?.graph:lastWeekData;
+  const [isEmpty,setIsEmpty]=useState(false);
   if (error) {
     console.log("API error", error);
     throw normalizeError(error as Error);
@@ -28,6 +28,14 @@ const SpendAnalysis = () => {
     console.log("API error", lastWeekError);
     throw normalizeError(lastWeekError as Error);
   }
+
+ useEffect(() => {
+  const graphData = selectedOption === "This Week" ? data?.graph : lastWeekData;
+  setIsEmpty(
+    !graphData?.length || graphData.every((item) => item?.value === 0)
+  );
+}, [selectedOption, data, lastWeekData]);
+
   return (
     <View style={{ rowGap: scale(15) }}>
       <View

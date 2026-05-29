@@ -10,6 +10,8 @@ import { NavigationTabs } from "../types/TabNavigatorTypes";
 import WeeklyStats from "../features/statistics/WeeklyStats";
 import SetCategoryBudget from "../features/budget/SetCategoryBudget";
 import SetOverallBudget from "../features/budget/SetOverallBudget";
+import { CustomIcon } from "@/src/components/CustomIcon";
+import { CategoryIcon } from "../types/misc";
 
 export const mascot2Image = require("@/assets/images/mascot2.png");
 export const errorImage= require("@/assets/images/error-image.png");
@@ -121,4 +123,16 @@ export const onboardingSlides= [
     image: bankLocker,
     text: "Get started now and take control of your financial future!",
   }
+]
+
+export const CATEGORY_ICONS:CategoryIcon[]=[
+  {name:'Entertainment',icon:'drama-masks',type:'MaterialCommunityIcons'},
+  {name:'Savings',icon:'piggy-bank',type:'FontAwesome6'},
+  {name:'Groceries',icon:'shopping-cart',type:'Feather'},
+  {name:'Utilities',icon:'receipt',type:'Ionicons'},
+  {name:'Transportation',icon:'emoji-transportation',type:'MaterialIcons'},
+  {name:'Debt',icon:'credit-card',type:'Entypo'},
+  {name:'Housing',icon:'house-chimney-window',type:'FontAwesome6'},
+  {name:'Miscellaneous',icon:'money-check-dollar',type:'FontAwesome6'},
+  {name:'Health',icon:'pill',type:'MaterialCommunityIcons'},
 ]

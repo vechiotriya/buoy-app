@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native'
 import { CustomIcon } from './CustomIcon'
 import { BlurView } from 'expo-blur'
 import { useTheme } from '../hooks/ThemeContextProvider'
-import { TransactionType } from '../constants/constant'
+import { CATEGORY_ICONS, TransactionType } from '../constants/constant'
 import font from '../constants/font'
 import nomenclature from '../constants/nomenclature'
 import { scale } from '../utils/scale'
@@ -21,6 +21,8 @@ interface TransactionListProps {
 const TransactionItem = ({ item }: { item: TransactionType }) => {
     const { themePalette } = useTheme()
     const { purpose, category, transactionType: type, amount } = item;
+    console.log(item);
+    const icon = CATEGORY_ICONS.find((item) => item.name == category)??{name:'Miscellaneous',icon:'money-check-dollar',type:'FontAwesome6'};
     return (
         <BlurView intensity={30} tint="light" style={{
             height: scale(76),
@@ -33,7 +35,7 @@ const TransactionItem = ({ item }: { item: TransactionType }) => {
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', columnGap: scale(16) }}>
                     <View style={{ width: scale(41), backgroundColor: themePalette.secondary, height: scale(44), justifyContent: 'center', alignItems: 'center', borderRadius: scale(8) }}>
-                        <CustomIcon name={'money-bill'} type='FontAwesome6' size={scale(24)} />
+                        <CustomIcon name={icon?.icon} type={icon?.type} size={scale(24)} />
                     </View>
                     <View>
                         <CustomText variant='bold'>{purpose}</CustomText>
@@ -64,7 +66,7 @@ export const RecentTransactions = ({title,seeAll}:TransactionListProps) => {
                 <CustomText size={font.size_18} variant='bold' >
                     {title || nomenclature.RECENT_TRANSACTIONS}
                 </CustomText>
-            {(!!seeAll && data?.length>7) && <TouchableOpacity onPress={() => route.push('/(protected)/transactions')
+            {seeAll && <TouchableOpacity onPress={() => route.push('/(protected)/transactions')
             }>
                     <CustomText size={font.size_14} variant='regular'>
                         {nomenclature.SEE_ALL}

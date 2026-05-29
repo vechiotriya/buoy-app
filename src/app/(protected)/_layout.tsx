@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { ErrorBoundaryProps, Stack, useRouter } from "expo-router";
 import NavigationHeader from "@/src/components/NavigationHeader";
 import { TouchableHighlight, View } from "react-native";
@@ -8,23 +8,15 @@ import FloatingTabMenu from "@/src/components/FloatingTabMenu";
 import { scale } from "@/src/utils/scale";
 import CustomText from "@/src/components/CustomText";
 import font from "@/src/constants/font";
-import BottomSheet from "@gorhom/bottom-sheet";
-import AddTransactionSheet from "@/src/features/home/components/AddTransactionSheet";
-import { TouchableOpacity } from "react-native";
-import { primaryButtonStyle } from "@/src/constants/styles";
 import ErrorPage from "@/src/components/ErrorPage";
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
-  return (
-    <ErrorPage retry={retry} message={error.message} />
-  );
+  return <ErrorPage retry={retry} message={error.message} />;
 }
 export default function TabLayout() {
   const { themePalette } = useTheme();
   const addData = ["Add Income", "Add Expense", "Add Budget"];
   const [showMenu, setShowMenu] = useState(false);
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const bottomSheetRef2 = useRef<BottomSheet>(null);
   const router = useRouter();
   return (
     <View style={{ flex: 1 }}>
@@ -47,7 +39,19 @@ export default function TabLayout() {
         <Stack.Screen name="settings" />
         <Stack.Screen name="profile" />
         <Stack.Screen name="transactions" />
+        <Stack.Screen
+          name="add-transaction"
+          options={{
+            presentation: "formSheet",
+            headerShown: false,
+            sheetGrabberVisible: true,
+            sheetCornerRadius: scale(20),
+            contentStyle: { backgroundColor: themePalette.background },
+            sheetAllowedDetents: [0.9],
+          }}
+        />
       </Stack>
+      <FloatingTabMenu setShowMenu={setShowMenu} />
       {showMenu && (
         <View
           style={{
@@ -71,9 +75,9 @@ export default function TabLayout() {
               }}
               onPress={() => {
                 if (item === "Add Income") {
-                  bottomSheetRef.current?.expand();
+                  router.push({ pathname: "/(protected)/add-transaction" , params: { type: "income" }});
                 } else if (item === "Add Expense") {
-                  bottomSheetRef2.current?.expand();
+                   router.push({ pathname: "/(protected)/add-transaction" , params: { type: "expense" }});
                 } else {
                   router.push("/(protected)/set-budget");
                 }
@@ -87,10 +91,10 @@ export default function TabLayout() {
           ))}
         </View>
       )}
-      <FloatingTabMenu setShowMenu={setShowMenu} />
 
+      {/*
       <AddTransactionSheet ref={bottomSheetRef} type="income" />
-      <AddTransactionSheet ref={bottomSheetRef2} type="expense" />
+      <AddTransactionSheet ref={bottomSheetRef2} type="expense" /> */}
     </View>
   );
 }

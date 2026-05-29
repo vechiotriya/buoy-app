@@ -18,12 +18,17 @@ export const useGlobalLoading = (): boolean => {
   return useSelector((state: RootState) =>
     API_REDUCER_PATHS.some((path) => {
       const apiState = (state as any)[path];
+      if (!apiState) return false;
 
-      if (!apiState?.queries) return false;
-
-      return Object.values(apiState.queries).some(
+      const hasLoadingQuery = Object.values(apiState.queries ?? {}).some(
         (query: any) => query?.status === 'pending'
       );
+
+      const hasLoadingMutation = Object.values(apiState.mutations ?? {}).some(
+        (mutation: any) => mutation?.status === 'pending'
+      );
+
+      return hasLoadingQuery || hasLoadingMutation;
     })
   );
 };

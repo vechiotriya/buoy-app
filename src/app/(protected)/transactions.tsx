@@ -1,5 +1,7 @@
 import { CustomIcon } from "@/src/components/CustomIcon";
 import CustomText from "@/src/components/CustomText";
+import Empty from "@/src/components/Empty";
+import { CATEGORY_ICONS } from "@/src/constants/constant";
 import font from "@/src/constants/font";
 import nomenclature from "@/src/constants/nomenclature";
 import FilterBar from "@/src/features/transactions/components/FilterBar";
@@ -96,7 +98,9 @@ const Transactions = () => {
       ListHeaderComponent={<SearchFilterComponent/>}
       sections={searchText ? searchResultData : DATA}
       keyExtractor={(item) => item.purpose}
+      ListEmptyComponent={()=>{return <Empty text="No transactions" style={{marginTop:scale(50)}}/>}}
       renderItem={({ item, index, section }) => {
+      const icon = CATEGORY_ICONS.find((cat) => cat.name == item.category)??{name:'Miscellaneous',icon:'money-check-dollar',type:'FontAwesome6'};
         return (
           <View
             style={{
@@ -120,10 +124,10 @@ const Transactions = () => {
                 }}
               >
                 <CustomIcon
-                  type="MaterialCommunityIcons"
-                  name={item.iconName}
+                  type={icon?.type}
+                  name={icon?.icon}
                   size={scale(20)}
-                  color={themePalette.background}
+                  color={themePalette.text}
                 />
               </View>
               <View style={{ rowGap: scale(2) }}>
