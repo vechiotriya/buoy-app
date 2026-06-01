@@ -227,6 +227,7 @@ const AddTransaction = () => {
         <TextInput
           placeholder="Add a comment..."
           value={comment}
+          placeholderTextColor={themePalette.inputText2}
           maxLength={50}
           onChangeText={(text) => {
             setComment(text);
@@ -235,6 +236,7 @@ const AddTransaction = () => {
             fontSize: font.size_14,
             borderWidth: 0,
             fontFamily: "poppins-regular",
+            color: themePalette.inputText,
           }}
         ></TextInput>
       </View>

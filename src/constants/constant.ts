@@ -24,16 +24,16 @@ export const loader= require("@/assets/lottie/ocean.json");
 
 export const dashboardTabs: Array<DashboardTabTypes> = [
   {
-    name: "Scan",
-    icon: "qr-code-scanner",
-    type: "MaterialIcons",
-    path: "/(protected)/scan",
+    name: "Statistics",
+    icon: "graph",
+    type: "SimpleLineIcons",
+    path: "/(protected)/statistics",
   },
   {
     name: "Receipt",
     icon: "receipt",
     type: "MaterialIcons",
-    path: "/(protected)/set-budget",
+    path: "/(protected)/receipt",
   },
   {
     name: "Budget",

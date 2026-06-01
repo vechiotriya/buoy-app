@@ -78,7 +78,7 @@ const Select: React.FC<SelectProps> = ({
               padding: scale(10),
             }}
           >
-            <Text>{item}</Text>
+            <Text style={{ color: themePalette.inputText }}>{item}</Text>
           </View>
         );
       }}

@@ -108,6 +108,7 @@ const SignIn = () => {
         value={formData.password}
         error={passwordError}
         secure
+        type="password"
         onChangeText={(text) =>
           setFormData((prev) => ({
             ...prev,

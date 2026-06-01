@@ -4,6 +4,7 @@ import {
   TextInputProps,
   View,
   TextStyle,
+  Pressable,
 } from "react-native";
 import React, { forwardRef } from "react";
 
@@ -12,12 +13,14 @@ import font from "../constants/font";
 import { AppTheme } from "../constants/Colors";
 import { useTheme } from "../hooks/ThemeContextProvider";
 import { scale } from "../utils/scale";
+import { CustomIcon } from "./CustomIcon";
 
 interface PrimaryInputProps extends TextInputProps {
   label?: string;
   error?: string;
   secure?: boolean;
   style?: TextStyle;
+  type?: TextInputProps["textContentType"]|TextInputProps["autoComplete"];
 }
 
 const PrimaryInput = forwardRef<TextInput, PrimaryInputProps>(
@@ -28,45 +31,67 @@ const PrimaryInput = forwardRef<TextInput, PrimaryInputProps>(
       error,
       secure,
       style,
+      type="none",
       placeholder,
       onChangeText,
       onSubmitEditing,
       returnKeyType,
       ...rest
     },
-    ref
+    ref,
   ) => {
     const { themePalette } = useTheme();
     const styles = useStyles(themePalette);
-
+    const [hide, setHide] = React.useState(secure);
     return (
       <View style={styles.container}>
         {label && <CustomText>{label}</CustomText>}
-
-        <TextInput
-          {...rest}
-          ref={ref}
-          value={value}
-          placeholderTextColor={themePalette.inputText2}
-          style={[styles.inputText, style]}
-          placeholder={placeholder}
-          secureTextEntry={secure}
-          onChangeText={onChangeText}
-          onSubmitEditing={onSubmitEditing}
-          returnKeyType={returnKeyType}
-        />
-
+        <View
+          style={[{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            backgroundColor: themePalette.background,
+            borderRadius: scale(12),
+            width: scale(360),
+            paddingRight: scale(12),
+          }]}
+        >
+          <TextInput
+            {...rest}
+            ref={ref}
+            value={value}
+            placeholderTextColor={themePalette.inputText2}
+            style={[styles.inputText, style]}
+            placeholder={placeholder}
+            autoComplete={type}
+            secureTextEntry={hide}
+            onChangeText={onChangeText}
+            onSubmitEditing={onSubmitEditing}
+            returnKeyType={returnKeyType}
+            textContentType={type}
+          />
+     {type =='password' &&  <Pressable
+            onPress={() => {
+              setHide((prev) => !prev);
+            }}
+            >
+          <CustomIcon
+            name={!hide ? "eye-slash" : "eye"}
+            type="FontAwesome"
+            size={scale(20)}
+            color={themePalette.inputText2}
+          />
+          </Pressable>}
+        </View>
         {!!error && (
-          <CustomText
-            style={styles.errorText}
-            size={font.size_12}
-          >
+          <CustomText style={styles.errorText} size={font.size_12}>
             {error}
           </CustomText>
         )}
       </View>
     );
-  }
+  },
 );
 
 export default PrimaryInput;
@@ -85,9 +110,9 @@ const useStyles = (theme: AppTheme) =>
       color: theme.inputText,
       paddingLeft: scale(16),
       paddingVertical: scale(5),
-      borderRadius: scale(12),
       minHeight: scale(45),
-      width: scale(360),
+      borderRadius: scale(12),
+      width: '80%',
     },
 
     errorText: {

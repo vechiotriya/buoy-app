@@ -6,7 +6,7 @@ import { scale } from "../utils/scale";
 import { AppTheme } from "../constants/Colors";
 
 const tabs = [
-  { name: "statistics", icon: "graph", type: "SimpleLineIcons" },
+  { name: "/", icon: "home", type: "Feather" },
   { name: "add", icon: "add-outline", type: "Ionicons" },
   { name: "settings", icon: "settings-outline", type: "Ionicons" },
 ];

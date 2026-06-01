@@ -4,6 +4,7 @@ import { scale } from "@/src/utils/scale";
 import CustomText from "@/src/components/CustomText";
 import font from "@/src/constants/font";
 import { CustomIcon } from "@/src/components/CustomIcon";
+import { useTheme } from "@/src/hooks/ThemeContextProvider";
 
 interface CheckListProps {
   items: Item[];
@@ -16,6 +17,7 @@ interface Item {
 }
 
 const Item: React.FC<Item> = ({ label, isChecked, onPress }) => {
+  const { themePalette: theme } = useTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -26,7 +28,7 @@ const Item: React.FC<Item> = ({ label, isChecked, onPress }) => {
         alignItems: "center",
         paddingHorizontal: scale(15),
         borderRadius: scale(29),
-        backgroundColor: isChecked ? "#98DBEA" : "transparent",
+        backgroundColor: isChecked ? theme.secondary : "transparent",
         borderWidth: isChecked ? 0 : 1,
         borderColor: "#FFFF",
         marginRight:scale(5)

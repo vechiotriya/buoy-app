@@ -1,4 +1,5 @@
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   TextInput,
@@ -20,6 +21,8 @@ import { quickInputs } from "@/src/constants/constant";
 import { useAddBudgetMutation } from "@/src/services/budgetApi";
 import { useGetCategoriesQuery } from "@/src/services/categoryApi";
 import { normalizeError } from "@/src/utils/error";
+import { useRouter } from "expo-router";
+import { CATEGORY_MAPPING } from "../transactions/constants";
 
 const SetCategoryBudget = () => {
   const { themePalette } = useTheme();
@@ -34,6 +37,7 @@ const SetCategoryBudget = () => {
   }
   const ref = useRef<TextInput>(null);
   const [amount, setAmount] = useState("");
+  const router = useRouter();
   const { data,error } = useGetCategoriesQuery({});
     if (error) {
         console.log("API error", error);
@@ -66,18 +70,26 @@ const SetCategoryBudget = () => {
     {
       label: "Miscellaneous",
       isChecked: false,
-    }];
+    },
+    {
+      label: "Utilities & Bills",
+      isChecked: false,
+    },
+    {
+      label: "Housing",
+      isChecked: false,
+    },
+  ];
   const [categories, setCategories] = useState<String[]>([...defaultCategories]);
 
     useEffect(() => {
-      if (!data) return;
+      if (data?.length === 0) return;
   
       const moreCategories = data.map((cat) => {return { label: cat.name, isChecked: false }})||[];
   
       setCategories([
         ...defaultCategories,
         ...moreCategories,
-        "Add new category",
       ]);
     }, [data]);
   const toggleCategory = (index: number) => {
@@ -91,9 +103,10 @@ const SetCategoryBudget = () => {
   const handleAddBudget = () => {
     const selectedCategories = categories
       .filter((item) => item.isChecked)
-      .map((item) => item.label);
+      .map((item) => CATEGORY_MAPPING[item.label]?? item.label);
     console.log("adding budget",{ amount, period: selectedPeriod, category: selectedCategories, name });
-    
+    Alert.alert("Budget added");
+    router.back();
     addBudget({ amount, period: selectedPeriod, category: selectedCategories, name, spent:0 });
   };
   return (
@@ -108,6 +121,7 @@ const SetCategoryBudget = () => {
       <PrimaryInput
         label="Amount"
         value={amount}
+        keyboardType="numeric"
         error=""
         placeholder="0.00"
         onChangeText={setAmount}

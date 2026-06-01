@@ -16,7 +16,7 @@ export type DashboardTabTypes = {
     | "Feather"
     | "Ionicons"
     | "MaterialIcons";
-  path: '/(protected)/scan'|'/(protected)/receipt'|'/(protected)/budget';
+  path: '/(protected)/statistics'|'/(protected)/receipt'|'/(protected)/budget';
 };
 
 export type KeypadIconButton = {

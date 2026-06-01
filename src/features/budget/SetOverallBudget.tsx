@@ -39,6 +39,7 @@ const SetOverallBudget = () => {
         label="Amount"
         value={amount}
         error=""
+        keyboardType="numeric"
         placeholder="0.00"
         onChangeText={setAmount}
         ref={ref}

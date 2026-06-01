@@ -49,7 +49,7 @@ const WeeklyStats = () => {
         <CustomText
           size={font.size_14}
           variant="bold"
-          color={themePalette.primary}
+          color={themePalette.secondaryTextLight}
         >
           {nomenclature.WEEKLY_SPENDING_SUMMARY}
         </CustomText>
@@ -59,7 +59,7 @@ const WeeklyStats = () => {
         <CustomText
           size={font.size_24}
           variant="bold"
-          color={themePalette.primary}
+          color={themePalette.secondaryTextLight}
         >
           {nomenclature.RUPEE_SIGN + " " + data?.total || "0"}
         </CustomText>
