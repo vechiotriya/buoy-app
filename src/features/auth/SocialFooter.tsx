@@ -56,8 +56,8 @@ const SocialFooter: React.FC<SocialFooterProps> = ({ signInWithGoogle }) => {
         }}
       >
         <CustomIcon
-          name="facebook"
-          type="FontAwesome"
+          name="instagram"
+          type="Entypo"
           size={scale(20)}
           color={themePalette.tabIconDefault}
           iconStyle={{ marginBottom: -3 }}

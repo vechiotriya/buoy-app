@@ -38,8 +38,29 @@ export const authApi = createApi({
         body: authRequest,
       }),
     }),
+    forgotPassword: builder.mutation({
+      query: (email) => ({
+        url: "/forgot-password",
+        method: "POST",
+        body: email,
+      }),
+    }),
+    resetOtpVerification: builder.mutation({
+      query: (otpData) => ({
+        url: "/verify-otp",
+        method: "POST",
+        body: otpData,
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (passwordData) => ({
+        url: "/reset-password",
+        method: "POST",
+        body: passwordData,
+      }),
+    }),
   }),
 });
 
-export const { useSignInMutation, useSignUpMutation, useGoogleAuthMutation } =
+export const { useSignInMutation, useSignUpMutation, useGoogleAuthMutation, useForgotPasswordMutation, useResetOtpVerificationMutation, useResetPasswordMutation } =
   authApi;

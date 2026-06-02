@@ -198,7 +198,7 @@ const SignUp = () => {
           error={passwordError}
           placeholder="••••••••"
           secure
-          type="password"
+          type="new-password"
           returnKeyType="done"
           onSubmitEditing={handleSignUp}
           onChangeText={(text) =>

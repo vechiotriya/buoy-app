@@ -16,13 +16,14 @@ import { loggedIn } from "@/src/store/slices/authSlice";
 
 import { useDispatch } from "react-redux";
 import { useGoogleAuth } from "@/src/hooks/useGoogleAuth";
+import { useRouter } from "expo-router";
 
 const SignIn = () => {
   const { themePalette } = useTheme();
 
   const styles = useStyles(themePalette);
   const buttonStyle = primaryButtonStyle(themePalette);
-
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -117,7 +118,9 @@ const SignIn = () => {
         }
       />
 
-      <TouchableOpacity style={styles.forgotText}>
+      <TouchableOpacity onPress={() => {
+        router.push("/forgot-password");
+      }} style={styles.forgotText}>
         <CustomText size={font.size_14}>
           {nomenclature.FORGOT_PASSWORD}
         </CustomText>

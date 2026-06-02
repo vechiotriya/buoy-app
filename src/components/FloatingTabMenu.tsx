@@ -32,7 +32,7 @@ const FloatingTabMenu = ({ setShowMenu }: FloatingTabMenuProps) => {
               styles.tabButton,
               route.name === "add" && {
                 borderWidth: 3,
-                borderColor: "rgba(30, 133, 183, 0.64)",
+                borderColor: themePalette.primary,
               },
             ]}
           >

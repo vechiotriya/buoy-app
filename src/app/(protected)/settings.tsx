@@ -9,7 +9,7 @@ import { loggedOut } from "@/src/store/slices/authSlice";
 import { scale } from "@/src/utils/scale";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
-import { Image, Switch, TouchableOpacity } from "react-native";
+import { Image, Pressable, Switch, TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 
 import { Text, View } from "react-native";
@@ -105,7 +105,8 @@ export default function Settings() {
         <View style={styles.divider} />
 
         <View style={styles.row}>
-          <View style={styles.rowLeft}>
+          <Pressable onPress={()=>{            
+            route.push({pathname:'/forgot-password',params:{userEmail:data?.email}})}} style={styles.rowLeft}>
             <CustomIcon
               type="Ionicons"
               name="refresh-outline"
@@ -114,7 +115,7 @@ export default function Settings() {
               iconStyle={{ marginBottom: scale(1) }}
             />
             <CustomText>{nomenclature.RESET_PASSWORD}</CustomText>
-          </View>
+          </Pressable>
         </View>
       </BlurView>
 

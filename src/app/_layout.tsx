@@ -11,9 +11,9 @@ import { store } from "../store/store";
 import { Modal, View } from "react-native";
 import CustomText from "../components/CustomText";
 import { useGlobalLoading } from "../hooks/useGlobalLoading";
-import LottieView from 'lottie-react-native';
+import LottieView from "lottie-react-native";
 import { loader } from "../constants/constant";
-
+import { scale } from "../utils/scale";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -99,6 +99,17 @@ function RootLayoutNav() {
           <Stack.Protected guard={!isLoggedIn}>
             <Stack.Screen name="sign" options={{ headerShown: false }} />
           </Stack.Protected>
+          <Stack.Screen
+            name="forgot-password"
+            options={{
+              headerShown: false,
+              presentation: "formSheet",
+              sheetGrabberVisible: true,
+              sheetCornerRadius: scale(20),
+              contentStyle: { backgroundColor: "transparent" },
+              sheetAllowedDetents: [0.5],
+            }}
+          />
         </Stack>
       </GestureHandlerRootView>
     </ThemeProvider>

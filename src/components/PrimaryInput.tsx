@@ -71,7 +71,7 @@ const PrimaryInput = forwardRef<TextInput, PrimaryInputProps>(
             returnKeyType={returnKeyType}
             textContentType={type}
           />
-     {type =='password' &&  <Pressable
+     {(type =='password'||type=='new-password') &&  <Pressable
             onPress={() => {
               setHide((prev) => !prev);
             }}

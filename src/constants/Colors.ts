@@ -97,7 +97,7 @@ export const lightTheme: AppTheme = {
 export const darkTheme: AppTheme = {
   backgroundGradient1: "#0C5880",
   backgroundGradient2: "#1A6F96",
-  primary: "#164658",
+  primary: "#1e5c72",
   primaryDisabled: "#2E3F4E",
   secondary: "#1A5F73",
   menuBackground: "rgba(33, 44, 46, 0.8)",

@@ -15,7 +15,7 @@ const OnboardCard = ({image,text}:OnboardCardProps) => {
   return (
     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
       <Image source={image} style={{ width: scale(290), height: scale(290) }}></Image>
-      <CustomText variant='bold' size={font.size_24} color={themePalette.keypadButton} style={{marginTop:20,alignSelf:'center',textAlign:'center',width:scale(300)}}>
+      <CustomText variant='bold' size={font.size_24} color={themePalette.text} style={{marginTop:20,alignSelf:'center',textAlign:'center',width:scale(300)}}>
         {text}
       </CustomText>
     </View>
