@@ -6,6 +6,7 @@ export const useStyles=()=>{
   container: {
     paddingHorizontal: scale(22),
     paddingTop: scale(24),
+    gap: scale(20),
   },
   selectContainer: {
     height: scale(45),

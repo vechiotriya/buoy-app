@@ -113,7 +113,7 @@ export default function Budget() {
       }
       </View>
       <CustomText style={{marginVertical:scale(23),marginLeft:scale(27)}} variant="bold">{nomenclature.ONGOING_BUDGET}</CustomText>
-      <FlatList style={{flex:1}} data={categoryBudgets} renderItem={(budget) => {return <BudgetCard key={budget?.item?.name} budget={budget} />}} keyExtractor={(item, index) => item.name} ListEmptyComponent={()=>{
+      <FlatList style={{flex:1}} contentContainerStyle={{paddingBottom:scale(54)}} data={categoryBudgets} renderItem={(budget) => {return <BudgetCard key={budget?.item?.name} budget={budget} />}} keyExtractor={(item, index) => item.name} ListEmptyComponent={()=>{
         return <Empty text="No ongoing budgets." />
       }}/>
 
