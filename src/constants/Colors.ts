@@ -29,6 +29,8 @@ export interface AppTheme {
   speedometerColor: string;
   donutChartColors: string[];
   categoryColors: string[];
+  switchOn: string;
+  switchOff: string;
 }
 
 export const lightTheme: AppTheme = {
@@ -92,6 +94,8 @@ export const lightTheme: AppTheme = {
     "#AED581",
     "#FFB74D",
   ],
+  switchOn: "#1E85B7",
+  switchOff: "#E5E7EB",
 };
 
 export const darkTheme: AppTheme = {
@@ -155,4 +159,6 @@ export const darkTheme: AppTheme = {
     "#C0E099",
     "#FFC870",
   ],
+  switchOn: "#145f85",
+  switchOff: "#c2c5c9",
 };

@@ -9,7 +9,7 @@ import { loggedOut } from "@/src/store/slices/authSlice";
 import { scale } from "@/src/utils/scale";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
-import { Image, Pressable, Switch, TouchableOpacity } from "react-native";
+import { Image, Pressable, TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 
 import { Text, View } from "react-native";
@@ -19,6 +19,7 @@ import { budgetApi } from "@/src/services/budgetApi";
 import { categoryApi } from "@/src/services/categoryApi";
 import { authApi } from "@/src/services/authApi";
 import { normalizeError } from "@/src/utils/error";
+import Switch from "@/src/components/Switch";
 
 export default function Settings() {
   const { themePalette,theme,handleTheme } = useTheme();
@@ -99,7 +100,7 @@ export default function Settings() {
             <CustomText>{nomenclature.PAUSE_NOTIFICATIONS}</CustomText>
           </View>
 
-          <Switch />
+          <Switch value={false} onValueChange={() => {}} />
         </View>
 
         <View style={styles.divider} />
