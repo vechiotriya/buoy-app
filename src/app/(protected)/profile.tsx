@@ -45,6 +45,7 @@ const Profile = () => {
     console.log("API error", error);
     throw normalizeError(error as Error);
   }
+  console.log("USER DETAILS", data);
   return (
     <View style={styles.container}>
       {showMenu && (
@@ -170,11 +171,9 @@ const Profile = () => {
               <PrimaryInput
                 value={fullName}
                 style={{
-                  width: scale(150),
-                  height: scale(35),
-                  marginBottom: 0,
-                  marginTop: scale(15),
+                  height: scale(10),
                 }}
+                containerStyle={{ width: scale(200),height: scale(50) }}
                 onChangeText={(text) => {
                   setFullName(text);
                 }}
@@ -208,7 +207,7 @@ const Profile = () => {
         <View style={styles.row}>
           <CustomText size={font.size_14}>{nomenclature.EMAIL}</CustomText>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <CustomText size={font.size_14}>{data?.email}</CustomText>
+            <CustomText size={font.size_14}>{String(data?.email).includes("instagram")?"-":data?.email}</CustomText>
           </View>
         </View>
         <View style={styles.divider} />

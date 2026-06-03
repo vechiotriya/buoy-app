@@ -9,6 +9,7 @@ const useStyles = (theme:AppTheme) => StyleSheet.create({
         flex:1,
         flexDirection:'column',
         alignItems:'center',
+        gap:scale(20),
     },
     forgotText:{
     alignItems:'flex-end',

@@ -5,6 +5,7 @@ import {
   View,
   TextStyle,
   Pressable,
+  ViewStyle,
 } from "react-native";
 import React, { forwardRef } from "react";
 
@@ -20,6 +21,7 @@ interface PrimaryInputProps extends TextInputProps {
   error?: string;
   secure?: boolean;
   style?: TextStyle;
+  containerStyle?: ViewStyle;
   type?: TextInputProps["textContentType"]|TextInputProps["autoComplete"];
 }
 
@@ -31,6 +33,7 @@ const PrimaryInput = forwardRef<TextInput, PrimaryInputProps>(
       error,
       secure,
       style,
+      containerStyle,
       type="none",
       placeholder,
       onChangeText,
@@ -55,7 +58,7 @@ const PrimaryInput = forwardRef<TextInput, PrimaryInputProps>(
             borderRadius: scale(12),
             width: scale(360),
             paddingRight: scale(12),
-          }]}
+          }, containerStyle]}
         >
           <TextInput
             {...rest}
@@ -100,7 +103,6 @@ const useStyles = (theme: AppTheme) =>
   StyleSheet.create({
     container: {
       justifyContent: "center",
-      marginBottom: scale(24),
     },
 
     inputText: {

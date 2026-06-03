@@ -21,7 +21,7 @@ const WeeklyStats = () => {
   const { data, isLoading, error } = useGetStatsByWeekQuery();
   const { data: categoryExpenses, error: categoryError } =
     useGetCategoriesExpensesQuery({});
-  const barDataIsEmpty=Array(data?.graph)?.every((item) => item?.value == 0);
+  const barDataIsEmpty=Array(data?.graph)?.every((item) => item?.value !== 0);
   if (error) {
     console.log("API error", error);
     throw normalizeError(error as Error);

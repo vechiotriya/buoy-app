@@ -8,6 +8,7 @@ const useStyles = (theme:AppTheme) => StyleSheet.create({
         paddingTop:scale(20),
         flex:1,
         alignItems:'center',
+        gap:scale(20),
     },
    
 })
