@@ -44,7 +44,7 @@ const SetOverallBudget = () => {
         onChangeText={setAmount}
         ref={ref}
       />
-      <View style={{ flexDirection: "row", columnGap: scale(5) }}>
+      <View style={{ flexDirection: "row", columnGap: scale(5), marginTop: scale(10) }}>
         {quickInputs.map((item) => (
           <QuickInput
             key={item}

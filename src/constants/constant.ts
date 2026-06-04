@@ -75,6 +75,16 @@ export const setBudgetNavigationTabs: NavigationTabs = [
   },
 ];
 
+export const budgetingStyles = [
+  {
+    title: "Envelope Budgeting ✉️",
+    description: "Set a budget for any category and spend within that budget.",
+  },
+  {
+    title: "Standard Budgeting 💰",
+    description: "Set a budget monthly/weekly/yearly without any category restrictions and track your spending.",
+  }
+];
 export type TransactionType = {
   id: number;
   purpose: string;

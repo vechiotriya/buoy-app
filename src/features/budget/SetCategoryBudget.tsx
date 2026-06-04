@@ -85,7 +85,7 @@ const SetCategoryBudget = () => {
     useEffect(() => {
       if (data?.length === 0) return;
   
-      const moreCategories = data.map((cat) => {return { label: cat.name, isChecked: false }})||[];
+      const moreCategories = data?.map((cat) => {return { label: cat.name, isChecked: false }})||[];
   
       setCategories([
         ...defaultCategories,
@@ -117,6 +117,7 @@ const SetCategoryBudget = () => {
         error=""
         placeholder="Give a name to the budget"
         onChangeText={setName}
+        containerStyle={{ marginBottom: scale(20) }}
       />
       <PrimaryInput
         label="Amount"
@@ -127,7 +128,7 @@ const SetCategoryBudget = () => {
         onChangeText={setAmount}
         ref={ref}
       />
-      <View style={{ flexDirection: "row", columnGap: scale(5) }}>
+      <View style={{ flexDirection: "row", columnGap: scale(5), marginTop: scale(10) }}>
         {quickInputs.map((item) => (
           <QuickInput
             key={item}

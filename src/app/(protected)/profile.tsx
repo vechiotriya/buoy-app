@@ -221,7 +221,7 @@ const Profile = () => {
       <TouchableOpacity
         disabled={disabled}
         onPress={() => {
-          updateProfile({ fullName })
+          updateProfile({ fullName,prefBudgetStyle: data?.preferredBudgetStyle })
             .then(() => {
               setEdit(false);
               console.log("upp");

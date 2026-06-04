@@ -28,7 +28,7 @@ const YearlyStats = () => {
       color: getCategoryColor(themePalette.donutChartColors, item.text),
       text: item.text,
     })) || [];
-  const barDataIsEmpty = Array(data?.graph)?.every((item) => item?.value !== 0);
+  const barDataIsEmpty = Array(data?.graph)?.every((item) => item?.value == 0);
 
   if (error) {
     console.log("API error", error);
