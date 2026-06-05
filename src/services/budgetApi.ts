@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { storage } from "./storage";
-import { normalizeError } from "../utils/error";
 
 export const budgetApi = createApi({
   reducerPath: "budget",
@@ -38,7 +37,14 @@ export const budgetApi = createApi({
       }),
       invalidatesTags: ["Budget"],
     }),
+    deleteBudget: builder.mutation({
+      query: (id) => ({
+        url: `/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Budget"],
+    }),
   }),
 });
 
-export const { useGetBudgetQuery, useAddBudgetMutation } = budgetApi;
+export const { useGetBudgetQuery, useAddBudgetMutation, useDeleteBudgetMutation } = budgetApi;

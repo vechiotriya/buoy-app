@@ -2,6 +2,7 @@ import { CustomIcon } from "@/src/components/CustomIcon";
 import CustomText from "@/src/components/CustomText";
 import Empty from "@/src/components/Empty";
 import GradientBackground from "@/src/components/GradientBackground";
+import Select from "@/src/components/Select";
 import { AppTheme } from "@/src/constants/Colors";
 import font from "@/src/constants/font";
 import nomenclature from "@/src/constants/nomenclature";
@@ -10,37 +11,43 @@ import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { useGetBudgetQuery } from "@/src/services/budgetApi";
 import { normalizeError } from "@/src/utils/error";
 import { scale } from "@/src/utils/scale";
+import { useState } from "react";
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { PieChartPro } from "react-native-gifted-charts";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Budget() {
   const { themePalette } = useTheme();
   const styles = useStyles(themePalette);
-  const { data: budgetData, isLoading, error } = useGetBudgetQuery({});
-
+  const { data, isLoading, error } = useGetBudgetQuery(undefined, {
+  refetchOnMountOrArgChange: true,
+});
+  const [budgetPeriod,setBudgetPeriod] =useState("Monthly");
   if (error) {
     console.log("API error", error);
     throw normalizeError(error as Error);
   }
   
-  const overallBudget = budgetData?.find((item:BudgetType)=>item.name==='All')??null;
-  const categoryBudgets = budgetData?.filter((item:BudgetType)=>item.name!=='All')??[];
-  const totalSpentPercentage: number = overallBudget ? (overallBudget.spent / overallBudget.amount) * 100 : 0;
-  
+  const budgetData = data??null;
+  console.log("Budget data", budgetData);
+  const budgetFilteredByPeriod = budgetData?.filter((item) => item?.period === budgetPeriod);
+  const totalBudget = budgetFilteredByPeriod?.reduce((sum, item) => sum + item?.amount, 0) ?? 0;
+  const totalSpent = budgetFilteredByPeriod?.reduce((sum, item) => sum + item?.spent, 0) ?? 0;
+  const totalSpentPercentage: number = totalBudget > 0 ? (totalSpent>totalBudget)?100: (totalSpent / totalBudget) * 100 : 0;
+
   const pieData = [
     { value: 100-totalSpentPercentage,color: "lightgray"},
     { value: totalSpentPercentage,color: themePalette.speedometerColor },
   ];
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <GradientBackground appTheme={themePalette} />
       <View
         style={{
           alignItems: "center",
           justifyContent: "center",
-          paddingTop: scale(40),
         }}
       >
         <PieChartPro
@@ -64,23 +71,24 @@ export default function Budget() {
           )}
         />
       </View>
-      <View style={[styles.card,{marginTop:scale(45)}]}>
+      <View style={[styles.card,{marginTop:scale(40)}]}>
         <CustomText variant="bold" size={font.size_18} color={themePalette.primary}>
-          {nomenclature.MONTHLY_BUDGET_OVERVIEW}
+          {nomenclature.TOTAL_BUDGET_OVERVIEW}
         </CustomText>
-        <View style={{ flexDirection: "row", justifyContent: "space-around",marginTop:scale(20),columnGap:scale(25),borderBottomWidth:1,borderBottomColor:themePalette.borderSecondary,paddingBottom:scale(10) }}>
+        <Select style={{width:"30%",borderColor:themePalette.primary,borderWidth:1,marginTop:scale(5)}} currentSelectedItem={budgetPeriod} values={["Monthly", "Weekly", "Yearly"]} onSelect={(value) => setBudgetPeriod(value)}></Select>
+        <View style={{ flexDirection: "row", justifyContent: "space-around",marginTop:scale(15),columnGap:scale(20),borderBottomWidth:1,borderBottomColor:themePalette.borderSecondary,paddingBottom:scale(10) }}>
           <View style={{rowGap:scale(2)}}>
             <CustomText size={font.size_14} color={themePalette.inputText}>{nomenclature.TOTAL_BUDGET}</CustomText>
-            <CustomText size={font.size_14} variant="bold" color={themePalette.secondaryTextLight}>{nomenclature.RUPEE_SIGN + " " + (overallBudget?.amount.toFixed(2) || "0.00")}</CustomText>
+            <CustomText size={font.size_14} variant="bold" color={themePalette.secondaryTextLight}>{nomenclature.RUPEE_SIGN + " " + (totalBudget ? totalBudget.toFixed(2) : "0.00")}</CustomText>
           </View>
           <View style={{rowGap:scale(2)}}>
             <CustomText size={font.size_14} color={themePalette.inputText}>{nomenclature.REMAINING}</CustomText>
-            <CustomText size={font.size_14} variant="bold" color={themePalette.secondaryTextLight}>{nomenclature.RUPEE_SIGN + " " + (overallBudget ? (overallBudget.amount - overallBudget.spent).toFixed(2) : "0.00")}</CustomText>
+            <CustomText size={font.size_14} variant="bold" color={themePalette.secondaryTextLight}>{nomenclature.RUPEE_SIGN + " " + (totalBudget ? (totalBudget - totalSpent).toFixed(2) : "0.00")}</CustomText>
           </View>
       </View>
 { totalSpentPercentage <= 75 && 
-    <View style={{flexDirection:'row',columnGap:scale(7),marginTop:scale(13),marginLeft:scale(2)}}>
-          <View style={{width:scale(31),height:scale(31),borderRadius:scale(16),backgroundColor:"#CCFFCB",justifyContent:'center',alignItems:'center'}}>
+    <View style={{flexDirection:'row',columnGap:scale(7),marginTop:scale(10),marginLeft:scale(2)}}>
+          <View style={{width:scale(31),height:scale(30),borderRadius:scale(16),backgroundColor:"#CCFFCB",justifyContent:'center',alignItems:'center'}}>
             <CustomIcon name='check' type='FontAwesome' size={scale(15)} color={themePalette.positive} iconStyle={{marginBottom:-3}}/>
           </View>
           <View>
@@ -89,7 +97,7 @@ export default function Budget() {
           </View>
       </View>
       }
-{ totalSpentPercentage > 75 && 
+{ (totalSpentPercentage > 75 && totalSpentPercentage < 100) && 
     <View style={{flexDirection:'row',columnGap:scale(7),marginTop:scale(13),marginLeft:scale(2)}}>
           <View style={{width:scale(31),height:scale(31),borderRadius:scale(16),backgroundColor:"#CCFFCB",justifyContent:'center',alignItems:'center'}}>
             <CustomIcon name='check' type='FontAwesome' size={scale(15)} color={themePalette.positive} iconStyle={{marginBottom:-3}}/>
@@ -100,7 +108,7 @@ export default function Budget() {
           </View>
       </View>
       }
-{ totalSpentPercentage >= 100 && 
+{ totalSpentPercentage == 100 && 
     <View style={{flexDirection:'row',columnGap:scale(7),marginTop:scale(13),marginLeft:scale(2)}}>
           <View style={{width:scale(31),height:scale(31),borderRadius:scale(16),backgroundColor:"#CCFFCB",justifyContent:'center',alignItems:'center'}}>
             <CustomIcon name='check' type='FontAwesome' size={scale(15)} color={themePalette.positive} iconStyle={{marginBottom:-3}}/>
@@ -112,12 +120,12 @@ export default function Budget() {
       </View>
       }
       </View>
-      <CustomText style={{marginVertical:scale(23),marginLeft:scale(27)}} variant="bold">{nomenclature.ONGOING_BUDGET}</CustomText>
-      <FlatList style={{flex:1}} contentContainerStyle={{paddingBottom:scale(54)}} data={categoryBudgets} renderItem={(budget) => {return <BudgetCard key={budget?.item?.name} budget={budget} />}} keyExtractor={(item, index) => item.name} ListEmptyComponent={()=>{
+      <CustomText style={{marginVertical:scale(15),marginLeft:scale(27)}} variant="bold">{nomenclature.ONGOING_BUDGET}</CustomText>
+      <FlatList style={{flex:1}} contentContainerStyle={{paddingBottom:scale(54)}} data={budgetData} renderItem={(budget) => {return <BudgetCard  budget={budget} />}} keyExtractor={(item, index) => item?.id} ListEmptyComponent={()=>{
         return <Empty text="No ongoing budgets." />
       }}/>
 
-    </View>
+    </SafeAreaView>
   );
 }
 

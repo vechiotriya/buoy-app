@@ -33,6 +33,7 @@ import {
 import { normalizeError } from "@/src/utils/error";
 import { CATEGORY_MAPPING } from "@/src/features/transactions/constants";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useDispatch } from "react-redux";
 const AddTransaction = () => {
   const { type } = useLocalSearchParams<{ type: string }>();
   const [amount, setAmount] = useState<string>();
@@ -49,6 +50,7 @@ const AddTransaction = () => {
     useAddCategoryMutation();
   const { data, error } = useGetCategoriesQuery({});
   const router = useRouter();
+  const dispatch = useDispatch();
   if (error) {
     console.log("API error", error);
     throw normalizeError(error as Error);

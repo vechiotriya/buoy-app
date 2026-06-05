@@ -91,10 +91,6 @@ export default function TabLayout() {
           ))}
         </View>
       )}
-
-      {/*
-      <AddTransactionSheet ref={bottomSheetRef} type="income" />
-      <AddTransactionSheet ref={bottomSheetRef2} type="expense" /> */}
     </View>
   );
 }

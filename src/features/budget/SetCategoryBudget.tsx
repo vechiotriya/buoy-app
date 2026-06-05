@@ -26,7 +26,6 @@ import { CATEGORY_MAPPING } from "../transactions/constants";
 
 const SetCategoryBudget = () => {
   const { themePalette } = useTheme();
-  const buttonStyle = primaryButtonStyle(themePalette);
   const [selectedPeriod, setSelectedPeriod] = useState("Weekly");
   const [name, setName] = useState("");
   const [addBudget, { isLoading }] = useAddBudgetMutation();
@@ -81,7 +80,8 @@ const SetCategoryBudget = () => {
     },
   ];
   const [categories, setCategories] = useState<String[]>([...defaultCategories]);
-
+  const disabled=isLoading || categories?.filter((item) => item?.isChecked)?.length === 0 || name?.trim()==="" || amount?.trim()==="";
+  const buttonStyle = primaryButtonStyle(themePalette,disabled);
     useEffect(() => {
       if (data?.length === 0) return;
   
@@ -147,7 +147,7 @@ const SetCategoryBudget = () => {
       />
       <CustomText style={styles.label}>{nomenclature.CATEGORY}</CustomText>
       <CheckList items={categories} onToggle={toggleCategory} />
-      <TouchableOpacity onPress={() => {handleAddBudget()}} style={[buttonStyle,{marginTop:scale(35)}]}>
+      <TouchableOpacity disabled={disabled} onPress={() => {handleAddBudget()}} style={[buttonStyle,{marginTop:scale(35)}]}>
         <CustomText>{nomenclature.SAVE_BUDGET}</CustomText>
       </TouchableOpacity>
     </ScrollView>

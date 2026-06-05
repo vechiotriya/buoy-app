@@ -72,7 +72,7 @@ const useStyles = (theme: AppTheme) => {
       borderRadius: scale(68),
       width: scale(219),
       position: "absolute",
-      bottom: scale(40),
+      bottom: scale(50),
       left: scale(90),
       right: scale(20),
     },

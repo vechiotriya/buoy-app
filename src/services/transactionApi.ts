@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { storage } from "./storage";
 import { FilterQueryParams } from "../features/transactions/types";
 import { normalizeError } from "../utils/error";
+import { budgetApi } from "./budgetApi";
 
 export const transactionApi = createApi({
   reducerPath: "transaction",
@@ -18,7 +19,12 @@ export const transactionApi = createApi({
     responseHandler: async (response) => {
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(response.statusText,{cause: {status: response.status,message: data.message || "Server error"}});
+        throw new Error(response.statusText, {
+          cause: {
+            status: response.status,
+            message: data.message || "Server error",
+          },
+        });
       }
       return data;
     },
@@ -38,6 +44,14 @@ export const transactionApi = createApi({
         body: transaction,
       }),
       invalidatesTags: ["Transactions"],
+      async onQueryStarted(transaction, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          if (transaction.transactionType?.toLowerCase() === "expense") {
+            dispatch(budgetApi.util.invalidateTags(["Budget"]));
+          }
+        } catch {}
+      },
     }),
     getMonthTotalStatistics: builder.query({
       query: (date: string) => ({

@@ -13,6 +13,7 @@ import { scale } from "@/src/utils/scale";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import { useAddBudgetMutation } from "@/src/services/budgetApi";
+import font from "@/src/constants/font";
 
 const SetOverallBudget = () => {
   const styles = useStyles();
@@ -61,6 +62,7 @@ const SetOverallBudget = () => {
         onSelect={(selectedItem, index) => {}}
         style={styles.selectContainer}
       />
+      <CustomText size={font.size_12} style={{ marginTop: scale(10) }}>{nomenclature.STANDARD_BUDGET_WARNING}</CustomText>
       <TouchableOpacity onPress={()=>{handleAddBudget()}} style={[buttonStyle, { marginTop: scale(35) }]}>
         <CustomText>{nomenclature.UPDATE_BUDGET}</CustomText>
       </TouchableOpacity>
