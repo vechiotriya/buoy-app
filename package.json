@@ -1,7 +1,7 @@
 {
   "name": "buoy-app",
   "main": "expo-router/entry",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
-    "@gorhom/bottom-sheet": "^5.1.8",
     "@react-native-community/datetimepicker": "8.6.0",
     "@react-navigation/native": "^7.1.6",
     "@reduxjs/toolkit": "^2.11.2",
