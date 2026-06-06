@@ -24,7 +24,6 @@ type Props = {
 };
 const BudgetCard: React.FC<Props> = ({ budget }) => {
   const budgetData = budget?.item;
-  console.log("budgetCard", budgetData);
   const { themePalette } = useTheme();
   const styles = useStyles(themePalette);
   const [deleteBudget,{isLoading,error}] = useDeleteBudgetMutation();

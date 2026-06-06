@@ -1,4 +1,4 @@
-import { ScrollView, TouchableOpacity } from "react-native";
+import { Alert, ScrollView, TouchableOpacity } from "react-native";
 import React, { useRef, useState } from "react";
 import { useStyles } from "./styles/SetBudget";
 import PrimaryInput from "@/src/components/PrimaryInput";
@@ -14,6 +14,7 @@ import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { primaryButtonStyle } from "@/src/constants/styles";
 import { useAddBudgetMutation } from "@/src/services/budgetApi";
 import font from "@/src/constants/font";
+import { useRouter } from "expo-router";
 
 const SetOverallBudget = () => {
   const styles = useStyles();
@@ -21,18 +22,34 @@ const SetOverallBudget = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("Weekly");
   const [amount, setAmount] = useState("");
   const { themePalette } = useTheme();
-  const buttonStyle = primaryButtonStyle(themePalette);
   const [addBudget, { isLoading }] = useAddBudgetMutation();
-
+  const disabled = isLoading || !amount||!selectedPeriod;
+  const buttonStyle = primaryButtonStyle(themePalette, disabled);
+  const router = useRouter();
   const handleAddBudget = () => {
     console.log("adding budget", {
-      name: "All",
       amount,
-      spent:0,
       period: selectedPeriod,
+      name: selectedPeriod + " Budget",
+      spent: 0,
     });
 
-    addBudget({ amount, period: selectedPeriod, name: "All",spent:0 });
+    addBudget({
+      amount,
+      period: selectedPeriod,
+      name: selectedPeriod + " Budget",
+      spent: 0,
+    })
+      .unwrap()
+      .then((res) => {
+        console.log(res);
+        Alert.alert("Budget added");
+        router.push("/budget");
+      })
+      .catch((err) => {
+        console.log(JSON.parse(err.data).message);
+        Alert.alert("Error", JSON.parse(err.data).message);
+      });
   };
   return (
     <ScrollView style={styles.container}>
@@ -45,7 +62,13 @@ const SetOverallBudget = () => {
         onChangeText={setAmount}
         ref={ref}
       />
-      <View style={{ flexDirection: "row", columnGap: scale(5), marginTop: scale(10) }}>
+      <View
+        style={{
+          flexDirection: "row",
+          columnGap: scale(5),
+          marginTop: scale(10),
+        }}
+      >
         {quickInputs.map((item) => (
           <QuickInput
             key={item}
@@ -59,11 +82,21 @@ const SetOverallBudget = () => {
         label="Period"
         currentSelectedItem={selectedPeriod}
         values={["Weekly", "Monthly", "Yearly"]}
-        onSelect={(selectedItem, index) => {}}
+        onSelect={(selectedItem, index) => {
+          setSelectedPeriod(selectedItem as string);
+        }}
         style={styles.selectContainer}
       />
-      <CustomText size={font.size_12} style={{ marginTop: scale(10) }}>{nomenclature.STANDARD_BUDGET_WARNING}</CustomText>
-      <TouchableOpacity onPress={()=>{handleAddBudget()}} style={[buttonStyle, { marginTop: scale(35) }]}>
+      <CustomText size={font.size_12} style={{ marginTop: scale(10) }}>
+        {nomenclature.STANDARD_BUDGET_WARNING}
+      </CustomText>
+      <TouchableOpacity
+        onPress={() => {
+          handleAddBudget();
+        }}
+        disabled={disabled}
+        style={[buttonStyle, { marginTop: scale(35) }]}
+      >
         <CustomText>{nomenclature.UPDATE_BUDGET}</CustomText>
       </TouchableOpacity>
     </ScrollView>
