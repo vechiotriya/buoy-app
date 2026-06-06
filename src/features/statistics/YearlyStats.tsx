@@ -95,13 +95,17 @@ const YearlyStats = () => {
               borderRadius: scale(16),
               borderWidth: 0.2,
               paddingLeft: scale(15),
-              backgroundColor: "rgba(196, 232, 251, 0.5)",
+              backgroundColor: themePalette.secondaryContainer,
               borderColor: themePalette.borderColor,
               overflow: "hidden",
               paddingVertical: scale(10),
             }}
           >
-            <CustomText size={font.size_12} color={themePalette.inputText2}>
+            <CustomText
+              variant="bold"
+              size={font.size_12}
+              color={themePalette.inputText2}
+            >
               {nomenclature.TOP_SPENDING_MONTH}
             </CustomText>
             <CustomText
@@ -111,64 +115,63 @@ const YearlyStats = () => {
             >
               {data?.topSpending || "Monday"}
             </CustomText>
-            <CustomText
-              size={font.size_14}
-              color={themePalette.secondaryTextLight}
-            >
+            <CustomText variant="bold" color={themePalette.secondaryTextLight}>
               {nomenclature.RUPEE_SIGN + " " + data?.topSpendingAmount || "0"}
             </CustomText>
           </BlurView>
         )}
       </View>
-      {barDataIsEmpty? <Empty text={"No expenses made yet"} /> :
-      <BlurView
-        intensity={20}
-        tint="light"
-        style={{
-          marginHorizontal: scale(20),
-          marginTop: scale(10),
-          borderRadius: scale(16),
-          borderWidth: 0.2,
-          borderColor: themePalette.borderColor,
-          overflow: "hidden",
-        }}
-      >
-        <CustomText
-          size={font.size_18}
-          variant="bold"
-          style={{ marginHorizontal: scale(20), marginTop: scale(19) }}
-        >
-          {nomenclature.EXPENSE_OVERVIEW}
-        </CustomText>
-        <View
+      {barDataIsEmpty ? (
+        <Empty text={"No expenses made yet"} />
+      ) : (
+        <BlurView
+          intensity={20}
+          tint="light"
           style={{
-            height: scale(330),
-            justifyContent: "center",
-            alignItems: "center",
+            marginHorizontal: scale(20),
+            marginTop: scale(10),
+            borderRadius: scale(16),
+            borderWidth: 0.2,
+            borderColor: themePalette.borderColor,
+            overflow: "hidden",
           }}
         >
-          <BarChart
-            barWidth={scale(32)}
-            height={scale(240)}
-            noOfSections={3}
-            barBorderRadius={scale(8)}
-            frontColor="#1E85B7"
-            data={data?.graph}
-            hideYAxisText={true}
-            hideAxesAndRules={true}
-            barBorderBottomLeftRadius={0}
-            barBorderBottomRightRadius={0}
-            xAxisLabelTextStyle={{
-              color: "#FFFF",
-              fontFamily: "poppins-regular",
-              fontSize: font.size_14,
+          <CustomText
+            size={font.size_18}
+            variant="bold"
+            style={{ marginHorizontal: scale(20), marginTop: scale(19) }}
+          >
+            {nomenclature.EXPENSE_OVERVIEW}
+          </CustomText>
+          <View
+            style={{
+              height: scale(330),
+              justifyContent: "center",
+              alignItems: "center",
             }}
-            yAxisThickness={0}
-            xAxisThickness={0}
-          />
-        </View>
-      </BlurView>
-}
+          >
+            <BarChart
+              barWidth={scale(32)}
+              height={scale(240)}
+              noOfSections={3}
+              barBorderRadius={scale(8)}
+              frontColor={themePalette.primary}
+              data={data?.graph}
+              hideYAxisText={true}
+              hideAxesAndRules={true}
+              barBorderBottomLeftRadius={0}
+              barBorderBottomRightRadius={0}
+              xAxisLabelTextStyle={{
+                color: themePalette.text,
+                fontFamily: "poppins-regular",
+                fontSize: font.size_14,
+              }}
+              yAxisThickness={0}
+              xAxisThickness={0}
+            />
+          </View>
+        </BlurView>
+      )}
       <BlurView
         intensity={20}
         tint="light"

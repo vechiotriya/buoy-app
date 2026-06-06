@@ -1,10 +1,4 @@
-import {
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
 import React, { useMemo, useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
@@ -27,6 +21,7 @@ import { storage } from "@/src/services/storage";
 import { loggedIn } from "@/src/store/slices/authSlice";
 
 import { trimFields } from "@/src/utils/misc";
+import { useToast } from "@/src/hooks/ToastContextProvider";
 
 const SignUp = () => {
   const { themePalette } = useTheme();
@@ -47,8 +42,8 @@ const SignUp = () => {
   const [signIn] = authApi.useSignInMutation();
 
   const { signIn: googleSignIn } = useGoogleAuth();
-
   const balance = storage.getNumber("initialBalance") ?? 0;
+  const { show } = useToast();
 
   const cleanedData = useMemo(() => {
     return trimFields(formData);
@@ -59,9 +54,7 @@ const SignUp = () => {
 
     const emailRegex = /^\S+@\S+\.\S+$/;
 
-    return emailRegex.test(cleanedData.email)
-      ? ""
-      : "Enter a valid email";
+    return emailRegex.test(cleanedData.email) ? "" : "Enter a valid email";
   }, [cleanedData.email]);
 
   const passwordError = useMemo(() => {
@@ -83,9 +76,7 @@ const SignUp = () => {
   const fullNameError = useMemo(() => {
     if (!cleanedData.fullName) return "";
 
-    return cleanedData.fullName.length >= 2
-      ? ""
-      : "Enter your full name";
+    return cleanedData.fullName.length >= 2 ? "" : "Enter your full name";
   }, [cleanedData.fullName]);
 
   const isDisabled =
@@ -119,20 +110,13 @@ const SignUp = () => {
         loggedIn({
           user: payload.username,
           accessToken: loginResponse.accessToken,
-        })
+        }),
       );
 
-      Alert.alert(
-        nomenclature.SIGN_UP_SUCCESSFUL_TITLE,
-        nomenclature.SIGN_UP_SUCCESSFUL_MESSAGE
-      );
+      show({ message:nomenclature.SIGN_UP_SUCCESSFUL_MESSAGE,title:nomenclature.SIGN_UP_SUCCESSFUL_TITLE, type: "success" });
     } catch (error: any) {
       console.error("Sign-up error:", error);
-
-      Alert.alert(
-        "Sign Up Failed",
-        error?.data?.message || "Something went wrong"
-      );
+      show({title: "Sign Up Failed", message: error?.data?.message || "Something went wrong", type: "error" });
     }
   };
 
@@ -220,9 +204,7 @@ const SignUp = () => {
           onPress={handleSignUp}
         >
           <CustomText>
-            {isLoading
-              ? "Creating Account..."
-              : nomenclature.SIGN_UP}
+            {isLoading ? "Creating Account..." : nomenclature.SIGN_UP}
           </CustomText>
         </TouchableOpacity>
 

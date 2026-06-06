@@ -1,5 +1,4 @@
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState, } from 'react';
-// import { getLocalStorage, setLocalStorage, } from '../utils/localStorage/localStorage';
 import { useColorScheme } from 'react-native';
 import { Mode, ThemeContextType } from '../types/ThemeContextTypes';
 import { AppTheme, darkTheme, lightTheme } from '../constants/Colors';
@@ -9,7 +8,6 @@ const defaultMode = 'light';
 const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const colorScheme = useColorScheme();
     const [theme, setTheme] = useState<Mode>(colorScheme ?? defaultMode);
-    console.log("clr", colorScheme, defaultMode);
 
     const themePalette: AppTheme = useMemo(() => {
         return theme === defaultMode ? lightTheme : darkTheme;

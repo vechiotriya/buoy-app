@@ -14,6 +14,7 @@ import { useGlobalLoading } from "../hooks/useGlobalLoading";
 import LottieView from "lottie-react-native";
 import { loader } from "../constants/constant";
 import { scale } from "../utils/scale";
+import { ToastProvider } from "../hooks/ToastContextProvider";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -80,6 +81,7 @@ function RootLayoutNav() {
   const isOnboarded = useSelector((state: any) => state.auth.isOnboarded);
   return (
     <ThemeProvider>
+      <ToastProvider>
       <GestureHandlerRootView>
         <GlobalLoadingOverlay />
         <Stack
@@ -112,6 +114,7 @@ function RootLayoutNav() {
           />
         </Stack>
       </GestureHandlerRootView>
+      </ToastProvider>
     </ThemeProvider>
   );
 }

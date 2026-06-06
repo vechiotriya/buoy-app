@@ -1,4 +1,4 @@
-import { Alert, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import React, { useMemo, useState } from "react";
 
 import PrimaryInput from "@/src/components/PrimaryInput";
@@ -17,6 +17,8 @@ import { loggedIn } from "@/src/store/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useGoogleAuth } from "@/src/hooks/useGoogleAuth";
 import { useRouter } from "expo-router";
+import { useToast } from "@/src/hooks/ToastContextProvider";
+
 
 const SignIn = () => {
   const { themePalette } = useTheme();
@@ -25,6 +27,7 @@ const SignIn = () => {
   const buttonStyle = primaryButtonStyle(themePalette);
   const router = useRouter();
   const dispatch = useDispatch();
+  const { show } = useToast();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -73,18 +76,11 @@ const SignIn = () => {
           accessToken: response.accessToken,
         })
       );
+      show({ message:nomenclature.SIGN_IN_SUCCESSFUL_MESSAGE,title:nomenclature.SIGN_IN_SUCCESSFUL_TITLE, type: "success" });
 
-      Alert.alert(
-        nomenclature.SIGN_IN_SUCCESSFUL_TITLE,
-        nomenclature.SIGN_IN_SUCCESSFUL_MESSAGE
-      );
     } catch (error: any) {
       console.error("Login error:", error);
-
-      Alert.alert(
-        "Login Failed",
-        error?.data?.message || "Something went wrong"
-      );
+      show({title: "Login Failed", message: error?.data?.message || "Something went wrong", type: "error" });
     }
   };
 

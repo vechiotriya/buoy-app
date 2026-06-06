@@ -1,4 +1,4 @@
-import { Alert, Keyboard, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Keyboard, StyleSheet, TouchableOpacity, View } from "react-native";
 import React, { useMemo } from "react";
 import PrimaryInput from "@/src/components/PrimaryInput";
 import CustomText from "@/src/components/CustomText";
@@ -8,6 +8,7 @@ import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import nomenclature from "@/src/constants/nomenclature";
 import { scale } from "@/src/utils/scale";
 import { useForgotPasswordMutation } from "@/src/services/authApi";
+import { useToast } from "@/src/hooks/ToastContextProvider";
 
 type ForgotPasswordEmailProps = {
   email: string;
@@ -27,6 +28,7 @@ const ForgotPasswordEmail = ({
       if (!/\S+@\S+\.\S+/.test(email)) return "Email is invalid";
       return "";
     }, [email]);
+  const { show } = useToast();
   const isDisabled = !email || isLoading||!!emailError;
 
   return (
@@ -51,13 +53,12 @@ const ForgotPasswordEmail = ({
           forgotPassword({ email }).unwrap().then((response) => {
             if (response.message) {
               setStep(1);
-              Alert.alert("Success", response.message);
+              show({ message: response.message, type: "info" , title:"Otp sent"});
             }
           }).catch((error) => {
             const err=JSON.parse(error?.data)?.message;
             console.log("Error",err);
-            
-            Alert.alert("Error", err || "Something went wrong");
+            show({ message: err || "Something went wrong", type: "error" , title:"Error"});
           });
         }}
       >

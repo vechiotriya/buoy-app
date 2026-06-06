@@ -1,11 +1,4 @@
-import {
-  Alert,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, TextInput, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import PrimaryInput from "@/src/components/PrimaryInput";
 import { scale } from "@/src/utils/scale";
@@ -23,6 +16,7 @@ import { useGetCategoriesQuery } from "@/src/services/categoryApi";
 import { normalizeError } from "@/src/utils/error";
 import { useRouter } from "expo-router";
 import { CATEGORY_MAPPING } from "../transactions/constants";
+import { useToast } from "@/src/hooks/ToastContextProvider";
 
 const SetCategoryBudget = () => {
   const { themePalette } = useTheme();
@@ -37,12 +31,15 @@ const SetCategoryBudget = () => {
   const ref = useRef<TextInput>(null);
   const [amount, setAmount] = useState("");
   const router = useRouter();
-  const { data,error } = useGetCategoriesQuery({});
-    if (error) {
-        console.log("API error", error);
-         throw normalizeError(error as Error);
-    }
-  const defaultCategories= [{
+  const { data, error } = useGetCategoriesQuery({});
+  if (error) {
+    console.log("API error", error);
+    throw normalizeError(error as Error);
+  }
+  const { show } = useToast();
+
+  const defaultCategories = [
+    {
       label: "Groceries",
       isChecked: false,
     },
@@ -79,19 +76,25 @@ const SetCategoryBudget = () => {
       isChecked: false,
     },
   ];
-  const [categories, setCategories] = useState<String[]>([...defaultCategories]);
-  const disabled=isLoading || categories?.filter((item) => item?.isChecked)?.length === 0 || name?.trim()==="" || amount?.trim()==="";
-  const buttonStyle = primaryButtonStyle(themePalette,disabled);
-    useEffect(() => {
-      if (data?.length === 0) return;
-  
-      const moreCategories = data?.map((cat) => {return { label: cat.name, isChecked: false }})||[];
-  
-      setCategories([
-        ...defaultCategories,
-        ...moreCategories,
-      ]);
-    }, [data]);
+  const [categories, setCategories] = useState<String[]>([
+    ...defaultCategories,
+  ]);
+  const disabled =
+    isLoading ||
+    categories?.filter((item) => item?.isChecked)?.length === 0 ||
+    name?.trim() === "" ||
+    amount?.trim() === "";
+  const buttonStyle = primaryButtonStyle(themePalette, disabled);
+  useEffect(() => {
+    if (data?.length === 0) return;
+
+    const moreCategories =
+      data?.map((cat) => {
+        return { label: cat.name, isChecked: false };
+      }) || [];
+
+    setCategories([...defaultCategories, ...moreCategories]);
+  }, [data]);
   const toggleCategory = (index: number) => {
     setCategories((prev) =>
       prev.map((item, i) =>
@@ -103,11 +106,22 @@ const SetCategoryBudget = () => {
   const handleAddBudget = () => {
     const selectedCategories = categories
       .filter((item) => item.isChecked)
-      .map((item) => CATEGORY_MAPPING[item.label]?? item.label);
-    console.log("adding budget",{ amount, period: selectedPeriod, category: selectedCategories, name });
-    Alert.alert("Budget added");
+      .map((item) => CATEGORY_MAPPING[item.label] ?? item.label);
+    console.log("adding budget", {
+      amount,
+      period: selectedPeriod,
+      category: selectedCategories,
+      name,
+    });
+    show({ message:nomenclature.ADD_BUDGET_SUCCESSFUL_MESSAGE,title:nomenclature.ADD_BUDGET_SUCCESSFUL_TITLE, type: "success" });
     router.back();
-    addBudget({ amount, period: selectedPeriod, category: selectedCategories, name, spent:0 });
+    addBudget({
+      amount,
+      period: selectedPeriod,
+      category: selectedCategories,
+      name,
+      spent: 0,
+    });
   };
   return (
     <ScrollView style={styles.container}>
@@ -128,7 +142,13 @@ const SetCategoryBudget = () => {
         onChangeText={setAmount}
         ref={ref}
       />
-      <View style={{ flexDirection: "row", columnGap: scale(5), marginTop: scale(10) }}>
+      <View
+        style={{
+          flexDirection: "row",
+          columnGap: scale(5),
+          marginTop: scale(10),
+        }}
+      >
         {quickInputs.map((item) => (
           <QuickInput
             key={item}
@@ -147,7 +167,13 @@ const SetCategoryBudget = () => {
       />
       <CustomText style={styles.label}>{nomenclature.CATEGORY}</CustomText>
       <CheckList items={categories} onToggle={toggleCategory} />
-      <TouchableOpacity disabled={disabled} onPress={() => {handleAddBudget()}} style={[buttonStyle,{marginTop:scale(35)}]}>
+      <TouchableOpacity
+        disabled={disabled}
+        onPress={() => {
+          handleAddBudget();
+        }}
+        style={[buttonStyle, { marginTop: scale(35) }]}
+      >
         <CustomText>{nomenclature.SAVE_BUDGET}</CustomText>
       </TouchableOpacity>
     </ScrollView>
@@ -155,4 +181,3 @@ const SetCategoryBudget = () => {
 };
 
 export default SetCategoryBudget;
-

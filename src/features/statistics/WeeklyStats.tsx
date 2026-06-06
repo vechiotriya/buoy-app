@@ -101,13 +101,13 @@ const WeeklyStats = () => {
             borderRadius: scale(16),
             borderWidth: 0.2,
             paddingLeft: scale(15),
-            backgroundColor: "rgba(196, 232, 251, 0.5)",
+            backgroundColor: themePalette.secondaryContainer,
             borderColor: themePalette.borderColor,
             overflow: "hidden",
             paddingVertical: scale(10),
           }}
         >
-          <CustomText size={font.size_12} color={themePalette.inputText2}>
+          <CustomText size={font.size_12} variant="bold" color={themePalette.inputText2}>
             {nomenclature.TOP_SPENDING_DAY}
           </CustomText>
           <CustomText
@@ -118,7 +118,7 @@ const WeeklyStats = () => {
             {data?.topSpending || "Monday"}
           </CustomText>
           <CustomText
-            size={font.size_14}
+            variant="bold"
             color={themePalette.secondaryTextLight}
           >
             {nomenclature.RUPEE_SIGN + " " + data?.topSpendingAmount || "0"}
@@ -156,7 +156,7 @@ const WeeklyStats = () => {
             height={scale(240)}
             noOfSections={3}
             barBorderRadius={scale(8)}
-            frontColor="#1E85B7"
+            frontColor={themePalette.primary}
             data={data?.graph}
             hideYAxisText={true}
             hideAxesAndRules={true}

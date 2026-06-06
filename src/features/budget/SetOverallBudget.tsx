@@ -1,4 +1,4 @@
-import { Alert, ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 import React, { useRef, useState } from "react";
 import { useStyles } from "./styles/SetBudget";
 import PrimaryInput from "@/src/components/PrimaryInput";
@@ -15,6 +15,7 @@ import { primaryButtonStyle } from "@/src/constants/styles";
 import { useAddBudgetMutation } from "@/src/services/budgetApi";
 import font from "@/src/constants/font";
 import { useRouter } from "expo-router";
+import { useToast } from "@/src/hooks/ToastContextProvider";
 
 const SetOverallBudget = () => {
   const styles = useStyles();
@@ -26,6 +27,8 @@ const SetOverallBudget = () => {
   const disabled = isLoading || !amount||!selectedPeriod;
   const buttonStyle = primaryButtonStyle(themePalette, disabled);
   const router = useRouter();
+  const { show } = useToast();
+
   const handleAddBudget = () => {
     console.log("adding budget", {
       amount,
@@ -43,12 +46,12 @@ const SetOverallBudget = () => {
       .unwrap()
       .then((res) => {
         console.log(res);
-        Alert.alert("Budget added");
+        show({ message:nomenclature.ADD_BUDGET_SUCCESSFUL_MESSAGE,title:nomenclature.ADD_BUDGET_SUCCESSFUL_TITLE, type: "success" });
         router.push("/budget");
       })
       .catch((err) => {
         console.log(JSON.parse(err.data).message);
-        Alert.alert("Error", JSON.parse(err.data).message);
+        show({ message:JSON.parse(err.data).message,title:nomenclature.ADD_BUDGET_FAILED_TITLE, type: "error" });
       });
   };
   return (

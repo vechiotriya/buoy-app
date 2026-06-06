@@ -1,10 +1,4 @@
-import {
-  Alert,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import React, { useRef, useState } from "react";
 import { scale } from "@/src/utils/scale";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
@@ -14,6 +8,7 @@ import font from "@/src/constants/font";
 import nomenclature from "@/src/constants/nomenclature";
 import { useResetOtpVerificationMutation } from "@/src/services/authApi";
 import { AppTheme } from "@/src/constants/Colors";
+import { useToast } from "@/src/hooks/ToastContextProvider";
 
 type ResetOtpProps = {
   email: string;
@@ -26,6 +21,8 @@ const ResetOtp = ({ email, setStep, setResetToken }: ResetOtpProps) => {
   const styles = useStyles(themePalette);
   const buttonStyle = primaryButtonStyle(themePalette);
   const isDisabled = otp.some((digit) => digit === "");
+  const { show } = useToast();
+
   const [resetOtpVerification, { isLoading }] =
     useResetOtpVerificationMutation();
   const inputRefs = useRef<TextInput[]>([]);
@@ -79,21 +76,24 @@ const ResetOtp = ({ email, setStep, setResetToken }: ResetOtpProps) => {
               if (!("error" in response)) {
                 setResetToken(() => response.data.resetToken);
                 setStep(2);
-                console.log("haa");
               } else {
                 const err = JSON.parse(response?.error?.data)?.error;
                 console.log("Error", err);
-                Alert.alert(
-                  "Verification Failed",
-                  err || "Something went wrong",
-                );
+                show({
+                  title: "Verification Failed",
+                  message: err || "Something went wrong",
+                  type: "error",
+                });
               }
             })
             .catch((error) => {
               const err = JSON.parse(error?.data)?.message;
               console.log("Error", err);
-              console.log(err);
-              Alert.alert("Verification Failed", err || "Something went wrong");
+              show({
+                title: "Verification Failed",
+                message: err || "Something went wrong",
+                type: "error",
+              });
             });
         }}
       >

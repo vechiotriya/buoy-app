@@ -227,7 +227,7 @@ const AddTransaction = () => {
           ></TextInput>
         </View>
         <TextInput
-          placeholder="Add a comment..."
+          placeholder={type === "expense" ? "What did you spend on? Enter here" : "Who or what paid you? Enter here"}
           value={comment}
           placeholderTextColor={themePalette.inputText2}
           maxLength={50}

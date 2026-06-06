@@ -97,7 +97,7 @@ const Transactions = () => {
       contentContainerStyle={{ paddingBottom: scale(84) }}
       ListHeaderComponent={<SearchFilterComponent/>}
       sections={searchText ? searchResultData : DATA}
-      keyExtractor={(item) => item.purpose}
+      keyExtractor={(item) => item.id}
       ListEmptyComponent={()=>{return <Empty text="No transactions" style={{marginTop:scale(50)}}/>}}
       renderItem={({ item, index, section }) => {
       const icon = CATEGORY_ICONS.find((cat) => cat.name == item.category)??{name:'Miscellaneous',icon:'money-check-dollar',type:'FontAwesome6'};

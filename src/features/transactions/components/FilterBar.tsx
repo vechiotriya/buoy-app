@@ -100,5 +100,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     gap: scale(12),
+    marginTop: scale(20),
   },
 });

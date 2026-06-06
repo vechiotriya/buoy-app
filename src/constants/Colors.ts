@@ -27,6 +27,7 @@ export interface AppTheme {
   tabIconDefault: string;
   tabIconSelected: string;
   speedometerColor: string;
+  secondaryContainer: string;
   donutChartColors: string[];
   categoryColors: string[];
   switchOn: string;
@@ -39,7 +40,7 @@ export const lightTheme: AppTheme = {
   primary: "#1E85B7",
   primaryDisabled: "#9fa5a8",
   secondary: "#98DBEA",
-  menuBackground:"rgba(202, 232, 248, 0.86)",
+  menuBackground: "rgba(202, 232, 248, 0.86)",
   menuButton: "rgba(255, 255, 255, 0.97)",
   text: "#fff",
   secondaryText: "#1E85B7",
@@ -59,6 +60,7 @@ export const lightTheme: AppTheme = {
   tabIconDefault: "#949494",
   tabIconSelected: tintColorLight,
   speedometerColor: "#177AD5",
+  secondaryContainer: "rgba(196, 232, 251, 0.5)",
   donutChartColors: [
     "#1E85B7",
     "#98DBEA",
@@ -124,6 +126,7 @@ export const darkTheme: AppTheme = {
   tabIconDefault: "#4A6A85",
   tabIconSelected: tintColorDark,
   speedometerColor: "#3BB5E0",
+  secondaryContainer: "rgba(255, 255, 255, 0.58)",
   donutChartColors: [
     "#3CAADC",
     "#6ECFE6",

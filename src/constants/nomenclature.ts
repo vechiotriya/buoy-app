@@ -64,4 +64,7 @@ export default {
   SPENT: "spent",
   CATEGORY_WISE_SPENDING: "Category-wise Spending",
   STANDARD_BUDGET_WARNING:"In standard budgeting style you won't be able to add more than one budget for the same period, Delete the existing budget to update.",
+  ADD_BUDGET_SUCCESSFUL_MESSAGE:"You better save your money 😉",
+  ADD_BUDGET_SUCCESSFUL_TITLE:"Budget added",
+  ADD_BUDGET_FAILED_TITLE:"Budget not added",
 };
