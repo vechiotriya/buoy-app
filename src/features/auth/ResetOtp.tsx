@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import { Keyboard, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import React, { useRef, useState } from "react";
 import { scale } from "@/src/utils/scale";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
@@ -9,6 +9,7 @@ import nomenclature from "@/src/constants/nomenclature";
 import { useResetOtpVerificationMutation } from "@/src/services/authApi";
 import { AppTheme } from "@/src/constants/Colors";
 import { useToast } from "@/src/hooks/ToastContextProvider";
+import { useRouter } from "expo-router";
 
 type ResetOtpProps = {
   email: string;
@@ -22,7 +23,7 @@ const ResetOtp = ({ email, setStep, setResetToken }: ResetOtpProps) => {
   const buttonStyle = primaryButtonStyle(themePalette);
   const isDisabled = otp.some((digit) => digit === "");
   const { show } = useToast();
-
+  const router = useRouter();
   const [resetOtpVerification, { isLoading }] =
     useResetOtpVerificationMutation();
   const inputRefs = useRef<TextInput[]>([]);
@@ -69,16 +70,16 @@ const ResetOtp = ({ email, setStep, setResetToken }: ResetOtpProps) => {
           },
         ]}
         onPress={() => {
+          Keyboard.dismiss();
           resetOtpVerification({ email, otp: otp.join("") })
             .then((response) => {
-              console.log("kwaa", JSON.parse(response?.error?.data)?.error);
-
               if (!("error" in response)) {
-                setResetToken(() => response.data.resetToken);
                 setStep(2);
+                setResetToken(() => response.data.resetToken);
               } else {
                 const err = JSON.parse(response?.error?.data)?.error;
                 console.log("Error", err);
+                router.back();
                 show({
                   title: "Verification Failed",
                   message: err || "Something went wrong",
