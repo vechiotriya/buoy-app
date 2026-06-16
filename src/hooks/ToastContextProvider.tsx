@@ -11,6 +11,7 @@ const DEFAULT_STATE: ToastState = {
   message: '',
   title: '',
   type: 'success',
+  action: null
 };
 
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -21,14 +22,14 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setToast(prev => ({ ...prev, visible: false }));
   }, []);
 
-  const show = useCallback(({ message,title, type = 'info', duration = DEFAULT_DURATION }: ToastOptions) => {
+  const show = useCallback(({ message,title, type = 'info', duration = DEFAULT_DURATION, action=null }: ToastOptions) => {
     // Clear any existing timer to prevent premature dismissal
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
 
     // Show the toast
-    setToast({ visible: true, message,title, type });
+    setToast({ visible: true, message,title, type, action });
 
     // Auto-dismiss after duration
     timerRef.current = setTimeout(() => {
@@ -44,6 +45,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         message={toast.message}
         title={toast.title}
         type={toast.type}
+        action={toast.action}
       />
     </ToastContext.Provider>
   );

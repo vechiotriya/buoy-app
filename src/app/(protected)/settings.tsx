@@ -9,7 +9,7 @@ import { loggedOut } from "@/src/store/slices/authSlice";
 import { scale } from "@/src/utils/scale";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
-import { Image, Pressable, TouchableOpacity } from "react-native";
+import { Image, Linking, Pressable, TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 
 import { Text, View } from "react-native";
@@ -20,13 +20,18 @@ import { categoryApi } from "@/src/services/categoryApi";
 import { authApi } from "@/src/services/authApi";
 import { normalizeError } from "@/src/utils/error";
 import Switch from "@/src/components/Switch";
+import { useNotificationPermission } from "@/src/hooks/useNotificationPermission";
+import Constants from "expo-constants";
 
 export default function Settings() {
-  const { themePalette,theme,handleTheme } = useTheme();
+  const { themePalette, theme, handleTheme } = useTheme();
   const buttonStyle = primaryButtonStyle(themePalette);
   const route = useRouter();
   const dispatch = useDispatch();
+  const { granted, requestPermission, revokePermission } =
+    useNotificationPermission();
   const { data, error } = useGetUserDetailsQuery({});
+  const version = Constants.expoConfig?.version;
   if (error) {
     console.log("API error", error);
     throw normalizeError(error as Error);
@@ -100,14 +105,26 @@ export default function Settings() {
             <CustomText>{nomenclature.PAUSE_NOTIFICATIONS}</CustomText>
           </View>
 
-          <Switch value={false} onValueChange={() => {}} />
+          <Switch
+            value={!granted}
+            onValueChange={(value: boolean) => {
+              value ? requestPermission() : revokePermission();
+            }}
+          />
         </View>
 
         <View style={styles.divider} />
 
         <View style={styles.row}>
-          <Pressable onPress={()=>{            
-            route.push({pathname:'/forgot-password',params:{userEmail:data?.email}})}} style={styles.rowLeft}>
+          <Pressable
+            onPress={() => {
+              route.push({
+                pathname: "/forgot-password",
+                params: { userEmail: data?.email },
+              });
+            }}
+            style={styles.rowLeft}
+          >
             <CustomIcon
               type="Ionicons"
               name="refresh-outline"
@@ -134,33 +151,12 @@ export default function Settings() {
             <CustomText>{nomenclature.DARK_MODE}</CustomText>
           </View>
 
-          <Switch value={theme === "dark"} onValueChange={()=>{handleTheme(theme === "dark" ? "light" : "dark")}} />
-        </View>
-
-        <View style={styles.divider} />
-
-        <View style={styles.row}>
-          <View style={styles.rowLeft}>
-            <CustomIcon
-              type="Ionicons"
-              name="language-outline"
-              size={scale(18)}
-              color="#fff"
-              iconStyle={{ marginBottom: scale(1) }}
-            />
-            <CustomText>{nomenclature.LANGUAGE}</CustomText>
-          </View>
-
-          <View style={styles.rowRight}>
-            <CustomText style={styles.value}>English</CustomText>
-            <CustomIcon
-              type="Ionicons"
-              name="chevron-forward"
-              size={scale(18)}
-              color="#fff"
-              iconStyle={{ marginBottom: scale(1) }}
-            />
-          </View>
+          <Switch
+            value={theme === "dark"}
+            onValueChange={() => {
+              handleTheme(theme === "dark" ? "light" : "dark");
+            }}
+          />
         </View>
       </BlurView>
 
@@ -178,12 +174,15 @@ export default function Settings() {
             <CustomText>{nomenclature.VERSION}</CustomText>
           </View>
 
-          <CustomText style={styles.value}>1.0.0</CustomText>
+          <CustomText style={styles.value}>{version}</CustomText>
         </View>
 
         <View style={styles.divider} />
 
-        <TouchableOpacity onPress={() => route.push("/about")} style={styles.row}>
+        <TouchableOpacity
+          onPress={() => route.push("/about")}
+          style={styles.row}
+        >
           <View style={styles.rowLeft}>
             <CustomIcon
               type="Ionicons"

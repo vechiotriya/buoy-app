@@ -20,6 +20,7 @@ const Toast: FC<ToastState> = ({
   type = "success",
   message,
   title,
+  action,
 }) => {
   const { themePalette } = useTheme();
   const styles = useStyles(themePalette);
@@ -86,6 +87,9 @@ const Toast: FC<ToastState> = ({
       </CustomText>
       <Pressable
         onPress={() => {
+          if (action) {
+            action();
+          }
           Animated.timing(opacity, {
             toValue: 0,
             duration: 250,

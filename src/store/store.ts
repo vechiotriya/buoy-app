@@ -5,6 +5,7 @@ import { userApi } from "../services/userApi";
 import { transactionApi } from "../services/transactionApi";
 import { categoryApi } from "../services/categoryApi";
 import { budgetApi } from "../services/budgetApi";
+import { notificationsApi } from "../services/notificationsApi";
 export const store=configureStore({
     reducer:{
         [authApi.reducerPath]:authApi.reducer,
@@ -12,9 +13,10 @@ export const store=configureStore({
         [transactionApi.reducerPath]:transactionApi.reducer,
         [categoryApi.reducerPath]:categoryApi.reducer,
         [budgetApi.reducerPath]:budgetApi.reducer,
+        [notificationsApi.reducerPath]:notificationsApi.reducer,
         auth:authReducer
     },
-    middleware:(getDefaultMiddleware)=>getDefaultMiddleware().concat(authApi.middleware,userApi.middleware,transactionApi.middleware,categoryApi.middleware,budgetApi.middleware),
+    middleware:(getDefaultMiddleware)=>getDefaultMiddleware().concat(authApi.middleware,userApi.middleware,transactionApi.middleware,categoryApi.middleware,budgetApi.middleware,notificationsApi.middleware),
 })
 
 export type RootState=ReturnType<typeof store.getState>;

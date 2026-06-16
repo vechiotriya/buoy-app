@@ -14,7 +14,7 @@ const About = () => {
       }}
     >
       <CustomText style={{textAlign:"center"}} size={font.size_32} variant="bold">
-        Stay afloat, financially.
+        About Buoy
       </CustomText>
       <Image source={aboutImage} style={{ width:'100%', height: scale(300), marginVertical: scale(20) }} /> 
       <CustomText style={{textAlign:"center"}} size={font.size_18} variant="bold">

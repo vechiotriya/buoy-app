@@ -5,6 +5,7 @@ export interface ToastOptions {
   type?: ToastType;
   title: string;
   duration?: number;
+  action?:(()=>void)|null;
 }
 
 export interface ToastContextValue {
@@ -17,4 +18,5 @@ export interface ToastState {
   message: string;
   title: string;
   type: ToastType;
+  action:(()=>void)|null;
 }

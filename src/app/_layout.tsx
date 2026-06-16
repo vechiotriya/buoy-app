@@ -57,7 +57,6 @@ export default function RootLayout() {
     "poppins-bold": require("../../assets/fonts/Poppins-Bold.ttf"),
     ...FontAwesome.font,
   });
-
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
@@ -79,41 +78,45 @@ function RootLayoutNav() {
   const isLoggedIn = useSelector((state: any) => state.auth.isAuthenticated);
   console.log("User is logged in:", isLoggedIn);
   const isOnboarded = useSelector((state: any) => state.auth.isOnboarded);
+
   return (
     <ThemeProvider>
       <ToastProvider>
-      <GestureHandlerRootView>
-        <GlobalLoadingOverlay />
-        <Stack
-          screenOptions={{
-            animation: "slide_from_bottom",
-          }}
-        >
-          <Stack.Protected guard={!isOnboarded}>
-            <Stack.Screen
-              name="(onboarding)"
-              options={{ headerShown: false }}
-            />
-          </Stack.Protected>
-          <Stack.Protected guard={isLoggedIn}>
-            <Stack.Screen name="(protected)" options={{ headerShown: false }} />
-          </Stack.Protected>
-          <Stack.Protected guard={!isLoggedIn}>
-            <Stack.Screen name="sign" options={{ headerShown: false }} />
-          </Stack.Protected>
-          <Stack.Screen
-            name="forgot-password"
-            options={{
-              headerShown: false,
-              presentation: "formSheet",
-              sheetGrabberVisible: true,
-              sheetCornerRadius: scale(20),
-              contentStyle: { backgroundColor: "transparent" },
-              sheetAllowedDetents: [0.5],
+        <GestureHandlerRootView>
+          <GlobalLoadingOverlay />
+          <Stack
+            screenOptions={{
+              animation: "slide_from_bottom",
             }}
-          />
-        </Stack>
-      </GestureHandlerRootView>
+          >
+            <Stack.Protected guard={!isOnboarded}>
+              <Stack.Screen
+                name="(onboarding)"
+                options={{ headerShown: false }}
+              />
+            </Stack.Protected>
+            <Stack.Protected guard={isLoggedIn}>
+              <Stack.Screen
+                name="(protected)"
+                options={{ headerShown: false }}
+              />
+            </Stack.Protected>
+            <Stack.Protected guard={!isLoggedIn}>
+              <Stack.Screen name="sign" options={{ headerShown: false }} />
+            </Stack.Protected>
+            <Stack.Screen
+              name="forgot-password"
+              options={{
+                headerShown: false,
+                presentation: "formSheet",
+                sheetGrabberVisible: true,
+                sheetCornerRadius: scale(20),
+                contentStyle: { backgroundColor: "transparent" },
+                sheetAllowedDetents: [0.5],
+              }}
+            />
+          </Stack>
+        </GestureHandlerRootView>
       </ToastProvider>
     </ThemeProvider>
   );

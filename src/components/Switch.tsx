@@ -8,7 +8,7 @@ export default function Switch({
   onValueChange,
 }: {
   value: boolean;
-  onValueChange: () => void;
+  onValueChange: (value:boolean) => void;
 }) {
   const translateX = useRef(new Animated.Value(value ? 22 : 2)).current;
   const { themePalette } = useTheme();
@@ -22,7 +22,7 @@ export default function Switch({
 
   return (
     <Pressable
-      onPress={onValueChange}
+      onPress={(e)=>{onValueChange(value)}}
       style={[styles.track, { backgroundColor: value ? themePalette.switchOn : themePalette.switchOff }]}
     >
       <Animated.View style={[styles.thumb, { transform: [{ translateX }] }]} />
