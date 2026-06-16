@@ -34,7 +34,7 @@ It helps users stay financially afloat by making it simple to record expenses, o
 
 ## Backend
 
-The backend for Buoy is maintained in a separate repository:
+The backend for Buoy is maintained in a separate repository: https://github.com/vechiotriya/buoy
 
 
 ---
