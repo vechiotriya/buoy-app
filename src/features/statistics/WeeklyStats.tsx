@@ -1,5 +1,5 @@
-import { ScrollView, View } from "react-native";
-import React from "react";
+import { ScrollView, ToastAndroid, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { useStyle } from "./styles/StatisticsStyles";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import CustomText from "@/src/components/CustomText";
@@ -15,24 +15,51 @@ import { useGetCategoriesExpensesQuery } from "@/src/services/categoryApi";
 import { getCategoryColor } from "@/src/utils/misc";
 import { normalizeError } from "@/src/utils/error";
 import Empty from "@/src/components/Empty";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { storage } from "@/src/services/storage";
 const WeeklyStats = () => {
   const { themePalette } = useTheme();
   const style = useStyle(themePalette);
   const { data, isLoading, error } = useGetStatsByWeekQuery();
+  const [offlineData, setOfflineData] = useState(null);
   const { data: categoryExpenses, error: categoryError } =
     useGetCategoriesExpensesQuery({});
-  const barDataIsEmpty=Array(data?.graph)?.every((item) => item?.value == 0);
-  if (error) {
+  const [categoryExpensesOffline, setCategoryExpensesOffline] = useState(null);
+  const netInfo = useNetInfo();
+  const barDataIsEmpty = Array(data?.graph)?.every((item) => item?.value == 0);
+  if (error && netInfo.isConnected) {
     console.log("API error", error);
     throw normalizeError(error as Error);
   }
-  if (categoryError) {
+  if (categoryError && netInfo.isConnected) {
     console.log("API error", categoryError);
     throw normalizeError(categoryError as Error);
   }
-  
+  useEffect(() => {
+    if (netInfo.isConnected) {
+      storage.set("statsByWeekCache", data ? JSON.stringify(data) : "");
+      storage.set("categoriesExpensesCache", categoryExpenses ? JSON.stringify(categoryExpenses) : "");
+    } else {
+      ToastAndroid.show(
+        "You are offline. Some features may not work.",
+        ToastAndroid.SHORT,
+      );
+      const cachedData = storage.getString("statsByWeekCache");
+      if (cachedData) {
+        setOfflineData(JSON.parse(cachedData));
+      }
+      const cachedCategoryData = storage.getString("categoriesExpensesCache");
+      if (cachedCategoryData) {
+        setCategoryExpensesOffline(JSON.parse(cachedCategoryData));
+      }
+    }
+  }, [netInfo.isConnected]);
   const pieData =
     categoryExpenses?.week?.map((item: any) => ({
+      value: item.value,
+      color: getCategoryColor(themePalette.donutChartColors, item.text),
+      text: item.text,
+    })) || categoryExpensesOffline?.week?.map((item: any) => ({
       value: item.value,
       color: getCategoryColor(themePalette.donutChartColors, item.text),
       text: item.text,
@@ -61,12 +88,12 @@ const WeeklyStats = () => {
           variant="bold"
           color={themePalette.secondaryTextLight}
         >
-          {nomenclature.RUPEE_SIGN + " " + data?.total || "0"}
+          {nomenclature.RUPEE_SIGN + " " + data?.total || offlineData?.total || "0"}
         </CustomText>
         <View style={{ flexDirection: "row" }}>
-          {!!data?.changeSinceLast &&
-            Number(data?.changeSinceLast) <= 100 &&
-            (data?.changeSinceLast > 0 ? (
+          {(!!data?.changeSinceLast || !!offlineData?.changeSinceLast) &&
+            Number(data?.changeSinceLast || offlineData?.changeSinceLast) <= 100 &&
+            (data?.changeSinceLast || offlineData?.changeSinceLast > 0 ? (
               <CustomIcon
                 name="arrow-up-right"
                 type="Feather"
@@ -81,97 +108,105 @@ const WeeklyStats = () => {
                 color={themePalette.negative}
               />
             ))}
-          {!!data?.changeSinceLast && (
+          {!!data?.changeSinceLast|| offlineData?.changeSinceLast && (
             <CustomText
               size={font.size_12}
               color={themePalette.secondaryTextLight}
             >
-              {data?.changeSinceLast +
-                "% " +
-                (Number(data?.changeSinceLast) < 0
-                  ? nomenclature.LESS_THAN_LAST_WEEK
-                  : nomenclature.MORE_THAN_LAST_WEEK)}
+              {data?.changeSinceLast ||
+                offlineData?.changeSinceLast +
+                  "% " +
+                  (Number(offlineData?.changeSinceLast) < 0
+                    ? nomenclature.LESS_THAN_LAST_WEEK
+                    : nomenclature.MORE_THAN_LAST_WEEK)}
             </CustomText>
           )}
         </View>
-      {data?.topSpending!=="N/A" && <BlurView
-          intensity={50}
+        {(data?.topSpending !== "N/A" || offlineData?.topSpending !== "N/A") && (
+          <BlurView
+            intensity={50}
+            style={{
+              marginTop: scale(10),
+              borderRadius: scale(16),
+              borderWidth: 0.2,
+              paddingLeft: scale(15),
+              backgroundColor: themePalette.secondaryContainer,
+              borderColor: themePalette.borderColor,
+              overflow: "hidden",
+              paddingVertical: scale(10),
+            }}
+          >
+            <CustomText
+              size={font.size_12}
+              variant="bold"
+              color={themePalette.inputText2}
+            >
+              {nomenclature.TOP_SPENDING_DAY}
+            </CustomText>
+            <CustomText
+              size={font.size_18}
+              variant="bold"
+              color={themePalette.primary}
+            >
+              {data?.topSpending || offlineData?.topSpending || "Monday"}
+            </CustomText>
+            <CustomText variant="bold" color={themePalette.secondaryTextLight}>
+              {nomenclature.RUPEE_SIGN + " " + data?.topSpendingAmount || offlineData?.topSpendingAmount || "0"}
+            </CustomText>
+          </BlurView>
+        )}
+      </View>
+      {barDataIsEmpty ? (
+        <Empty text={"No expenses made yet"} />
+      ) : (
+        <BlurView
+          intensity={20}
+          tint="light"
           style={{
+            marginHorizontal: scale(20),
             marginTop: scale(10),
             borderRadius: scale(16),
             borderWidth: 0.2,
-            paddingLeft: scale(15),
-            backgroundColor: themePalette.secondaryContainer,
             borderColor: themePalette.borderColor,
             overflow: "hidden",
-            paddingVertical: scale(10),
           }}
         >
-          <CustomText size={font.size_12} variant="bold" color={themePalette.inputText2}>
-            {nomenclature.TOP_SPENDING_DAY}
-          </CustomText>
           <CustomText
             size={font.size_18}
             variant="bold"
-            color={themePalette.primary}
+            style={{ marginHorizontal: scale(20), marginTop: scale(19) }}
           >
-            {data?.topSpending || "Monday"}
+            {nomenclature.EXPENSE_OVERVIEW}
           </CustomText>
-          <CustomText
-            variant="bold"
-            color={themePalette.secondaryTextLight}
-          >
-            {nomenclature.RUPEE_SIGN + " " + data?.topSpendingAmount || "0"}
-          </CustomText>
-        </BlurView>}
-      </View>
-    {barDataIsEmpty? <Empty text={"No expenses made yet"} /> :<BlurView
-        intensity={20}
-        tint="light"
-        style={{
-          marginHorizontal: scale(20),
-          marginTop: scale(10),
-          borderRadius: scale(16),
-          borderWidth: 0.2,
-          borderColor: themePalette.borderColor,
-          overflow: "hidden",
-        }}
-      >
-        <CustomText
-          size={font.size_18}
-          variant="bold"
-          style={{ marginHorizontal: scale(20), marginTop: scale(19) }}
-        >
-          {nomenclature.EXPENSE_OVERVIEW}
-        </CustomText>
-        <View
-          style={{
-            height: scale(330),
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <BarChart
-            barWidth={scale(32)}
-            height={scale(240)}
-            noOfSections={3}
-            barBorderRadius={scale(8)}
-            frontColor={themePalette.primary}
-            data={data?.graph}
-            hideYAxisText={true}
-            hideAxesAndRules={true}
-            barBorderBottomLeftRadius={0}
-            barBorderBottomRightRadius={0}
-            xAxisLabelTextStyle={{
-              color: "#FFFF",
-              fontFamily: "poppins-regular",
-              fontSize: font.size_14,
+          <View
+            style={{
+              height: scale(330),
+              justifyContent: "center",
+              alignItems: "center",
             }}
-            yAxisThickness={0}
-            xAxisThickness={0}
-          />
-        </View>
-      </BlurView>}
+          >
+            <BarChart
+              barWidth={scale(32)}
+              height={scale(240)}
+              noOfSections={3}
+              barBorderRadius={scale(8)}
+              frontColor={themePalette.primary}
+              data={data?.graph|| offlineData?.graph || []}
+              hideYAxisText={true}
+              hideAxesAndRules={true}
+              barBorderBottomLeftRadius={0}
+              barBorderBottomRightRadius={0}
+              xAxisLabelTextStyle={{
+                color: "#FFFF",
+                fontFamily: "poppins-regular",
+                fontSize: font.size_14,
+              }}
+              yAxisThickness={0}
+              xAxisThickness={0}
+            />
+          </View>
+        </BlurView>
+      )}
       <BlurView
         intensity={20}
         tint="light"

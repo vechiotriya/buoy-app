@@ -9,7 +9,13 @@ import { loggedOut } from "@/src/store/slices/authSlice";
 import { scale } from "@/src/utils/scale";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
-import { Image, Linking, Pressable, TouchableOpacity } from "react-native";
+import {
+  Image,
+  Linking,
+  Pressable,
+  ToastAndroid,
+  TouchableOpacity,
+} from "react-native";
 import { StyleSheet } from "react-native";
 
 import { Text, View } from "react-native";
@@ -22,6 +28,9 @@ import { normalizeError } from "@/src/utils/error";
 import Switch from "@/src/components/Switch";
 import { useNotificationPermission } from "@/src/hooks/useNotificationPermission";
 import Constants from "expo-constants";
+import { useEffect, useState } from "react";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { storage } from "@/src/services/storage";
 
 export default function Settings() {
   const { themePalette, theme, handleTheme } = useTheme();
@@ -31,11 +40,27 @@ export default function Settings() {
   const { granted, requestPermission, revokePermission } =
     useNotificationPermission();
   const { data, error } = useGetUserDetailsQuery({});
+  const [offlineData, setOfflineData] = useState(null);
+  const netInfo = useNetInfo();
   const version = Constants.expoConfig?.version;
-  if (error) {
+  if (error && netInfo.isConnected) {
     console.log("API error", error);
     throw normalizeError(error as Error);
   }
+  useEffect(() => {
+    if (netInfo.isConnected) {
+      storage.set("userDetailsCache", data ? JSON.stringify(data) : "");
+    } else {
+      ToastAndroid.show(
+        "You are offline. Some features may not work.",
+        ToastAndroid.SHORT,
+      );
+      const cachedData = storage.getString("userDetailsCache");
+      if (cachedData) {
+        setOfflineData(JSON.parse(cachedData));
+      }
+    }
+  }, [netInfo.isConnected]);
 
   return (
     <View style={styles.container}>
@@ -49,6 +74,15 @@ export default function Settings() {
               <Image
                 source={{
                   uri: data?.profile,
+                  width: scale(70),
+                  height: scale(70),
+                }}
+                style={styles.avatar}
+              />
+            ) : offlineData?.profile ? (
+              <Image
+                source={{
+                  uri: offlineData?.profile,
                   width: scale(70),
                   height: scale(70),
                 }}
@@ -77,9 +111,11 @@ export default function Settings() {
             )}
 
             <View>
-              <CustomText variant="bold">{data?.fullName}</CustomText>
+              <CustomText variant="bold">
+                {data?.fullName || offlineData?.fullName}
+              </CustomText>
               <CustomText style={styles.username}>
-                {"@" + data?.username || " "}
+                {"@" + data?.username || offlineData?.username || " "}
               </CustomText>
             </View>
           </View>

@@ -1,5 +1,5 @@
-import { ScrollView, View } from "react-native";
-import React from "react";
+import { ScrollView, ToastAndroid, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { useStyle } from "./styles/StatisticsStyles";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import CustomText from "@/src/components/CustomText";
@@ -15,29 +15,58 @@ import { useGetCategoriesExpensesQuery } from "@/src/services/categoryApi";
 import { getCategoryColor } from "@/src/utils/misc";
 import { normalizeError } from "@/src/utils/error";
 import Empty from "@/src/components/Empty";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { storage } from "@/src/services/storage";
 
 const YearlyStats = () => {
   const { themePalette } = useTheme();
   const style = useStyle(themePalette);
   const { data, isLoading, error } = useGetStatsByYearQuery();
+  const [offlineData, setOfflineData] = useState(null);
   const { data: categoryExpenses, error: categoryError } =
     useGetCategoriesExpensesQuery({});
+  const [categoryExpensesOffline, setCategoryExpensesOffline] = useState(null);
+  const netInfo = useNetInfo();
   const pieData =
     categoryExpenses?.year?.map((item: any) => ({
+      value: item.value,
+      color: getCategoryColor(themePalette.donutChartColors, item.text),
+      text: item.text,
+    })) ||
+    categoryExpensesOffline?.year?.map((item: any) => ({
       value: item.value,
       color: getCategoryColor(themePalette.donutChartColors, item.text),
       text: item.text,
     })) || [];
   const barDataIsEmpty = Array(data?.graph)?.every((item) => item?.value == 0);
 
-  if (error) {
+  if (error && netInfo.isConnected) {
     console.log("API error", error);
     throw normalizeError(error as Error);
   }
-  if (categoryError) {
+  if (categoryError && netInfo.isConnected) {
     console.log("API error", categoryError);
     throw normalizeError(categoryError as Error);
   }
+    useEffect(() => {
+      if (netInfo.isConnected) {
+        storage.set("statsByYearCache", data ? JSON.stringify(data) : "");
+        storage.set("categoriesExpensesCache", categoryExpenses ? JSON.stringify(categoryExpenses) : "");
+      } else {
+        ToastAndroid.show(
+          "You are offline. Some features may not work.",
+          ToastAndroid.SHORT,
+        );
+        const cachedData = storage.getString("statsByYearCache");
+        if (cachedData) {
+          setOfflineData(JSON.parse(cachedData));
+        }
+        const cachedCategoryData = storage.getString("categoriesExpensesCache");
+        if (cachedCategoryData) {
+          setCategoryExpensesOffline(JSON.parse(cachedCategoryData));
+        }
+      }
+    }, [netInfo.isConnected]);
 
   return (
     <ScrollView
@@ -55,11 +84,11 @@ const YearlyStats = () => {
           size={font.size_24}
           color={themePalette.secondaryTextLight}
         >
-          {nomenclature.RUPEE_SIGN + " " + data?.total}
+          {nomenclature.RUPEE_SIGN + " " + data?.total||offlineData?.total || "0"}
         </CustomText>
         <View style={{ flexDirection: "row" }}>
-          {!!data?.changeSinceLast &&
-            (data?.changeSinceLast > 0 ? (
+          {(!!data?.changeSinceLast || !!offlineData?.changeSinceLast) &&
+            ((data?.changeSinceLast || offlineData?.changeSinceLast) > 0 ? (
               <CustomIcon
                 name="arrow-up-right"
                 type="Feather"
@@ -74,20 +103,20 @@ const YearlyStats = () => {
                 color={themePalette.negative}
               />
             ))}
-          {!!data?.changeSinceLast && (
+          {!!data?.changeSinceLast || !!offlineData?.changeSinceLast && (
             <CustomText
               size={font.size_12}
               color={themePalette.secondaryTextLight}
             >
-              {data?.changeSinceLast +
+              {(data?.changeSinceLast || offlineData?.changeSinceLast) +
                 "% " +
-                (Number(data?.changeSinceLast) < 0
+                (Number(data?.changeSinceLast || offlineData?.changeSinceLast) < 0
                   ? nomenclature.LESS_THAN_LAST_MONTH
                   : nomenclature.MORE_THAN_LAST_MONTH)}
             </CustomText>
           )}
         </View>
-        {data?.topSpending !== "N/A" && (
+        {(data?.topSpending !== "N/A" || offlineData?.topSpending !== "N/A") && (
           <BlurView
             intensity={50}
             style={{
@@ -113,10 +142,10 @@ const YearlyStats = () => {
               variant="bold"
               color={themePalette.primary}
             >
-              {data?.topSpending || "Monday"}
+              {data?.topSpending || offlineData?.topSpending || "Monday"}
             </CustomText>
             <CustomText variant="bold" color={themePalette.secondaryTextLight}>
-              {nomenclature.RUPEE_SIGN + " " + data?.topSpendingAmount || "0"}
+              {nomenclature.RUPEE_SIGN + " " + data?.topSpendingAmount || offlineData?.topSpendingAmount || "0"}
             </CustomText>
           </BlurView>
         )}
@@ -156,7 +185,7 @@ const YearlyStats = () => {
               noOfSections={3}
               barBorderRadius={scale(8)}
               frontColor={themePalette.primary}
-              data={data?.graph}
+              data={data?.graph || offlineData?.graph || []}
               hideYAxisText={true}
               hideAxesAndRules={true}
               barBorderBottomLeftRadius={0}

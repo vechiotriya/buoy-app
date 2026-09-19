@@ -56,9 +56,9 @@ const ForgotPasswordEmail = ({
               show({ message: response.message, type: "info" , title:"Otp sent"});
             }
           }).catch((error) => {
-            const err=JSON.parse(error?.data)?.message;
-            console.log("Error",err);
-            show({ message: err || "Something went wrong", type: "error" , title:"Error"});
+            
+            console.log("Error",error);
+            show({ message: error?.data?.message || "Something went wrong", type: "error" , title:"Error"});
           });
         }}
       >

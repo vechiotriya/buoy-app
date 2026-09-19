@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import CustomText from "@/src/components/CustomText";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
@@ -10,20 +10,35 @@ import { useGetUserDetailsQuery } from "../../../services/userApi";
 import { CustomIcon } from "@/src/components/CustomIcon";
 import { ErrorBoundaryProps } from "expo-router";
 import { normalizeError } from "@/src/utils/error";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { storage } from "@/src/services/storage";
 
 const ProfileSection = () => {
   const { themePalette } = useTheme();
   const styles = useStyles(themePalette);
   const { data, error } = useGetUserDetailsQuery({});
-  if (error) {
-  console.log("API error", error);
-  throw normalizeError(error as Error);
-}
+  const [offlineData, setOfflineData] = React.useState(null);
+  const netInfo = useNetInfo();
+  if (error && netInfo.isConnected) {
+    console.log("API error", error);
+    throw normalizeError(error as Error);
+  }
+  useEffect(() => {
+    if (netInfo.isConnected) {
+      storage.set("userDetailsCache", data ? JSON.stringify(data) : "");      
+    }
+    else {
+      const cachedData = storage.getString("userDetailsCache");
+      if (cachedData) {
+        setOfflineData(JSON.parse(cachedData));
+      }
+    }
+  }, [netInfo.isConnected]);
   return (
     <View style={styles.profileContainer}>
       <View style={{}}>
         <CustomText variant="bold" size={font.size_24}>
-          {"Hello, " + data?.fullName.split(" ")[0]}
+          {"Hello, " + (data?.fullName || offlineData?.fullName)?.split(" ")[0]}
         </CustomText>
         <CustomText size={font.size_14}>{nomenclature.BEGIN_TEXT}</CustomText>
       </View>

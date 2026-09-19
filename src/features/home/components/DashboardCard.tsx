@@ -1,26 +1,42 @@
 import { Image, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { useStyle } from "../styles/DashboardCardStyles";
 import CustomText from "@/src/components/CustomText";
 import { CustomIcon } from "@/src/components/CustomIcon";
-import { mascot2Image, mascotImage } from "@/src/constants/constant";
+import { mascot2Image } from "@/src/constants/constant";
 import nomenclature from "@/src/constants/nomenclature";
 import font from "@/src/constants/font";
 import { createDateString } from "@/src/utils/misc";
 import { useGetMonthTotalStatisticsQuery } from "@/src/services/transactionApi";
 import { normalizeError } from "@/src/utils/error";
 import { scale } from "@/src/utils/scale";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { storage } from "@/src/services/storage";
 
 const DashboardCard = () => {
   const { themePalette } = useTheme();
   const styles = useStyle(themePalette);
   const date = createDateString(new Date());
-  const { data, isLoading, isError,error } = useGetMonthTotalStatisticsQuery(date);
-  if (error) {
+
+  const { data, isLoading, isError, error } =
+    useGetMonthTotalStatisticsQuery(date);
+  const [offlineData, setOfflineData] = React.useState(null);
+  const netInfo = useNetInfo();
+  if (error && netInfo.isConnected) {
     console.log("API error", error);
     throw normalizeError(error as Error);
   }
+  useEffect(() => {
+    if (!netInfo.isConnected) {
+      const cachedData = storage.getString("cache");
+      if (cachedData) {
+        setOfflineData(JSON.parse(cachedData));
+      }
+    } else {
+      storage.set("cache", data ? JSON.stringify(data) : "");
+    }
+  }, [netInfo.isConnected]);
 
   return (
     <View style={styles.cardContainer}>
@@ -39,10 +55,15 @@ const DashboardCard = () => {
             color={themePalette.secondaryText}
             style={{ paddingLeft: "2%", marginTop: scale(5) }}
           >
-            {nomenclature.RUPEE_SIGN + " " + (data?.balance??0)}
+            {nomenclature.RUPEE_SIGN +
+              " " +
+              (data?.balance ? data?.balance : offlineData?.balance??0)}
           </CustomText>
         </View>
-        <Image source={mascot2Image} style={{ width: scale(100), height: scale(110) }}></Image>
+        <Image
+          source={mascot2Image}
+          style={{ width: scale(100), height: scale(110) }}
+        ></Image>
       </View>
       <View style={[styles.infoRowContainer, { paddingHorizontal: "10%" }]}>
         <View style={{ justifyContent: "center" }}>
@@ -66,7 +87,11 @@ const DashboardCard = () => {
             color={themePalette.secondaryText}
             style={{ alignSelf: "center" }}
           >
-            {nomenclature.RUPEE_SIGN + " " + (data?.totalIncome ?? 0)}
+            {nomenclature.RUPEE_SIGN +
+              " " +
+              (data?.totalIncome
+                ? data?.totalIncome
+                : offlineData?.totalIncome??0)}
           </CustomText>
         </View>
         <View style={{ justifyContent: "center" }}>
@@ -90,7 +115,7 @@ const DashboardCard = () => {
             color={themePalette.secondaryText}
             style={{ alignSelf: "center" }}
           >
-            {nomenclature.RUPEE_SIGN + " " + (data?.totalExpense ?? 0)}
+            {nomenclature.RUPEE_SIGN + " " + (data?.totalExpense ? data?.totalExpense : offlineData?.totalExpense??0)}
           </CustomText>
         </View>
       </View>

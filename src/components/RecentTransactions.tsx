@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CustomText from './CustomText'
 import { TouchableOpacity } from 'react-native'
 import { CustomIcon } from './CustomIcon'
@@ -13,6 +13,8 @@ import { useRouter } from 'expo-router'
 import { useGetAllTransactionsQuery } from '../services/transactionApi'
 import { normalizeError } from '../utils/error'
 import Empty from './Empty'
+import { useNetInfo } from '@react-native-community/netinfo'
+import { storage } from '../services/storage'
 
 interface TransactionListProps {
     title?: string;
@@ -54,12 +56,25 @@ const TransactionItem = ({ item }: { item: TransactionType }) => {
 }
 const Transaction = React.memo(TransactionItem);
 export const RecentTransactions = ({title,seeAll}:TransactionListProps) => {
-    const {data,isLoading,error} = useGetAllTransactionsQuery({});    
+    const {data,isLoading,error} = useGetAllTransactionsQuery({});  
+    const [offlineData,setOfflineData]=useState()  
     const route=useRouter();
-    if (error) {
+    const netInfo = useNetInfo();
+    if (error && netInfo.isConnected) {
         console.log("API error", error);
          throw normalizeError(error as Error);
     }
+    useEffect(()=>{
+        if(netInfo.isConnected){
+        storage.set("allTransactionsCache",data?JSON.stringify(data):"");
+        }
+        else{
+            const cachedData=storage.getString("allTransactionsCache");
+            if(cachedData){
+                setOfflineData(JSON.parse(cachedData));
+            }
+        }
+    },[netInfo.isConnected])
     return (
         <View style={{ marginHorizontal: scale(24), rowGap: scale(24),paddingBottom: scale(24) }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -75,7 +90,7 @@ export const RecentTransactions = ({title,seeAll}:TransactionListProps) => {
             </View>
             <FlatList
                 scrollEnabled={false}
-                data={data?.slice(0, 7)}
+                data={data?.slice(0, 7)??offlineData?.slice(0,7)}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <Transaction item={item} />}
                 windowSize={5}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Pressable, StyleSheet } from 'react-native'
+import { Pressable, ScrollView, StyleSheet } from 'react-native'
 import { useGetUserDetailsQuery, useUpdateProfileMutation } from '@/src/services/userApi'
 import SetOverallBudget from '@/src/features/budget/SetOverallBudget'
 import SetCategoryBudget from '@/src/features/budget/SetCategoryBudget'
@@ -14,8 +14,9 @@ const SetBudget = () => {
   const preferredBudgetStyle= data?.preferredBudgetStyle
   const [updateProfile,{error,isLoading}]=useUpdateProfileMutation({})
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
       {/* <TopTabNavigator menuHeaders={setBudgetNavigationTabs} /> */}
+      <ScrollView style={styles.container}>
       {!preferredBudgetStyle ? <PreferredBudgetingStyle updateProfile={updateProfile} fullName={data?.fullName}/> : 
       preferredBudgetStyle=="Standard"?<SetOverallBudget/>:<SetCategoryBudget/>
       }
@@ -32,6 +33,7 @@ const SetBudget = () => {
           <CustomText size={font.size_14} style={{textAlign:'center',textDecorationLine:'underline'}}>Switch budgeting style</CustomText>
         </Pressable>
       )}
+      </ScrollView>
     </SafeAreaView>
   )
 }

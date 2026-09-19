@@ -8,33 +8,77 @@ import { spendAnalysisOptions } from "../constants/constant";
 import { BarChart } from "react-native-gifted-charts";
 import { scale } from "../utils/scale";
 import Select from "./Select";
-import { useGetStatsByLastWeekQuery, useGetStatsByWeekQuery } from "../services/transactionApi";
+import {
+  useGetStatsByLastWeekQuery,
+  useGetStatsByWeekQuery,
+} from "../services/transactionApi";
 import { normalizeError } from "../utils/error";
 import Empty from "./Empty";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { storage } from "../services/storage";
 const SpendAnalysis = () => {
   const { themePalette } = useTheme();
-  const [selectedOption, setSelectedOption] = useState<string | undefined>("This Week");
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(
+    "This Week",
+  );
   const { data, isLoading, error } = useGetStatsByWeekQuery();
-  const { data: lastWeekData, isLoading: lastWeekLoading, error: lastWeekError } = useGetStatsByLastWeekQuery();
+  const {
+    data: lastWeekData,
+    isLoading: lastWeekLoading,
+    error: lastWeekError,
+  } = useGetStatsByLastWeekQuery();
+  const [offlineDataThisWeek, setOfflineDataThisWeek] = useState(null);
+  const [offlineDataLastWeek, setOfflineDataLastWeek] = useState(null);
+  const netInfo = useNetInfo();
+  const barData =
+    selectedOption === "This Week"
+      ? (data?.graph ?? offlineDataThisWeek?.graph)
+      : (lastWeekData ?? offlineDataLastWeek);
+  const [isEmpty, setIsEmpty] = useState(false);
 
-  
-  const barData= selectedOption==="This Week"?data?.graph:lastWeekData;
-  const [isEmpty,setIsEmpty]=useState(false);
-  if (error) {
+  if (error && netInfo.isConnected) {
     console.log("API error", error);
     throw normalizeError(error as Error);
   }
-  if (lastWeekError) {
+  if (lastWeekError && netInfo.isConnected) {
     console.log("API error", lastWeekError);
     throw normalizeError(lastWeekError as Error);
   }
 
- useEffect(() => {
-  const graphData = selectedOption === "This Week" ? data?.graph : lastWeekData;
-  setIsEmpty(
-    !graphData?.length || graphData.every((item) => item?.value === 0)
-  );
-}, [selectedOption, data, lastWeekData]);
+  useEffect(() => {
+    if (netInfo.isConnected) {
+      storage.set(
+        "spendAnalysisThisWeekCache",
+        data ? JSON.stringify(data) : "",
+      );
+      storage.set(
+        "spendAnalysisLastWeekCache",
+        lastWeekData ? JSON.stringify(lastWeekData) : "",
+      );
+    } else {
+      const cachedThisWeekData = storage.getString(
+        "spendAnalysisThisWeekCache",
+      );
+      const cachedLastWeekData = storage.getString(
+        "spendAnalysisLastWeekCache",
+      );
+      if (cachedThisWeekData) {
+        setOfflineDataThisWeek(JSON.parse(cachedThisWeekData));
+      }
+      if (cachedLastWeekData) {
+        setOfflineDataLastWeek(JSON.parse(cachedLastWeekData));
+      }
+    }
+  }, [netInfo.isConnected]);
+  useEffect(() => {
+    const graphData =
+      selectedOption === "This Week"
+        ? (data?.graph ?? offlineDataThisWeek?.graph)
+        : (lastWeekData ?? offlineDataLastWeek);
+    setIsEmpty(
+      !graphData?.length || graphData.every((item) => item?.value === 0),
+    );
+  }, [selectedOption, data, lastWeekData]);
 
   return (
     <View style={{ rowGap: scale(15) }}>
@@ -64,7 +108,7 @@ const SpendAnalysis = () => {
             justifyContent: "center",
           }}
         >
-          <Select            
+          <Select
             onSelect={(item) => {
               setSelectedOption(item);
             }}
@@ -73,47 +117,50 @@ const SpendAnalysis = () => {
           ></Select>
         </BlurView>
       </View>
-     { isEmpty?<Empty text={"No data to show"} />:
-      <BlurView
-        intensity={20}
-        tint="light"
-        style={{
-          marginHorizontal: "6%",
-          marginTop: 10,
-          borderRadius: 16,
-          borderWidth: 0.2,
-          borderColor: themePalette.borderColor,
-          overflow: "hidden",
-        }}
-      >
-        <View
+      {isEmpty ? (
+        <Empty text={"No data to show"} />
+      ) : (
+        <BlurView
+          intensity={20}
+          tint="light"
           style={{
-            height: scale(290),
-            justifyContent: "center",
-            alignItems: "center",
+            marginHorizontal: "6%",
+            marginTop: 10,
+            borderRadius: 16,
+            borderWidth: 0.2,
+            borderColor: themePalette.borderColor,
+            overflow: "hidden",
           }}
         >
-          <BarChart
-            barWidth={scale(32)}
-            height={scale(220)}
-            noOfSections={3}
-            barBorderRadius={scale(8)}
-            frontColor={themePalette.primary}
-            data={barData}
-            hideYAxisText={true}
-            hideAxesAndRules={true}
-            barBorderBottomLeftRadius={0}
-            barBorderBottomRightRadius={0}
-            xAxisLabelTextStyle={{
-              color: "#FFFF",
-              fontFamily: "poppins-regular",
-              fontSize: 14,
+          <View
+            style={{
+              height: scale(290),
+              justifyContent: "center",
+              alignItems: "center",
             }}
-            yAxisThickness={0}
-            xAxisThickness={0}
-          />
-        </View>
-      </BlurView>}
+          >
+            <BarChart
+              barWidth={scale(32)}
+              height={scale(220)}
+              noOfSections={3}
+              barBorderRadius={scale(8)}
+              frontColor={themePalette.primary}
+              data={barData}
+              hideYAxisText={true}
+              hideAxesAndRules={true}
+              barBorderBottomLeftRadius={0}
+              barBorderBottomRightRadius={0}
+              xAxisLabelTextStyle={{
+                color: "#FFFF",
+                fontFamily: "poppins-regular",
+                fontSize: 14,
+              }}
+              yAxisThickness={0}
+              xAxisThickness={0}
+            />
+          </View>
+        </BlurView>
+      )}
     </View>
   );
 };

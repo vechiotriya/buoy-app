@@ -1,11 +1,12 @@
 import {
   Image,
   StyleSheet,
+  ToastAndroid,
   TouchableHighlight,
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CustomIcon } from "@/src/components/CustomIcon";
 import { BlurView } from "expo-blur";
 import CustomText from "@/src/components/CustomText";
@@ -22,14 +23,34 @@ import {
 import { useImageUpload } from "@/src/hooks/useImageUpload";
 import PrimaryInput from "@/src/components/PrimaryInput";
 import { normalizeError } from "@/src/utils/error";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { storage } from "@/src/services/storage";
 
 const Profile = () => {
   const { themePalette } = useTheme();
   const { data, isLoading, error } = useGetUserDetailsQuery({});
+  const [offlineData, setOfflineData] = useState(null);
+    const netInfo = useNetInfo();
+    if (error && netInfo.isConnected) {
+      console.log("API error", error);
+      throw normalizeError(error as Error);
+    }
+    useEffect(() => {
+      if (netInfo.isConnected) {
+        storage.set("userDetailsCache", data ? JSON.stringify(data) : "");      
+      }
+      else {
+        ToastAndroid.show("You are offline. Some features may not work.", ToastAndroid.SHORT);
+        const cachedData = storage.getString("userDetailsCache");
+        if (cachedData) {
+          setOfflineData(JSON.parse(cachedData));
+        }
+      }
+    }, [netInfo.isConnected]);
   const { pickImage, uploadProfile, takePhoto, uploading } = useImageUpload();
   const [showMenu, setShowMenu] = React.useState(false);
   const [edit, setEdit] = React.useState(false);
-  const [fullName, setFullName] = React.useState(data?.fullName || "");
+  const [fullName, setFullName] = React.useState(data?.fullName || offlineData?.fullName || "");
   const [deleteProfilePicture, { isLoading: isDeleting }] =
     useDeleteProfilePictureMutation();
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
@@ -39,6 +60,7 @@ const Profile = () => {
     isLoading ||
     isUpdating ||
     isDeleting ||
+    !netInfo.isConnected ||
     uploading;
   const buttonStyle = primaryButtonStyle(themePalette, disabled);
   if (error) {
@@ -98,6 +120,10 @@ const Profile = () => {
             deleteProfilePicture({});
             return;
           }
+          if(offlineData?.profile) {
+            ToastAndroid.show("Please connect to the internet to change your profile picture.", ToastAndroid.SHORT);
+            return;
+          }
           setShowMenu((prev) => !prev);
         }}
       >
@@ -105,6 +131,16 @@ const Profile = () => {
           <Image
             source={{
               uri: data?.profile,
+              width: scale(130),
+              height: scale(130),
+            }}
+            style={styles.profileImage}
+          />
+        ) : 
+        offlineData?.profile ? (
+          <Image
+            source={{
+              uri: offlineData?.profile,
               width: scale(130),
               height: scale(130),
             }}
@@ -145,6 +181,14 @@ const Profile = () => {
           }}
         >
           {data?.profile ? (
+            <CustomIcon
+              name={"delete-outline"}
+              type="MaterialIcons"
+              size={25}
+              color="#1E85B7"
+            />
+          ) : 
+          offlineData?.profile ? (
             <CustomIcon
               name={"delete-outline"}
               type="MaterialIcons"
@@ -207,14 +251,14 @@ const Profile = () => {
         <View style={styles.row}>
           <CustomText size={font.size_14}>{nomenclature.EMAIL}</CustomText>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <CustomText size={font.size_14}>{String(data?.email).includes("instagram")?"-":data?.email}</CustomText>
+            <CustomText size={font.size_14}>{String(data?.email||offlineData?.email).includes("instagram")?"-":data?.email}</CustomText>
           </View>
         </View>
         <View style={styles.divider} />
         <View style={styles.row}>
           <CustomText size={font.size_14}>{nomenclature.USERNAME}</CustomText>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <CustomText size={font.size_14}>{data?.username}</CustomText>
+            <CustomText size={font.size_14}>{data?.username||offlineData?.username}</CustomText>
           </View>
         </View>
       </BlurView>
