@@ -15,6 +15,7 @@ import LottieView from "lottie-react-native";
 import { loader } from "../constants/constant";
 import { scale } from "../utils/scale";
 import { ToastProvider } from "../hooks/ToastContextProvider";
+import { StatusBar } from "expo-status-bar";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -78,12 +79,13 @@ function RootLayoutNav() {
   const isLoggedIn = useSelector((state: any) => state.auth.isAuthenticated);
   console.log("User is logged in:", isLoggedIn);
   const isOnboarded = useSelector((state: any) => state.auth.isOnboarded);
-
+  const { theme } = useTheme();
   return (
     <ThemeProvider>
       <ToastProvider>
         <GestureHandlerRootView>
           <GlobalLoadingOverlay />
+          <StatusBar style={theme=="light"?"dark":"light"} />
           <Stack
             screenOptions={{
               animation: "slide_from_bottom",
