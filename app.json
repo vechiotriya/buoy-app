@@ -68,10 +68,13 @@
         }
       ],
       [
-        "expo-status-bar",
+        "expo-build-properties",
         {
-          "hidden": false,
-          "style": "dark"
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true,
+            "extraProguardRules": "-keep class com.yourpackage.** { *; }"
+          }
         }
       ]
     ],

@@ -11,14 +11,13 @@ import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
 import {
   Image,
-  Linking,
   Pressable,
   ToastAndroid,
   TouchableOpacity,
 } from "react-native";
 import { StyleSheet } from "react-native";
 
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useDispatch } from "react-redux";
 import { transactionApi } from "@/src/services/transactionApi";
 import { budgetApi } from "@/src/services/budgetApi";
