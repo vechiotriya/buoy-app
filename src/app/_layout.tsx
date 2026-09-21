@@ -79,13 +79,11 @@ function RootLayoutNav() {
   const isLoggedIn = useSelector((state: any) => state.auth.isAuthenticated);
   console.log("User is logged in:", isLoggedIn);
   const isOnboarded = useSelector((state: any) => state.auth.isOnboarded);
-  const { theme } = useTheme();
   return (
     <ThemeProvider>
       <ToastProvider>
         <GestureHandlerRootView>
           <GlobalLoadingOverlay />
-          <StatusBar style={theme=="light"?"dark":"light"} />
           <Stack
             screenOptions={{
               animation: "slide_from_bottom",
