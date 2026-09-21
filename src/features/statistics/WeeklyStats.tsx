@@ -38,12 +38,11 @@ const WeeklyStats = () => {
   useEffect(() => {
     if (netInfo.isConnected) {
       storage.set("statsByWeekCache", data ? JSON.stringify(data) : "");
-      storage.set("categoriesExpensesCache", categoryExpenses ? JSON.stringify(categoryExpenses) : "");
-    } else {
-      ToastAndroid.show(
-        "You are offline. Some features may not work.",
-        ToastAndroid.SHORT,
+      storage.set(
+        "categoriesExpensesCache",
+        categoryExpenses ? JSON.stringify(categoryExpenses) : "",
       );
+    } else {
       const cachedData = storage.getString("statsByWeekCache");
       if (cachedData) {
         setOfflineData(JSON.parse(cachedData));
@@ -59,11 +58,13 @@ const WeeklyStats = () => {
       value: item.value,
       color: getCategoryColor(themePalette.donutChartColors, item.text),
       text: item.text,
-    })) || categoryExpensesOffline?.week?.map((item: any) => ({
+    })) ||
+    categoryExpensesOffline?.week?.map((item: any) => ({
       value: item.value,
       color: getCategoryColor(themePalette.donutChartColors, item.text),
       text: item.text,
-    })) || [];
+    })) ||
+    [];
 
   return (
     <ScrollView
@@ -88,11 +89,14 @@ const WeeklyStats = () => {
           variant="bold"
           color={themePalette.secondaryTextLight}
         >
-          {nomenclature.RUPEE_SIGN + " " + data?.total || offlineData?.total || "0"}
+          {nomenclature.RUPEE_SIGN + " " + data?.total ||
+            offlineData?.total ||
+            "0"}
         </CustomText>
         <View style={{ flexDirection: "row" }}>
           {(!!data?.changeSinceLast || !!offlineData?.changeSinceLast) &&
-            Number(data?.changeSinceLast || offlineData?.changeSinceLast) <= 100 &&
+            Number(data?.changeSinceLast || offlineData?.changeSinceLast) <=
+              100 &&
             (data?.changeSinceLast || offlineData?.changeSinceLast > 0 ? (
               <CustomIcon
                 name="arrow-up-right"
@@ -108,21 +112,23 @@ const WeeklyStats = () => {
                 color={themePalette.negative}
               />
             ))}
-          {!!data?.changeSinceLast|| offlineData?.changeSinceLast && (
-            <CustomText
-              size={font.size_12}
-              color={themePalette.secondaryTextLight}
-            >
-              {data?.changeSinceLast ||
-                offlineData?.changeSinceLast +
-                  "% " +
-                  (Number(offlineData?.changeSinceLast) < 0
-                    ? nomenclature.LESS_THAN_LAST_WEEK
-                    : nomenclature.MORE_THAN_LAST_WEEK)}
-            </CustomText>
-          )}
+          {!!data?.changeSinceLast ||
+            (offlineData?.changeSinceLast && (
+              <CustomText
+                size={font.size_12}
+                color={themePalette.secondaryTextLight}
+              >
+                {data?.changeSinceLast ||
+                  offlineData?.changeSinceLast +
+                    "% " +
+                    (Number(offlineData?.changeSinceLast) < 0
+                      ? nomenclature.LESS_THAN_LAST_WEEK
+                      : nomenclature.MORE_THAN_LAST_WEEK)}
+              </CustomText>
+            ))}
         </View>
-        {(data?.topSpending !== "N/A" || offlineData?.topSpending !== "N/A") && (
+        {(data?.topSpending !== "N/A" ||
+          offlineData?.topSpending !== "N/A") && (
           <BlurView
             intensity={50}
             style={{
@@ -151,7 +157,9 @@ const WeeklyStats = () => {
               {data?.topSpending || offlineData?.topSpending || "Monday"}
             </CustomText>
             <CustomText variant="bold" color={themePalette.secondaryTextLight}>
-              {nomenclature.RUPEE_SIGN + " " + data?.topSpendingAmount || offlineData?.topSpendingAmount || "0"}
+              {nomenclature.RUPEE_SIGN + " " + data?.topSpendingAmount ||
+                offlineData?.topSpendingAmount ||
+                "0"}
             </CustomText>
           </BlurView>
         )}
@@ -191,7 +199,7 @@ const WeeklyStats = () => {
               noOfSections={3}
               barBorderRadius={scale(8)}
               frontColor={themePalette.primary}
-              data={data?.graph|| offlineData?.graph || []}
+              data={data?.graph || offlineData?.graph || []}
               hideYAxisText={true}
               hideAxesAndRules={true}
               barBorderBottomLeftRadius={0}

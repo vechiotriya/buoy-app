@@ -46,14 +46,10 @@ export default function Settings() {
     console.log("API error", error);
     throw normalizeError(error as Error);
   }
-  useEffect(() => {
-    if (netInfo.isConnected) {
+  useEffect(() => {    
+    if (netInfo?.isConnected) {
       storage.set("userDetailsCache", data ? JSON.stringify(data) : "");
     } else {
-      ToastAndroid.show(
-        "You are offline. Some features may not work.",
-        ToastAndroid.SHORT,
-      );
       const cachedData = storage.getString("userDetailsCache");
       if (cachedData) {
         setOfflineData(JSON.parse(cachedData));

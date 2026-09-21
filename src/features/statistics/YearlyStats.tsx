@@ -53,10 +53,6 @@ const YearlyStats = () => {
         storage.set("statsByYearCache", data ? JSON.stringify(data) : "");
         storage.set("categoriesExpensesCache", categoryExpenses ? JSON.stringify(categoryExpenses) : "");
       } else {
-        ToastAndroid.show(
-          "You are offline. Some features may not work.",
-          ToastAndroid.SHORT,
-        );
         const cachedData = storage.getString("statsByYearCache");
         if (cachedData) {
           setOfflineData(JSON.parse(cachedData));
