@@ -250,7 +250,7 @@ const Profile = () => {
         <View style={styles.row}>
           <CustomText size={font.size_14}>{nomenclature.EMAIL}</CustomText>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <CustomText size={font.size_14}>{String(data?.email||offlineData?.email).includes("instagram")?"-":data?.email}</CustomText>
+            <CustomText size={font.size_14}>{String(data?.email||offlineData?.email)?"-":data?.email}</CustomText>
           </View>
         </View>
         <View style={styles.divider} />
