@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { storage } from "./storage";
 import { FilterQueryParams } from "../features/transactions/types";
-import { normalizeError } from "../utils/error";
 import { budgetApi } from "./budgetApi";
 
 export const transactionApi = createApi({

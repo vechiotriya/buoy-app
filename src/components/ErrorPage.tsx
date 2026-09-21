@@ -1,7 +1,6 @@
 import React from "react";
 import { useTheme } from "../hooks/ThemeContextProvider";
 import { primaryButtonStyle } from "../constants/styles";
-import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image, TouchableOpacity } from "react-native";
 import CustomText from "./CustomText";

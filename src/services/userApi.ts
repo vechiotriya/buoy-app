@@ -1,6 +1,5 @@
 import { storage } from "@/src/services/storage";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { normalizeError } from "../utils/error";
 
 export const userApi = createApi({
   reducerPath: "userApi",

@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { scale } from "@/src/utils/scale";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";

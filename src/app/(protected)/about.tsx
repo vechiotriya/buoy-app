@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet} from "react-native";
 import React from "react";
 import CustomText from "@/src/components/CustomText";
 import font from "@/src/constants/font";

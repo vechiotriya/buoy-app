@@ -15,7 +15,6 @@ import LottieView from "lottie-react-native";
 import { loader } from "../constants/constant";
 import { scale } from "../utils/scale";
 import { ToastProvider } from "../hooks/ToastContextProvider";
-import { StatusBar } from "expo-status-bar";
 
 export {
   // Catch any errors thrown by the Layout component.

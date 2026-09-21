@@ -1,4 +1,4 @@
-import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
+import { Animated, Pressable, StyleSheet} from "react-native";
 import React, { FC, useEffect, useRef } from "react";
 import { AppTheme } from "../constants/Colors";
 import { useTheme } from "../hooks/ThemeContextProvider";

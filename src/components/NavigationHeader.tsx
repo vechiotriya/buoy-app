@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import {TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { CustomIcon } from './CustomIcon'
 import CustomText from './CustomText'

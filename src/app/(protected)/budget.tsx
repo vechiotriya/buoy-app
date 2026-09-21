@@ -6,7 +6,7 @@ import Select from "@/src/components/Select";
 import { AppTheme } from "@/src/constants/Colors";
 import font from "@/src/constants/font";
 import nomenclature from "@/src/constants/nomenclature";
-import BudgetCard, { Budget as BudgetType } from "@/src/features/budget/components/BudgetCard";
+import BudgetCard from "@/src/features/budget/components/BudgetCard";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { useGetBudgetQuery } from "@/src/services/budgetApi";
 import { normalizeError } from "@/src/utils/error";

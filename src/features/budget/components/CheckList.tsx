@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { scale } from "@/src/utils/scale";
 import CustomText from "@/src/components/CustomText";

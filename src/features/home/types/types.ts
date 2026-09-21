@@ -1,6 +1,3 @@
-import { RelativePathString } from "expo-router";
-import { ViewStyle } from "react-native";
-
 export type DashboardTabTypes = {
   name: string;
   icon: string;

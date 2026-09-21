@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextStyle, TextProps } from 'react-native';
+import { Text, TextStyle } from 'react-native';
 import React from 'react';
 import { useTheme } from '../hooks/ThemeContextProvider';
 import { normalize } from '../utils/scale';

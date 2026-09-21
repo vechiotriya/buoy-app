@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import CustomText from "@/src/components/CustomText";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import font from "@/src/constants/font";
 import nomenclature from "@/src/constants/nomenclature";
 import { AppTheme } from "@/src/constants/Colors";
-import { normalize, scale } from "@/src/utils/scale";
 import { useGetUserDetailsQuery } from "../../../services/userApi";
 import { CustomIcon } from "@/src/components/CustomIcon";
-import { ErrorBoundaryProps } from "expo-router";
 import { normalizeError } from "@/src/utils/error";
 import { useNetInfo } from "@react-native-community/netinfo";
 import { storage } from "@/src/services/storage";

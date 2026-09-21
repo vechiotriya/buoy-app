@@ -1,4 +1,4 @@
-import { ScrollView, ToastAndroid, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useStyle } from "./styles/StatisticsStyles";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";

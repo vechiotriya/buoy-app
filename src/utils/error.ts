@@ -14,7 +14,7 @@ interface ApiErrorType2{
 
 export function normalizeError(err: ApiError|ApiErrorType2 | Error | string) {
 
-  console.warn("ER👀", err);
+  console.warn("ERROR👀", err);
   
   if(err?.status=="FETCH_ERROR"){
     return {

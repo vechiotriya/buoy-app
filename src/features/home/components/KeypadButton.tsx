@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native'
+import { StyleSheet, TouchableOpacity, ViewStyle } from 'react-native'
 import React from 'react'
 import { AppTheme } from '@/src/constants/Colors'
 import { useTheme } from '@/src/hooks/ThemeContextProvider'

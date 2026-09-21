@@ -1,6 +1,4 @@
 import { ScrollView, StyleSheet } from "react-native";
-import React, { useRef } from "react";
-import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import { scale } from "@/src/utils/scale";
 import Select from "@/src/components/Select";
 import { FilterQueryParams } from "../types";
@@ -18,7 +16,6 @@ const FilterBar = ({
   filteredData: FilterQueryParams;
   setFilteredData: React.Dispatch<React.SetStateAction<FilterQueryParams>>;
 }) => {
-  const { themePalette } = useTheme();
   return (
     <ScrollView
       horizontal

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
-import React, { forwardRef, useRef } from "react";
+import React from "react";
 import { scale } from "../utils/scale";
 import { useTheme } from "../hooks/ThemeContextProvider";
 import SelectDropdown from "react-native-select-dropdown";

@@ -6,8 +6,7 @@ import { scale } from "@/src/utils/scale";
 import nomenclature from "@/src/constants/nomenclature";
 import { useTheme } from "@/src/hooks/ThemeContextProvider";
 import useStyles from "./styles/SignInStyles";
-import { useDispatch } from "react-redux";
-import { useRouter } from "expo-router";
+
 
 interface SocialFooterProps {
   signInWithGoogle: () => void;
@@ -15,8 +14,6 @@ interface SocialFooterProps {
 const SocialFooter: React.FC<SocialFooterProps> = ({ signInWithGoogle }) => {
   const { themePalette } = useTheme();
   const styles = useStyles(themePalette);
-  const dispatch = useDispatch();
-  const router = useRouter();
 
   return (
     <View
