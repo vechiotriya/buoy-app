@@ -10,6 +10,7 @@ import { CustomIcon } from "@/src/components/CustomIcon";
 import { normalizeError } from "@/src/utils/error";
 import { useNetInfo } from "@react-native-community/netinfo";
 import { storage } from "@/src/services/storage";
+import { scale } from "@/src/utils/scale";
 
 const ProfileSection = () => {
   const { themePalette } = useTheme();

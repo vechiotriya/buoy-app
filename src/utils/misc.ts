@@ -8,7 +8,7 @@ export const dayMonthExtractor: Function = (dateString: string) => {
   return `${date.getDate() + " " + date.toLocaleString("default", { month: "long" })}`;
 };
 
-function hashString(str: string) {
+export const hashString = (str: string) => {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
